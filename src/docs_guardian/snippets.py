@@ -1,6 +1,8 @@
 """The snippet runner: run every Snippet of every Markdown Page, one Page per process."""
 
 import json
+import os
+import signal
 import subprocess
 import sys
 import tempfile
@@ -122,17 +124,25 @@ def run_page(page: Path, timeout: float = DEFAULT_TIMEOUT) -> PageResult:
         events_file = Path(events_dir) / "events.jsonl"
         events_file.touch()
         timed_out, exit_code = False, None
+        # Snippet output is never read: discarding it means arbitrary bytes can't
+        # break decoding, and no background process can hold a pipe open.
+        worker = subprocess.Popen(
+            [sys.executable, "-m", "docs_guardian._worker", str(events_file)],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            cwd=workdir,
+            start_new_session=True,  # its own process group, holding everything it starts
+        )
         try:
-            exit_code = subprocess.run(
-                [sys.executable, "-m", "docs_guardian._worker", str(events_file)],
-                input=json.dumps(request),
-                capture_output=True,
-                text=True,
-                cwd=workdir,
-                timeout=timeout,
-            ).returncode
-        except subprocess.TimeoutExpired:  # the child has been killed
+            worker.communicate(json.dumps(request).encode(), timeout=timeout)
+            exit_code = worker.returncode
+        except subprocess.TimeoutExpired:
             timed_out = True
+        finally:
+            # No process a Page started may outlive it: not at the timeout, and not
+            # a background task left running after its last Snippet.
+            _kill_process_group(worker)
         events = [json.loads(line) for line in events_file.read_text().splitlines()]
 
     def failed_at(i: int, line: int, error: str) -> PageResult:
@@ -160,6 +170,22 @@ def run_page(page: Path, timeout: float = DEFAULT_TIMEOUT) -> PageResult:
     return failed_at(
         i, line, f"Crash: the Page's process exited with code {exit_code} before finishing"
     )
+
+
+def _kill_process_group(worker: subprocess.Popen) -> None:
+    """Kill the worker and every process in its group, then reap the worker.
+
+    A process that leaves the group on purpose (`setsid`, a double fork) is out
+    of reach; on platforms without process groups only the worker is killed.
+    """
+    if hasattr(os, "killpg"):
+        try:
+            os.killpg(worker.pid, signal.SIGKILL)  # the group id is the worker's pid
+        except ProcessLookupError:  # the group is already empty
+            pass
+    elif worker.poll() is None:
+        worker.kill()
+    worker.wait()
 
 
 def run_pages(root: Path, timeout: float = DEFAULT_TIMEOUT) -> list[PageResult]:

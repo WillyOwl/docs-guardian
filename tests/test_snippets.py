@@ -1,3 +1,6 @@
+import os
+import signal
+import time
 from pathlib import Path
 
 import pytest
@@ -198,3 +201,63 @@ def test_a_syntax_error_points_at_the_broken_line(tmp_path):
     assert result.line == 6  # was: 4, the Snippet's first line
     assert result.error.startswith("SyntaxError: ")
     assert "syntax.md" not in result.error  # the location is already in result.line
+
+
+# --- Regressions from the second PR #8 review (on 27b8353) -----------------
+
+
+@pytest.mark.parametrize("stream", ["stdout", "stderr"])
+def test_binary_output_neither_fails_the_page_nor_stops_the_run(tmp_path, stream):
+    snippet = f"import sys\nsys.{stream}.buffer.write(bytes([255]))\n"
+    write_page(tmp_path, "a-binary.md", f"```python\n{snippet}```\n")
+    write_page(tmp_path, "b-next.md", "```python\nx = 1\n```\n")
+    results = run_pages(tmp_path)  # was: UnicodeDecodeError escaping run_pages
+    assert [(r.page.name, r.passed) for r in results] == [
+        ("a-binary.md", True),
+        ("b-next.md", True),
+    ]
+
+
+def _background_child_snippet(tmp_path: Path, then: str) -> tuple[str, Path, Path]:
+    """A Snippet that starts a child which writes a marker after 1s, then does `then`."""
+    pid_file, marker = tmp_path / "child.pid", tmp_path / "child-outlived-page"
+    child = (
+        "import os, time, pathlib; "
+        f"pathlib.Path({str(pid_file)!r}).write_text(str(os.getpid())); "
+        f"time.sleep(1); pathlib.Path({str(marker)!r}).write_text('alive')"
+    )
+    snippet = (
+        f"import subprocess, sys, time\nsubprocess.Popen([sys.executable, '-c', {child!r}])\n{then}"
+    )
+    return snippet, pid_file, marker
+
+
+def _kill_if_alive(pid_file: Path) -> None:
+    if pid_file.exists():
+        try:
+            os.kill(int(pid_file.read_text()), signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+
+
+@pytest.mark.parametrize(
+    ("then", "timeout", "error"),
+    [
+        ("time.sleep(30)\n", 0.5, "Timeout: still running after 0.5s"),  # killed at the timeout
+        ("time.sleep(0.3)\n", 30, None),  # finished normally, child still running
+    ],
+    ids=["page-times-out", "page-finishes"],
+)
+def test_no_process_started_by_a_page_outlives_it(tmp_path, then, timeout, error):
+    snippet, pid_file, marker = _background_child_snippet(tmp_path, then)
+    write_page(tmp_path, "child.md", f"```python\n{snippet}```\n")
+    try:
+        start = time.monotonic()
+        [result] = run_pages(tmp_path, timeout=timeout)
+        assert result.error == error
+        assert pid_file.exists(), "the child must have started for this test to mean anything"
+        while time.monotonic() < start + 1.6 and not marker.exists():
+            time.sleep(0.05)
+        assert not marker.exists(), "a process started by the Page kept running after it"
+    finally:
+        _kill_if_alive(pid_file)
