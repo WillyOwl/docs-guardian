@@ -35,6 +35,19 @@ def test_train_test_split_rejects_bad_size(bad):
         train_test_split(np.zeros((4, 1)), np.zeros(4), test_size=bad)
 
 
+@pytest.mark.parametrize(
+    ("n_rows", "test_size"),
+    [
+        (2, 0.8),  # 0.8 of 2 rounds to 2 test rows, leaving none to train on
+        (1, 0.5),  # one row cannot be both trained on and tested
+    ],
+)
+def test_train_test_split_rejects_split_with_no_training_rows(n_rows, test_size):
+    X, y = np.zeros((n_rows, 1)), np.zeros(n_rows)
+    with pytest.raises(ValueError, match="training"):
+        train_test_split(X, y, test_size=test_size)
+
+
 def test_fit_linear_recovers_exact_relation():
     X = np.array([[1.0, 0.0], [0.0, 1.0], [1.0, 1.0], [2.0, 3.0]])
     y = 3 * X[:, 0] - 2 * X[:, 1] + 5
@@ -48,3 +61,20 @@ def test_fit_linear_recovers_exact_relation():
 def test_evaluate_is_rmse():
     assert evaluate([1, 2, 3], [1, 2, 3]) == 0
     assert evaluate([0, 0], [3, 4]) == pytest.approx(np.sqrt(12.5))
+
+
+def test_evaluate_accepts_predictions_as_a_single_column():
+    assert evaluate([1, 2, 3], [[1], [2], [3]]) == 0
+
+
+@pytest.mark.parametrize(
+    ("y", "y_pred", "reason"),
+    [
+        ([0, 2], [0], "2 values but y_pred has 1"),  # a missing prediction must not broadcast
+        ([1, 2], [[1, 2], [1, 2]], "single column"),  # a matrix is not one prediction per sample
+        ([], [], "empty"),  # nothing to score
+    ],
+)
+def test_evaluate_rejects_mismatched_or_empty_input(y, y_pred, reason):
+    with pytest.raises(ValueError, match=reason):
+        evaluate(y, y_pred)

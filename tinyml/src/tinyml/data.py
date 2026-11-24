@@ -41,17 +41,24 @@ def train_test_split(
         X: Feature matrix, one row per sample.
         y: Target values, one per row of `X`.
         test_size: Fraction of rows to hold out for testing, between 0 and 1.
+            The test set always gets at least one row.
         seed: Random seed, so the same inputs always give the same split.
 
     Returns:
         A tuple `(X_train, X_test, y_train, y_test)`.
 
     Raises:
-        ValueError: If `test_size` is not strictly between 0 and 1.
+        ValueError: If `test_size` is not strictly between 0 and 1, or if the
+            split would leave no rows for training.
     """
     if not 0 < test_size < 1:
         raise ValueError(f"test_size must be between 0 and 1, got {test_size}")
     order = np.random.default_rng(seed).permutation(len(y))
     n_test = max(1, round(len(y) * test_size))
+    if n_test >= len(y):
+        raise ValueError(
+            f"test_size={test_size} puts {n_test} of {len(y)} rows in the test set,"
+            " leaving no training rows"
+        )
     test, train = order[:n_test], order[n_test:]
     return X[train], X[test], y[train], y[test]
