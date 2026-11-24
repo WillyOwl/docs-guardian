@@ -14,6 +14,16 @@ _Avoid_: doc-guardian, the library
 The library plus docs site that docs-guardian protects; here, tinyml, kept deliberately small so it can be broken on purpose.
 _Avoid_: the stage, the demo app, the library (unqualified)
 
+### Kinds of check
+
+**Gate**:
+A docs-guardian check that can fail a pull request.
+_Avoid_: blocker, required check (that is a GitHub setting, not the concept)
+
+**Advisory**:
+A docs-guardian check that only publishes a report and never fails anything.
+_Avoid_: warning check, soft check, non-blocking
+
 ### Documentation units
 
 **Page**:
