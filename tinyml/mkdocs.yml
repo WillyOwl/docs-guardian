@@ -1,0 +1,38 @@
+site_name: tinyml
+site_description: A tiny linear-regression library, guarded by docs-guardian.
+site_url: https://willyowl.github.io/docs-guardian/
+repo_url: https://github.com/WillyOwl/docs-guardian
+edit_uri: edit/main/tinyml/docs/
+
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.footer
+
+nav:
+  - Home: index.md
+  - Quickstart: quickstart.md
+  - Tutorial: tutorial.md
+  - Notebook: notebooks/walkthrough.ipynb
+  - API reference: api.md
+
+plugins:
+  - search
+  - mkdocs-jupyter:
+      execute: false
+      include_source: true
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: google
+            show_root_heading: false
+            show_source: false
+            members_order: source
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
