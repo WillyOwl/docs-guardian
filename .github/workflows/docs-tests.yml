@@ -1,0 +1,33 @@
+# Gate: every Snippet and notebook in tinyml's Pages must still run.
+# docs-guardian is installed from this checkout, so a PR that changes the
+# runner is checked by its own new version.
+name: docs-tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  snippets:
+    name: snippets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.14"
+      - run: uv run --locked --no-group docs docs-guardian snippets tinyml/docs
+
+  notebooks:
+    name: notebooks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.14"
+      - run: uv run --locked pytest --nbmake tinyml/docs/notebooks -p no:cacheprovider

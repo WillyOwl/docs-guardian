@@ -4,7 +4,12 @@ version = "0.1.0"
 description = "Catches documentation that has fallen out of step with the code it describes."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "markdown-it-py>=3",  # CommonMark parser: finds Snippets the way a renderer does
+]
+
+[project.scripts]
+docs-guardian = "docs_guardian.cli:main"
 
 [build-system]
 requires = ["hatchling"]
@@ -32,6 +37,7 @@ docs = [
     "mkdocs-material>=9.5",
     "mkdocstrings[python]>=0.26",
     "mkdocs-jupyter>=0.25",
+    "nbmake>=1.5",            # runs the notebook Pages in docs-tests.yml
 ]
 
 [tool.uv]

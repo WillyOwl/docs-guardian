@@ -76,20 +76,21 @@ Next, if time allows (cut from the three-day scope): release notes from merged P
 
 ### Snippet runner (Gate)
 
-Every Markdown Page runs on its own, so one Page can never make another pass or hang the whole run.
+Every Markdown Page runs on its own, in a fresh process group and an empty folder, so one Page can never make another pass or hang the whole run, and a Page passes only if it works from a reader's blank folder.
 
 ```mermaid
 flowchart TD
     A["A Markdown Page"] --> B["Pull out its Snippets in order<br/>leave out Skipped Snippets"]
-    B --> C["Run them in a fresh subprocess<br/>one shared namespace · timeout"]
+    B --> C["Run them in a fresh subprocess, in an empty folder<br/>one shared namespace · timeout"]
     C -->|every Snippet ran| P["Page passed"]
     C -->|a Snippet raised| F["Page failed<br/>exact line in the Page + the error<br/>+ how many Snippets did not run"]
     C -->|timeout| F
+    C -->|process died| F
     F --> X["exit 1 → PR check red"]
     NB["Notebook Pages"] --> NBM["nbmake via pytest"] -->|a cell failed| X
 ```
 
-A Snippet is skipped with `<!-- docs-guardian: skip -->` on the line above its fence.
+When the Page ends, by finishing, failing or timing out, every process it started is killed with it. Snippet output is discarded. Snippets are found by parsing the Page as CommonMark, the way a renderer does: fences inside lists and blockquotes count, fences inside HTML comments don't. A Snippet is skipped with `<!-- docs-guardian: skip -->` on the line above its fence. Run it with `docs-guardian snippets <docs-root>`; it exits 1 if any Page fails, and 2 if the folder holds no Pages, so a mistyped path cannot pass.
 
 ### Drift check (Advisory)
 
