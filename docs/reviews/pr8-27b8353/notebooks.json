@@ -1,0 +1,18 @@
+{
+  "commit": "27b835360c9e8dc530f842b780ee14ccf73e9f26",
+  "started": "2026-11-24T22:58:20.521964+00:00",
+  "command": [
+    "/tmp/docs-guardian-pr8-round3/.venv/bin/python",
+    "-m",
+    "pytest",
+    "--nbmake",
+    "tinyml/docs/notebooks",
+    "-p",
+    "no:cacheprovider",
+    "-q"
+  ],
+  "cwd": "/tmp/docs-guardian-pr8-round3",
+  "exit_code": 0,
+  "elapsed": 2.4744487829993886,
+  "clean": true
+}

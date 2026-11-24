@@ -1,0 +1,14 @@
+PR #8 | commit 27b835360c9e8dc530f842b780ee14ccf73e9f26
+UTC: 2026-11-24T22:57:05.941532+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-round3
+$ /tmp/docs-guardian-pr8-round3/.venv/bin/docs-guardian snippets tinyml/docs
+
+PASS tinyml/docs/api.md  0 Snippets
+PASS tinyml/docs/index.md  0 Snippets
+PASS tinyml/docs/quickstart.md  1 Snippet
+PASS tinyml/docs/tutorial.md  5 Snippets
+
+4 Pages: 4 passed, 0 failed
+
+[exit 0; 0.83s]

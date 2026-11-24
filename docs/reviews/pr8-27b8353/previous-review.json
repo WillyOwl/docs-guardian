@@ -1,0 +1,19 @@
+{
+  "commit": "27b835360c9e8dc530f842b780ee14ccf73e9f26",
+  "started": "2026-11-24T22:57:05.955594+00:00",
+  "command": [
+    "/tmp/docs-guardian-pr8-round3/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-v",
+    "-s",
+    "--tb=short",
+    "-p",
+    "no:cacheprovider",
+    "/tmp/docs-guardian-pr8-round3-evidence/test_previous_review.py"
+  ],
+  "cwd": "/tmp/docs-guardian-pr8-round3",
+  "exit_code": 0,
+  "elapsed": 2.4314715879991127,
+  "clean": true
+}

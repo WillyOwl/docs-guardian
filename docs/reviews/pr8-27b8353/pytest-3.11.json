@@ -1,0 +1,14 @@
+{
+  "commit": "27b835360c9e8dc530f842b780ee14ccf73e9f26",
+  "started": "2026-11-24T22:58:19.439052+00:00",
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "-q"
+  ],
+  "cwd": "/tmp/docs-guardian-pr8-round3",
+  "exit_code": 0,
+  "elapsed": 3.320560314999966,
+  "clean": true
+}

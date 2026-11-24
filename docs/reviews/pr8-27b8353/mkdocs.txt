@@ -1,0 +1,14 @@
+PR #8 | commit 27b835360c9e8dc530f842b780ee14ccf73e9f26
+UTC: 2026-11-24T22:57:19.112603+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-round3
+$ /tmp/docs-guardian-pr8-round3/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml --site-dir /tmp/docs-guardian-pr8-round3-evidence/site
+
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/docs-guardian-pr8-round3-evidence/site
+INFO    -  Converting notebook (execute=False): /tmp/docs-guardian-pr8-round3/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/docs-guardian-pr8-round3/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/docs-guardian-pr8-round3/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/docs-guardian-pr8-round3-evidence/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.80 seconds
+
+[exit 0; 2.22s]

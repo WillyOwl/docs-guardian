@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>PR #8 | repository tests on Python 3.11 and 3.14</title><style>
+* { box-sizing: border-box; }
+body { margin: 0; padding: 28px; background: #101820; color: #e8edf2;
+       font-family: Arial, sans-serif; }
+h1 { font-size: 26px; margin: 0 0 12px; } h2 { font-size: 20px; margin: 24px 0 12px; }
+.meta { font: 15px/1.5 monospace; color: #acbed1; }
+pre { background: #192530; border: 1px solid #3c4b5a; padding: 18px;
+      border-radius: 6px; font: 14px/21px "DejaVu Sans Mono", monospace;
+      white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; }
+</style><h1>PR #8 | repository tests on Python 3.11 and 3.14</h1><p class="meta">Reviewed commit: 27b835360c9e8dc530f842b780ee14ccf73e9f26<br>Actual captured command output, shown in full. Source worktree remains unchanged. Each command and exit code is included.</p><h2>Python 3.14.6 | 56 passed</h2><pre>PR #8 | commit 27b835360c9e8dc530f842b780ee14ccf73e9f26
+UTC: 2026-11-24T22:57:05.925933+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-round3
+$ /tmp/docs-guardian-pr8-round3/.venv/bin/python -m pytest -q
+
+........................................................                                               [100%]
+56 passed in 3.15s
+
+[exit 0; 4.06s]
+</pre><h2>Python 3.11.15 | 56 passed (uv --python 3.11 --isolated)</h2><pre>PR #8 | commit 27b835360c9e8dc530f842b780ee14ccf73e9f26
+UTC: 2026-11-24T22:58:19.439052+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-round3
+$ python -m pytest -q
+
+........................................................                                               [100%]
+56 passed in 2.98s
+
+[exit 0; 3.32s]
+</pre>

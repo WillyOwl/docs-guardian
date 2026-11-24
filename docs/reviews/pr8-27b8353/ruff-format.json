@@ -1,0 +1,14 @@
+{
+  "commit": "27b835360c9e8dc530f842b780ee14ccf73e9f26",
+  "started": "2026-11-24T22:57:05.923019+00:00",
+  "command": [
+    "/tmp/docs-guardian-pr8-round3/.venv/bin/ruff",
+    "format",
+    "--check",
+    "."
+  ],
+  "cwd": "/tmp/docs-guardian-pr8-round3",
+  "exit_code": 0,
+  "elapsed": 0.017112846000600257,
+  "clean": true
+}

@@ -1,0 +1,72 @@
+PR #8 | commit 27b835360c9e8dc530f842b780ee14ccf73e9f26
+UTC: 2026-11-24T22:57:05.978308+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-round3
+$ /tmp/docs-guardian-pr8-round3/.venv/bin/python -m pytest -v -s --tb=short -p no:cacheprovider /tmp/docs-guardian-pr8-round3-evidence/test_additional_review.py
+
+============================================ test session starts =============================================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- /tmp/docs-guardian-pr8-round3/.venv/bin/python
+rootdir: /tmp
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collecting ... collected 3 items
+
+../docs-guardian-pr8-round3-evidence/test_additional_review.py::test_valid_snippet_can_write_binary_output[stdout] Snippet: import sys; sys.stdout.buffer.write(bytes([255]))
+FAILED
+../docs-guardian-pr8-round3-evidence/test_additional_review.py::test_valid_snippet_can_write_binary_output[stderr] Snippet: import sys; sys.stderr.buffer.write(bytes([255]))
+FAILED
+../docs-guardian-pr8-round3-evidence/test_additional_review.py::test_page_timeout_terminates_descendant_process Page result: PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-43/test_page_timeout_terminates_d0/child.md'), ran=0, skipped=0, not_run=0, line=2, error='Timeout: still running after 0.5s')
+run_page returned after 0.50s; configured timeout: 0.5s
+Descendant executed after Page timeout: True
+FAILED
+
+================================================== FAILURES ==================================================
+_____________________________ test_valid_snippet_can_write_binary_output[stdout] _____________________________
+../docs-guardian-pr8-round3-evidence/test_additional_review.py:19: in test_valid_snippet_can_write_binary_output
+    result = run_page(page)
+             ^^^^^^^^^^^^^^
+src/docs_guardian/snippets.py:126: in run_page
+    exit_code = subprocess.run(
+/home/yiyang/ENTER/lib/python3.14/subprocess.py:557: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/yiyang/ENTER/lib/python3.14/subprocess.py:1221: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/yiyang/ENTER/lib/python3.14/subprocess.py:2194: in _communicate
+    stdout = self._translate_newlines(stdout,
+/home/yiyang/ENTER/lib/python3.14/subprocess.py:1099: in _translate_newlines
+    data = data.decode(encoding, errors)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+_____________________________ test_valid_snippet_can_write_binary_output[stderr] _____________________________
+../docs-guardian-pr8-round3-evidence/test_additional_review.py:19: in test_valid_snippet_can_write_binary_output
+    result = run_page(page)
+             ^^^^^^^^^^^^^^
+src/docs_guardian/snippets.py:126: in run_page
+    exit_code = subprocess.run(
+/home/yiyang/ENTER/lib/python3.14/subprocess.py:557: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/yiyang/ENTER/lib/python3.14/subprocess.py:1221: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/yiyang/ENTER/lib/python3.14/subprocess.py:2198: in _communicate
+    stderr = self._translate_newlines(stderr,
+/home/yiyang/ENTER/lib/python3.14/subprocess.py:1099: in _translate_newlines
+    data = data.decode(encoding, errors)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+______________________________ test_page_timeout_terminates_descendant_process _______________________________
+../docs-guardian-pr8-round3-evidence/test_additional_review.py:54: in test_page_timeout_terminates_descendant_process
+    assert not marker.exists(), 'Descendant continued executing after the Page timed out'
+E   AssertionError: Descendant continued executing after the Page timed out
+E   assert not True
+E    +  where True = exists()
+E    +    where exists = PosixPath('/tmp/pytest-of-yiyang/pytest-43/test_page_timeout_terminates_d0/ran_after_timeout').exists
+========================================== short test summary info ===========================================
+FAILED ../docs-guardian-pr8-round3-evidence/test_additional_review.py::test_valid_snippet_can_write_binary_output[stdout]
+FAILED ../docs-guardian-pr8-round3-evidence/test_additional_review.py::test_valid_snippet_can_write_binary_output[stderr]
+FAILED ../docs-guardian-pr8-round3-evidence/test_additional_review.py::test_page_timeout_terminates_descendant_process
+============================================= 3 failed in 1.80s ==============================================
+
+[exit 1; 2.63s]

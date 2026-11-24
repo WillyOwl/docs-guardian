@@ -1,0 +1,71 @@
+PR #8 | commit 27b835360c9e8dc530f842b780ee14ccf73e9f26
+UTC: 2026-11-24T22:57:05.955594+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-round3
+$ /tmp/docs-guardian-pr8-round3/.venv/bin/python -m pytest -v -s --tb=short -p no:cacheprovider /tmp/docs-guardian-pr8-round3-evidence/test_previous_review.py
+
+============================================ test session starts =============================================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- /tmp/docs-guardian-pr8-round3/.venv/bin/python
+rootdir: /tmp
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collecting ... collected 5 items
+
+../docs-guardian-pr8-round3-evidence/test_previous_review.py::test_commonmark_nested_python_snippets_must_run[list] Markdown source:
+- Example:
+
+    ```python
+    raise RuntimeError("broken nested Snippet")
+    ```
+
+extract_snippets: [Snippet(line=4, code='raise RuntimeError("broken nested Snippet")\n', skip=False)]
+FAIL /tmp/pytest-of-yiyang/pytest-44/test_commonmark_nested_python_0/nested.md:4  RuntimeError: broken nested Snippet
+
+1 Page: 0 passed, 1 failed
+CLI exit: 1
+PASSED
+../docs-guardian-pr8-round3-evidence/test_previous_review.py::test_commonmark_nested_python_snippets_must_run[blockquote] Markdown source:
+> ```python
+> raise RuntimeError("broken nested Snippet")
+> ```
+
+extract_snippets: [Snippet(line=2, code='raise RuntimeError("broken nested Snippet")\n', skip=False)]
+FAIL /tmp/pytest-of-yiyang/pytest-44/test_commonmark_nested_python_1/nested.md:2  RuntimeError: broken nested Snippet
+
+1 Page: 0 passed, 1 failed
+CLI exit: 1
+PASSED
+../docs-guardian-pr8-round3-evidence/test_previous_review.py::test_html_comments_do_not_contain_rendered_snippets Markdown source:
+<!--
+```python
+raise RuntimeError("hidden draft")
+```
+-->
+
+Result: PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-44/test_html_comments_do_not_cont0/comment.md'), ran=0, skipped=0, not_run=0, line=None, error=None)
+PASSED
+../docs-guardian-pr8-round3-evidence/test_previous_review.py::test_background_thread_timeout_must_fail_the_page Markdown source:
+```python
+import threading, time
+threading.Thread(target=lambda: time.sleep(60)).start()
+```
+
+FAIL /tmp/pytest-of-yiyang/pytest-44/test_background_thread_timeout0/thread.md:2  Timeout: still running after 1s
+
+1 Page: 0 passed, 1 failed
+CLI exit: 1
+PASSED
+../docs-guardian-pr8-round3-evidence/test_previous_review.py::test_syntax_error_points_to_the_actual_page_line Markdown source:
+# Syntax
+
+```python
+a = 1
+b = 2
+if True print(a)
+```
+
+Result: PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-44/test_syntax_error_points_to_th0/syntax.md'), ran=0, skipped=0, not_run=0, line=6, error='SyntaxError: invalid syntax')
+PASSED
+
+============================================= 5 passed in 1.55s ==============================================
+
+[exit 0; 2.43s]

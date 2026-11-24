@@ -1,0 +1,13 @@
+{
+  "commit": "27b835360c9e8dc530f842b780ee14ccf73e9f26",
+  "started": "2026-11-24T22:57:05.941532+00:00",
+  "command": [
+    "/tmp/docs-guardian-pr8-round3/.venv/bin/docs-guardian",
+    "snippets",
+    "tinyml/docs"
+  ],
+  "cwd": "/tmp/docs-guardian-pr8-round3",
+  "exit_code": 0,
+  "elapsed": 0.8259965359993657,
+  "clean": true
+}

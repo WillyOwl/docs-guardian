@@ -1,0 +1,50 @@
+PR #8 review evidence
+Reviewed commit: 27b835360c9e8dc530f842b780ee14ccf73e9f26
+
+Source code was not modified. Tests ran in a detached worktree at this commit.
+Screenshots are actual Playwright/Chromium screenshots of local HTML containing
+the full recorded command output, rather than screenshots of a desktop terminal.
+Each output log records the commit, UTC time, command, exit code and duration.
+
+Reproduction (run from the repository root; $EVIDENCE is this directory):
+  git switch --detach 27b835360c9e8dc530f842b780ee14ccf73e9f26
+  uv sync --locked
+  uv run --locked pytest -q
+  uv run --locked --no-group docs --python 3.11 --isolated pytest -q
+  uv run --locked ruff check .
+  uv run --locked ruff format --check .
+  uv run --locked docs-guardian snippets tinyml/docs
+  uv run --locked pytest --nbmake tinyml/docs/notebooks -p no:cacheprovider -q
+  uv run --locked mkdocs build --strict -f tinyml/mkdocs.yml --site-dir /tmp/pr8-site
+  uv run --locked pytest -v -s --tb=short -p no:cacheprovider "$EVIDENCE/test_previous_review.py"
+  uv run --locked pytest -v -s --tb=short -p no:cacheprovider "$EVIDENCE/test_additional_review.py"
+
+Results:
+  Python 3.14.6: 56 passed.
+  Python 3.11.15 (isolated uv environment): 56 passed.
+  Ruff lint and formatting: exit 0; 23 files already formatted.
+  Markdown Pages: 4 passed.
+  Notebook: 1 passed.
+  Strict MkDocs build: exit 0.
+  Previous independent regression expectations: 5 passed, covering 4 fixed issues.
+  Additional expectations: 3 failed, reproducing 2 new issues:
+    binary stdout/stderr raises UnicodeDecodeError in the runner;
+    a descendant process continues executing after its Page times out.
+
+The descendant-process test kills its own child in a finally block.
+Notebook execution requires local Jupyter sockets; it ran with permission.
+The MkDocs-generated .cache directory was moved outside the source worktree.
+Two initial captures (Python 3.11 and notebook) refused to run while that build
+cache existed as an untracked directory. Both were then run from a clean tree.
+No source changes were involved.
+
+Mapping of screenshots to commands:
+  tests.png: pytest-3.14.txt and pytest-3.11.txt.
+  quality-and-pages.png: ruff.txt, ruff-format.txt, snippets.txt,
+                         notebooks.txt and mkdocs.txt.
+  previous-review.png: previous-review.txt.
+  additional-review.png: additional-review.txt.
+
+record.py captures actual subprocess output. render.py builds screenshot HTML.
+screenshots.cjs uses the locally installed Playwright and Chromium; adjust its
+module/executable paths for another machine. No image generation was used.
