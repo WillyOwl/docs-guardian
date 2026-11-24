@@ -12,6 +12,7 @@
 - Name branches `<type>/<short-kebab-case-summary>`. `<type>` is the Conventional Commit type of the branch's main change (`feat`, `fix`, `docs`, `test`, `ci`, `refactor`, `chore`). The summary is 2–4 lowercase words naming what is being implemented, e.g. `feat/snippet-runner`, `fix/snippet-line-offset`, `docs/branching-rule`. No dates or usernames.
 - Write the PR title as a Conventional Commit; it becomes the squash commit on `main`.
 - Open pull requests; never merge them. The maintainer merges, by squash merge.
+- After pushing new commits to a branch with an open PR, update the PR description and its evidence (test output, screenshots, verification steps) with `gh pr edit`. The PR is up to date when every claim and every piece of evidence in its body matches the branch's latest commit.
 - Before starting new work, clean up:
   1. For each local branch other than `main`, check its PR with `gh pr list --head <branch> --state merged`.
   2. `git switch main && git pull --ff-only`.
