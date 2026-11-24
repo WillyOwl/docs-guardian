@@ -1,0 +1,143 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>PR #8 | initial notebook attempt blocked by sandbox</title><style>
+* { box-sizing: border-box; }
+body { margin: 0; padding: 28px; background: #101820; color: #e8edf2;
+       font-family: Arial, sans-serif; }
+h1 { font-size: 26px; margin: 0 0 12px; } h2 { font-size: 20px; margin: 24px 0 12px; }
+.meta { font: 15px/1.5 monospace; color: #acbed1; }
+pre { background: #192530; border: 1px solid #3c4b5a; padding: 18px;
+      border-radius: 6px; font: 14px/21px "DejaVu Sans Mono", monospace;
+      white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; }
+</style><h1>PR #8 | initial notebook attempt blocked by sandbox</h1><p class="meta">Reviewed commit: f5bc3cdc8df0b58fb702a1db04fb836de5de06db<br>Complete captured command output (terminal color codes removed for display). Commands, timestamps and exit codes are included. Source commit is unchanged.</p><h2>Environment restriction: local sockets denied; rerun outside sandbox passed</h2><pre>PR #8 | commit f5bc3cdc8df0b58fb702a1db04fb836de5de06db
+UTC: 2026-11-24T23:18:38.183266+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-f5-review
+$ uv run --locked --no-sync pytest --nbmake tinyml/docs/notebooks -p no:cacheprovider -q
+
+F                                                                                                      [100%]
+================================================== FAILURES ==================================================
+__________________ /tmp/docs-guardian-pr8-f5-review/tinyml/docs/notebooks/walkthrough.ipynb __________________
+NBMAKE INTERNAL ERROR
+[Errno 1] Operation not permitted
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/_pytest/runner.py&quot;, line 361, in from_call
+    result: TResult | None = func()
+                             ~~~~^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/_pytest/runner.py&quot;, line 250, in &lt;lambda&gt;
+    lambda: runtest_hook(item=item, **kwds),
+            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/pluggy/_caller.py&quot;, line 197, in __call__
+    return self._hookexec(
+           ~~~~~~~~~~~~~~^
+        self.name, self._hookimpls.copy(), call_kwargs, firstresult
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/pluggy/_manager.py&quot;, line 183, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/pluggy/_execution.py&quot;, line 195, in _multicall
+    raise exception
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/pluggy/_execution.py&quot;, line 167, in _multicall
+    teardown.throw(exception)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/_pytest/logging.py&quot;, line 878, in pytest_runtest_call
+    yield
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/pluggy/_execution.py&quot;, line 167, in _multicall
+    teardown.throw(exception)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/_pytest/capture.py&quot;, line 906, in pytest_runtest_call
+    return (yield)
+            ^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/pluggy/_execution.py&quot;, line 167, in _multicall
+    teardown.throw(exception)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/_pytest/skipping.py&quot;, line 268, in pytest_runtest_call
+    return (yield)
+            ^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/pluggy/_execution.py&quot;, line 147, in _multicall
+    res = hook_impl.function(*args)
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/_pytest/runner.py&quot;, line 184, in pytest_runtest_call
+    item.runtest()
+    ~~~~~~~~~~~~^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/nbmake/pytest_items.py&quot;, line 54, in runtest
+    res: NotebookResult = run.execute()
+                          ~~~~~~~~~~~^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/nbmake/nb_run.py&quot;, line 131, in execute
+    raise err
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/nbmake/nb_run.py&quot;, line 113, in execute
+    c.execute(cwd=self.filename.parent)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_core/utils/__init__.py&quot;, line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File &quot;/home/yiyang/ENTER/lib/python3.14/asyncio/base_events.py&quot;, line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/nbclient/client.py&quot;, line 693, in async_execute
+    async with self.async_setup_kernel(**kwargs):
+               ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File &quot;/home/yiyang/ENTER/lib/python3.14/contextlib.py&quot;, line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/nbclient/client.py&quot;, line 648, in async_setup_kernel
+    await self.async_start_new_kernel(**kwargs)
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/nbclient/client.py&quot;, line 550, in async_start_new_kernel
+    await ensure_async(self.km.start_kernel(extra_arguments=self.extra_arguments, **kwargs))
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_core/utils/__init__.py&quot;, line 214, in ensure_async
+    result = await obj
+             ^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_client/manager.py&quot;, line 116, in wrapper
+    raise e
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_client/manager.py&quot;, line 107, in wrapper
+    out = await method(self, *args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_client/manager.py&quot;, line 528, in _async_start_kernel
+    kernel_cmd, kw = await self._async_pre_start_kernel(**kw)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_client/manager.py&quot;, line 493, in _async_pre_start_kernel
+    kw = await self.provisioner.pre_launch(**kw)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_client/provisioning/local_provisioner.py&quot;, line 216, in pre_launch
+    km.shell_port = lpc.find_available_port(km.ip)
+                    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_client/connect.py&quot;, line 753, in find_available_port
+    tmp_sock = socket.socket()
+  File &quot;/home/yiyang/ENTER/lib/python3.14/socket.py&quot;, line 236, in __init__
+    _socket.socket.__init__(self, family, type, proto, fileno)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+--------------------------------------------- Captured log call ----------------------------------------------
+ERROR    traitlets:manager.py:115 [Errno 1] Operation not permitted
+Traceback (most recent call last):
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_client/manager.py&quot;, line 107, in wrapper
+    out = await method(self, *args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_client/manager.py&quot;, line 528, in _async_start_kernel
+    kernel_cmd, kw = await self._async_pre_start_kernel(**kw)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_client/manager.py&quot;, line 493, in _async_pre_start_kernel
+    kw = await self.provisioner.pre_launch(**kw)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_client/provisioning/local_provisioner.py&quot;, line 216, in pre_launch
+    km.shell_port = lpc.find_available_port(km.ip)
+                    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File &quot;/tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_client/connect.py&quot;, line 753, in find_available_port
+    tmp_sock = socket.socket()
+  File &quot;/home/yiyang/ENTER/lib/python3.14/socket.py&quot;, line 236, in __init__
+    _socket.socket.__init__(self, family, type, proto, fileno)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 1] Operation not permitted
+============================================== warnings summary ==============================================
+tinyml/docs/notebooks/walkthrough.ipynb::walkthrough.ipynb
+  /tmp/docs-guardian-pr8-f5-review/.venv/lib/python3.14/site-packages/jupyter_client/localinterfaces.py:58: UserWarning: Unexpected error discovering local network interfaces: [Errno 1] Operation not permitted
+    ret = f(**kwargs)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+Learn more about nbmake at https://github.com/treebeardtech/nbmake
+
+========================================== short test summary info ===========================================
+FAILED tinyml/docs/notebooks/walkthrough.ipynb::walkthrough.ipynb - NBMAKE INTERNAL ERROR
+1 failed, 1 warning in 0.17s
+
+[exit 1; 0.91s]
+</pre>

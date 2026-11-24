@@ -1,0 +1,63 @@
+PR #8 review evidence
+Reviewed commit: f5bc3cdc8df0b58fb702a1db04fb836de5de06db
+Review platform: Linux; Python 3.14 and isolated Python 3.11.
+Conclusion: no new actionable findings in the reviewed diff. The previous
+review's independent expectations now all pass. No source files were changed.
+
+Prepare an independent checkout of the reviewed commit:
+  git worktree add --detach /tmp/docs-guardian-pr8-f5-review f5bc3cdc8df0b58fb702a1db04fb836de5de06db
+  cd /tmp/docs-guardian-pr8-f5-review
+  uv sync --locked
+
+Extract reproduction.zip into /tmp/docs-guardian-pr8-f5-evidence. It includes
+the three independent test scripts, the command recorder and the actual HTML
+renderer / browser capture script used for this review. The two previous
+review test scripts are byte-for-byte copies from evidence commit
+  aac8573823a6061aade129197793c28c4c0453d7.
+The third script adds process cleanup checks for success, exception and timeout;
+checks that the next Page still runs; and checks a quoted skip marker, an
+unterminated CommonMark fence, and a traceback into an earlier Snippet in a
+Page with a Unicode filename. These tests are outside the source worktree.
+
+Run from the independent checkout:
+  uv run --locked --no-sync pytest -q
+  uv run --locked --no-group docs --python 3.11 --isolated pytest -q
+  uv run --locked --no-sync ruff check .
+  uv run --locked --no-sync ruff format --check .
+  uv run --locked --no-sync docs-guardian snippets tinyml/docs
+  uv run --locked --no-sync pytest --nbmake tinyml/docs/notebooks -p no:cacheprovider -q
+  uv run --locked --no-sync mkdocs build --strict -f tinyml/mkdocs.yml --site-dir /tmp/pr8-review-site
+  uv run --locked --no-sync pytest -v -s --tb=short -p no:cacheprovider /tmp/docs-guardian-pr8-f5-evidence/test_previous_review.py /tmp/docs-guardian-pr8-f5-evidence/test_additional_review.py
+  uv run --locked --no-sync pytest -v -s --tb=short -p no:cacheprovider /tmp/docs-guardian-pr8-f5-evidence/test_lifecycle_review.py
+
+Expected:
+  Repository tests: 60 passed on each Python version.
+  Previous independent regressions: 8 passed.
+  Additional behavior checks: 5 passed.
+  Ruff lint: All checks passed; formatter: 23 files already formatted.
+  Markdown runner: 4 Pages passed, 0 failed (6 Snippets).
+  Notebook: 1 passed.
+  Strict documentation build: exit 0.
+
+Each .txt log contains the exact reviewed commit, UTC start time, command,
+exit code and duration. Each companion .json contains structured metadata.
+The screenshots are real full-page Chromium captures of the .html pages,
+which display the complete command logs. Terminal color codes are removed
+only in the HTML display; raw .txt files are preserved.
+
+Environment note:
+  The initial notebook attempt could not create local Jupyter sockets in the
+  sandbox. notebooks-sandbox.txt/.json/.html/.png preserve that attempt.
+  The same command passed when rerun outside the sandbox with permission.
+  The strict MkDocs build created an untracked .cache directory; that generated
+  cache was moved outside the source worktree after the build. Tracked source
+  files remained unchanged and git status was clean after verification.
+
+Scope / known limits:
+  Process cleanup was checked on Linux for children remaining in the worker's
+  process group. Deliberate group escape (setsid / double fork) is already an
+  acknowledged implementation limit. No Windows behavior is asserted here.
+  This is evidence of the listed behaviors, not proof of every possible case.
+
+README unaffected: these artifacts document a review and do not change project
+behavior, installation, commands, tests, configuration or top-level layout.

@@ -1,0 +1,20 @@
+{
+  "commit": "f5bc3cdc8df0b58fb702a1db04fb836de5de06db",
+  "started": "2026-11-24T23:19:18.550097+00:00",
+  "command": [
+    "uv",
+    "run",
+    "--locked",
+    "--no-sync",
+    "pytest",
+    "--nbmake",
+    "tinyml/docs/notebooks",
+    "-p",
+    "no:cacheprovider",
+    "-q"
+  ],
+  "cwd": "/tmp/docs-guardian-pr8-f5-review",
+  "exit_code": 0,
+  "elapsed": 2.3907889840011194,
+  "clean": true
+}

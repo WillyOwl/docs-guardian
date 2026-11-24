@@ -1,0 +1,9 @@
+PR #8 | commit f5bc3cdc8df0b58fb702a1db04fb836de5de06db
+UTC: 2026-11-24T23:17:50.723562+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-f5-review
+$ uv run --locked --no-sync ruff check .
+
+All checks passed!
+
+[exit 0; 0.04s]

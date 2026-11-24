@@ -1,0 +1,71 @@
+"""Independent lifecycle checks against the latest PR commit."""
+import os
+from pathlib import Path
+import signal
+import time
+
+import pytest
+
+from docs_guardian.snippets import extract_snippets, run_pages
+
+
+@pytest.mark.parametrize('outcome', ['success', 'exception', 'timeout'])
+def test_descendant_is_stopped_and_next_page_still_runs(tmp_path, outcome):
+    marker = tmp_path / 'child-finished'
+    pid_file = tmp_path / 'child.pid'
+    child = (
+        'import os, time; from pathlib import Path; '
+        f'Path({str(pid_file)!r}).write_text(str(os.getpid())); '
+        f'time.sleep(0.8); Path({str(marker)!r}).write_text("alive")'
+    )
+    action = {'success': 'x = 1', 'exception': 'raise RuntimeError("expected failure")',
+              'timeout': 'time.sleep(30)'}[outcome]
+    page = tmp_path / 'a-child.md'
+    page.write_text('```python\nimport subprocess, sys, time\nfrom pathlib import Path\n'
+                    f'subprocess.Popen([sys.executable, "-c", {child!r}])\n'
+                    f'while not Path({str(pid_file)!r}).exists():\n    time.sleep(0.01)\n'
+                    + action + '\n```\n')
+    (tmp_path / 'b-next.md').write_text('```python\nassert 2 + 2 == 4\n```\n')
+    try:
+        results = run_pages(tmp_path, timeout=0.5)
+        print('Outcome:', outcome, '| results:', results)
+        assert len(results) == 2
+        assert results[0].passed == (outcome == 'success')
+        assert results[1].passed
+        assert pid_file.exists(), 'the child must have started'
+        time.sleep(0.9)
+        print('Child wrote marker after Page ended:', marker.exists())
+        assert not marker.exists()
+    finally:
+        if pid_file.exists():
+            try:
+                os.kill(int(pid_file.read_text()), signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+
+
+def test_unterminated_fence_and_quote_skip_follow_commonmark(tmp_path):
+    markdown = ('> <!-- docs-guardian: skip -->\n> ```python\n'
+                '> raise RuntimeError("skip me")\n> ```\n\n'
+                '```python\nassert 6 * 7 == 42\n')
+    snippets = extract_snippets(markdown)
+    print('Parsed:', snippets)
+    assert len(snippets) == 2
+    assert snippets[0].skip
+    (tmp_path / 'edge.md').write_text(markdown)
+    [result] = run_pages(tmp_path)
+    print('Result:', result)
+    assert result.passed
+    assert (result.ran, result.skipped) == (1, 1)
+
+
+def test_traceback_points_to_function_defined_in_earlier_snippet(tmp_path):
+    markdown = ('# Traceback\n\n```python\ndef broken():\n'
+                '    raise ValueError("from earlier Snippet")\n```\n\n'
+                '```python\nbroken()\n```\n')
+    (tmp_path / '函数.md').write_text(markdown)
+    [result] = run_pages(tmp_path)
+    print('Result:', result)
+    assert result.error == 'ValueError: from earlier Snippet'
+    assert result.line == 5
+    assert result.ran == 1

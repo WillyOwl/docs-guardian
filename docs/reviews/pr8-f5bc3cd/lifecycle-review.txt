@@ -1,0 +1,30 @@
+PR #8 | commit f5bc3cdc8df0b58fb702a1db04fb836de5de06db
+UTC: 2026-11-24T23:19:19.738707+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-f5-review
+$ uv run --locked --no-sync pytest -v -s --tb=short -p no:cacheprovider /tmp/docs-guardian-pr8-f5-evidence/test_lifecycle_review.py
+
+============================================ test session starts =============================================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- /tmp/docs-guardian-pr8-f5-review/.venv/bin/python3
+rootdir: /tmp
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collecting ... collected 5 items
+
+../docs-guardian-pr8-f5-evidence/test_lifecycle_review.py::test_descendant_is_stopped_and_next_page_still_runs[success] Outcome: success | results: [PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-65/test_descendant_is_stopped_and0/a-child.md'), ran=1, skipped=0, not_run=0, line=None, error=None), PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-65/test_descendant_is_stopped_and0/b-next.md'), ran=1, skipped=0, not_run=0, line=None, error=None)]
+Child wrote marker after Page ended: False
+PASSED
+../docs-guardian-pr8-f5-evidence/test_lifecycle_review.py::test_descendant_is_stopped_and_next_page_still_runs[exception] Outcome: exception | results: [PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-65/test_descendant_is_stopped_and1/a-child.md'), ran=0, skipped=0, not_run=0, line=7, error='RuntimeError: expected failure'), PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-65/test_descendant_is_stopped_and1/b-next.md'), ran=1, skipped=0, not_run=0, line=None, error=None)]
+Child wrote marker after Page ended: False
+PASSED
+../docs-guardian-pr8-f5-evidence/test_lifecycle_review.py::test_descendant_is_stopped_and_next_page_still_runs[timeout] Outcome: timeout | results: [PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-65/test_descendant_is_stopped_and2/a-child.md'), ran=0, skipped=0, not_run=0, line=2, error='Timeout: still running after 0.5s'), PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-65/test_descendant_is_stopped_and2/b-next.md'), ran=1, skipped=0, not_run=0, line=None, error=None)]
+Child wrote marker after Page ended: False
+PASSED
+../docs-guardian-pr8-f5-evidence/test_lifecycle_review.py::test_unterminated_fence_and_quote_skip_follow_commonmark Parsed: [Snippet(line=3, code='raise RuntimeError("skip me")\n', skip=True), Snippet(line=7, code='assert 6 * 7 == 42\n', skip=False)]
+Result: PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-65/test_unterminated_fence_and_qu0/edge.md'), ran=1, skipped=1, not_run=0, line=None, error=None)
+PASSED
+../docs-guardian-pr8-f5-evidence/test_lifecycle_review.py::test_traceback_points_to_function_defined_in_earlier_snippet Result: PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-65/test_traceback_points_to_funct0/函数.md'), ran=1, skipped=0, not_run=0, line=5, error='ValueError: from earlier Snippet')
+PASSED
+
+============================================= 5 passed in 3.69s ==============================================
+
+[exit 0; 4.42s]

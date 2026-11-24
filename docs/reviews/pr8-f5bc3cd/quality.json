@@ -1,0 +1,17 @@
+{
+  "commit": "f5bc3cdc8df0b58fb702a1db04fb836de5de06db",
+  "started": "2026-11-24T23:17:50.723562+00:00",
+  "command": [
+    "uv",
+    "run",
+    "--locked",
+    "--no-sync",
+    "ruff",
+    "check",
+    "."
+  ],
+  "cwd": "/tmp/docs-guardian-pr8-f5-review",
+  "exit_code": 0,
+  "elapsed": 0.04345544100033294,
+  "clean": true
+}

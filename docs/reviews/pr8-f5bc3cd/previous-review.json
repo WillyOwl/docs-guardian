@@ -1,0 +1,22 @@
+{
+  "commit": "f5bc3cdc8df0b58fb702a1db04fb836de5de06db",
+  "started": "2026-11-24T23:17:50.680401+00:00",
+  "command": [
+    "uv",
+    "run",
+    "--locked",
+    "--no-sync",
+    "pytest",
+    "-v",
+    "-s",
+    "--tb=short",
+    "-p",
+    "no:cacheprovider",
+    "/tmp/docs-guardian-pr8-f5-evidence/test_previous_review.py",
+    "/tmp/docs-guardian-pr8-f5-evidence/test_additional_review.py"
+  ],
+  "cwd": "/tmp/docs-guardian-pr8-f5-review",
+  "exit_code": 0,
+  "elapsed": 5.096574495999448,
+  "clean": true
+}

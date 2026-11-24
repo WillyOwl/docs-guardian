@@ -1,0 +1,81 @@
+PR #8 | commit f5bc3cdc8df0b58fb702a1db04fb836de5de06db
+UTC: 2026-11-24T23:17:50.680401+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-f5-review
+$ uv run --locked --no-sync pytest -v -s --tb=short -p no:cacheprovider /tmp/docs-guardian-pr8-f5-evidence/test_previous_review.py /tmp/docs-guardian-pr8-f5-evidence/test_additional_review.py
+
+============================================ test session starts =============================================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- /tmp/docs-guardian-pr8-f5-review/.venv/bin/python3
+rootdir: /tmp
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collecting ... collected 8 items
+
+../docs-guardian-pr8-f5-evidence/test_previous_review.py::test_commonmark_nested_python_snippets_must_run[list] Markdown source:
+- Example:
+
+    ```python
+    raise RuntimeError("broken nested Snippet")
+    ```
+
+extract_snippets: [Snippet(line=4, code='raise RuntimeError("broken nested Snippet")\n', skip=False)]
+FAIL /tmp/pytest-of-yiyang/pytest-62/test_commonmark_nested_python_0/nested.md:4  RuntimeError: broken nested Snippet
+
+1 Page: 0 passed, 1 failed
+CLI exit: 1
+PASSED
+../docs-guardian-pr8-f5-evidence/test_previous_review.py::test_commonmark_nested_python_snippets_must_run[blockquote] Markdown source:
+> ```python
+> raise RuntimeError("broken nested Snippet")
+> ```
+
+extract_snippets: [Snippet(line=2, code='raise RuntimeError("broken nested Snippet")\n', skip=False)]
+FAIL /tmp/pytest-of-yiyang/pytest-62/test_commonmark_nested_python_1/nested.md:2  RuntimeError: broken nested Snippet
+
+1 Page: 0 passed, 1 failed
+CLI exit: 1
+PASSED
+../docs-guardian-pr8-f5-evidence/test_previous_review.py::test_html_comments_do_not_contain_rendered_snippets Markdown source:
+<!--
+```python
+raise RuntimeError("hidden draft")
+```
+-->
+
+Result: PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-62/test_html_comments_do_not_cont0/comment.md'), ran=0, skipped=0, not_run=0, line=None, error=None)
+PASSED
+../docs-guardian-pr8-f5-evidence/test_previous_review.py::test_background_thread_timeout_must_fail_the_page Markdown source:
+```python
+import threading, time
+threading.Thread(target=lambda: time.sleep(60)).start()
+```
+
+FAIL /tmp/pytest-of-yiyang/pytest-62/test_background_thread_timeout0/thread.md:2  Timeout: still running after 1s
+
+1 Page: 0 passed, 1 failed
+CLI exit: 1
+PASSED
+../docs-guardian-pr8-f5-evidence/test_previous_review.py::test_syntax_error_points_to_the_actual_page_line Markdown source:
+# Syntax
+
+```python
+a = 1
+b = 2
+if True print(a)
+```
+
+Result: PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-62/test_syntax_error_points_to_th0/syntax.md'), ran=0, skipped=0, not_run=0, line=6, error='SyntaxError: invalid syntax')
+PASSED
+../docs-guardian-pr8-f5-evidence/test_additional_review.py::test_valid_snippet_can_write_binary_output[stdout] Snippet: import sys; sys.stdout.buffer.write(bytes([255]))
+Page result: PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-62/test_valid_snippet_can_write_b0/binary.md'), ran=1, skipped=0, not_run=0, line=None, error=None)
+PASSED
+../docs-guardian-pr8-f5-evidence/test_additional_review.py::test_valid_snippet_can_write_binary_output[stderr] Snippet: import sys; sys.stderr.buffer.write(bytes([255]))
+Page result: PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-62/test_valid_snippet_can_write_b1/binary.md'), ran=1, skipped=0, not_run=0, line=None, error=None)
+PASSED
+../docs-guardian-pr8-f5-evidence/test_additional_review.py::test_page_timeout_terminates_descendant_process Page result: PageResult(page=PosixPath('/tmp/pytest-of-yiyang/pytest-62/test_page_timeout_terminates_d0/child.md'), ran=0, skipped=0, not_run=0, line=2, error='Timeout: still running after 0.5s')
+run_page returned after 0.50s; configured timeout: 0.5s
+Descendant executed after Page timeout: False
+PASSED
+
+============================================= 8 passed in 4.24s ==============================================
+
+[exit 0; 5.10s]

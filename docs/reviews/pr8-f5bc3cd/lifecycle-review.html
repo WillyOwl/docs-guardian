@@ -1,0 +1,40 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>PR #8 | additional process, parser and traceback checks</title><style>
+* { box-sizing: border-box; }
+body { margin: 0; padding: 28px; background: #101820; color: #e8edf2;
+       font-family: Arial, sans-serif; }
+h1 { font-size: 26px; margin: 0 0 12px; } h2 { font-size: 20px; margin: 24px 0 12px; }
+.meta { font: 15px/1.5 monospace; color: #acbed1; }
+pre { background: #192530; border: 1px solid #3c4b5a; padding: 18px;
+      border-radius: 6px; font: 14px/21px "DejaVu Sans Mono", monospace;
+      white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; }
+</style><h1>PR #8 | additional process, parser and traceback checks</h1><p class="meta">Reviewed commit: f5bc3cdc8df0b58fb702a1db04fb836de5de06db<br>Complete captured command output (terminal color codes removed for display). Commands, timestamps and exit codes are included. Source commit is unchanged.</p><h2>Success / exception / timeout cleanup, next Page, Markdown and Unicode | 5 passed</h2><pre>PR #8 | commit f5bc3cdc8df0b58fb702a1db04fb836de5de06db
+UTC: 2026-11-24T23:19:19.738707+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-f5-review
+$ uv run --locked --no-sync pytest -v -s --tb=short -p no:cacheprovider /tmp/docs-guardian-pr8-f5-evidence/test_lifecycle_review.py
+
+============================================ test session starts =============================================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- /tmp/docs-guardian-pr8-f5-review/.venv/bin/python3
+rootdir: /tmp
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collecting ... collected 5 items
+
+../docs-guardian-pr8-f5-evidence/test_lifecycle_review.py::test_descendant_is_stopped_and_next_page_still_runs[success] Outcome: success | results: [PageResult(page=PosixPath(&#x27;/tmp/pytest-of-yiyang/pytest-65/test_descendant_is_stopped_and0/a-child.md&#x27;), ran=1, skipped=0, not_run=0, line=None, error=None), PageResult(page=PosixPath(&#x27;/tmp/pytest-of-yiyang/pytest-65/test_descendant_is_stopped_and0/b-next.md&#x27;), ran=1, skipped=0, not_run=0, line=None, error=None)]
+Child wrote marker after Page ended: False
+PASSED
+../docs-guardian-pr8-f5-evidence/test_lifecycle_review.py::test_descendant_is_stopped_and_next_page_still_runs[exception] Outcome: exception | results: [PageResult(page=PosixPath(&#x27;/tmp/pytest-of-yiyang/pytest-65/test_descendant_is_stopped_and1/a-child.md&#x27;), ran=0, skipped=0, not_run=0, line=7, error=&#x27;RuntimeError: expected failure&#x27;), PageResult(page=PosixPath(&#x27;/tmp/pytest-of-yiyang/pytest-65/test_descendant_is_stopped_and1/b-next.md&#x27;), ran=1, skipped=0, not_run=0, line=None, error=None)]
+Child wrote marker after Page ended: False
+PASSED
+../docs-guardian-pr8-f5-evidence/test_lifecycle_review.py::test_descendant_is_stopped_and_next_page_still_runs[timeout] Outcome: timeout | results: [PageResult(page=PosixPath(&#x27;/tmp/pytest-of-yiyang/pytest-65/test_descendant_is_stopped_and2/a-child.md&#x27;), ran=0, skipped=0, not_run=0, line=2, error=&#x27;Timeout: still running after 0.5s&#x27;), PageResult(page=PosixPath(&#x27;/tmp/pytest-of-yiyang/pytest-65/test_descendant_is_stopped_and2/b-next.md&#x27;), ran=1, skipped=0, not_run=0, line=None, error=None)]
+Child wrote marker after Page ended: False
+PASSED
+../docs-guardian-pr8-f5-evidence/test_lifecycle_review.py::test_unterminated_fence_and_quote_skip_follow_commonmark Parsed: [Snippet(line=3, code=&#x27;raise RuntimeError(&quot;skip me&quot;)\n&#x27;, skip=True), Snippet(line=7, code=&#x27;assert 6 * 7 == 42\n&#x27;, skip=False)]
+Result: PageResult(page=PosixPath(&#x27;/tmp/pytest-of-yiyang/pytest-65/test_unterminated_fence_and_qu0/edge.md&#x27;), ran=1, skipped=1, not_run=0, line=None, error=None)
+PASSED
+../docs-guardian-pr8-f5-evidence/test_lifecycle_review.py::test_traceback_points_to_function_defined_in_earlier_snippet Result: PageResult(page=PosixPath(&#x27;/tmp/pytest-of-yiyang/pytest-65/test_traceback_points_to_funct0/函数.md&#x27;), ran=1, skipped=0, not_run=0, line=5, error=&#x27;ValueError: from earlier Snippet&#x27;)
+PASSED
+
+============================================= 5 passed in 3.69s ==============================================
+
+[exit 0; 4.42s]
+</pre>

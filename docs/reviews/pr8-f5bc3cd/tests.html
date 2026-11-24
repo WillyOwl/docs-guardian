@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>PR #8 | repository tests on Python 3.11 and 3.14</title><style>
+* { box-sizing: border-box; }
+body { margin: 0; padding: 28px; background: #101820; color: #e8edf2;
+       font-family: Arial, sans-serif; }
+h1 { font-size: 26px; margin: 0 0 12px; } h2 { font-size: 20px; margin: 24px 0 12px; }
+.meta { font: 15px/1.5 monospace; color: #acbed1; }
+pre { background: #192530; border: 1px solid #3c4b5a; padding: 18px;
+      border-radius: 6px; font: 14px/21px "DejaVu Sans Mono", monospace;
+      white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; }
+</style><h1>PR #8 | repository tests on Python 3.11 and 3.14</h1><p class="meta">Reviewed commit: f5bc3cdc8df0b58fb702a1db04fb836de5de06db<br>Complete captured command output (terminal color codes removed for display). Commands, timestamps and exit codes are included. Source commit is unchanged.</p><h2>Python 3.14 | 60 passed</h2><pre>PR #8 | commit f5bc3cdc8df0b58fb702a1db04fb836de5de06db
+UTC: 2026-11-24T23:17:50.746592+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-f5-review
+$ uv run --locked --no-sync pytest -q
+
+............................................................                                           [100%]
+60 passed in 6.76s
+
+[exit 0; 7.63s]
+</pre><h2>Python 3.11 | 60 passed (isolated environment)</h2><pre>PR #8 | commit f5bc3cdc8df0b58fb702a1db04fb836de5de06db
+UTC: 2026-11-24T23:18:40.901713+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-f5-review
+$ uv run --locked --no-group docs --python 3.11 --isolated pytest -q
+
+Downloading numpy (16.1MiB)
+ Downloaded numpy
+Installed 11 packages in 6ms
+............................................................                                           [100%]
+60 passed in 6.48s
+
+[exit 0; 9.73s]
+</pre>

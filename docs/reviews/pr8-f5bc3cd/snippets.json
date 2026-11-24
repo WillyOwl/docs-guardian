@@ -1,0 +1,17 @@
+{
+  "commit": "f5bc3cdc8df0b58fb702a1db04fb836de5de06db",
+  "started": "2026-11-24T23:17:50.734834+00:00",
+  "command": [
+    "uv",
+    "run",
+    "--locked",
+    "--no-sync",
+    "docs-guardian",
+    "snippets",
+    "tinyml/docs"
+  ],
+  "cwd": "/tmp/docs-guardian-pr8-f5-review",
+  "exit_code": 0,
+  "elapsed": 0.9610442720004357,
+  "clean": true
+}

@@ -1,0 +1,14 @@
+PR #8 | commit f5bc3cdc8df0b58fb702a1db04fb836de5de06db
+UTC: 2026-11-24T23:17:50.701095+00:00
+Working tree: clean
+CWD: /tmp/docs-guardian-pr8-f5-review
+$ uv run --locked --no-sync mkdocs build --strict -f tinyml/mkdocs.yml --site-dir /tmp/docs-guardian-pr8-f5-evidence/site
+
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/docs-guardian-pr8-f5-evidence/site
+INFO    -  Converting notebook (execute=False): /tmp/docs-guardian-pr8-f5-review/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/docs-guardian-pr8-f5-review/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/docs-guardian-pr8-f5-review/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/docs-guardian-pr8-f5-evidence/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.77 seconds
+
+[exit 0; 2.41s]
