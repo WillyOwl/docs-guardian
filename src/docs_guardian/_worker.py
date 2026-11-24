@@ -32,12 +32,25 @@ def main(events_path: str) -> None:
             try:
                 exec(compile(source, page, "exec"), namespace)
             except BaseException as exc:  # noqa: BLE001 - a Snippet may raise anything
-                frames = [f for f in traceback.extract_tb(exc.__traceback__) if f.filename == page]
-                failing_line = frames[-1].lineno if frames else line
-                error = f"{type(exc).__name__}: {exc}" if str(exc) else type(exc).__name__
+                failing_line, error = _locate(exc, page, line)
                 emit({"failed": i, "line": failing_line, "error": error})
                 return
         emit({"done": True})
+
+
+def _locate(exc: BaseException, page: str, snippet_line: int) -> tuple[int, str]:
+    """Return the Page line an exception points at, and how to report it.
+
+    A SyntaxError in the Snippet itself is raised while compiling, before any
+    Page frame exists, so its own position is the answer. Anything else is
+    found through the deepest traceback frame that belongs to the Page.
+    """
+    name = type(exc).__name__
+    if isinstance(exc, SyntaxError) and exc.filename == page and exc.lineno:
+        return exc.lineno, f"{name}: {exc.msg}"
+    frames = [f for f in traceback.extract_tb(exc.__traceback__) if f.filename == page]
+    line = frames[-1].lineno if frames and frames[-1].lineno else snippet_line
+    return line, f"{name}: {exc}" if str(exc) else name
 
 
 if __name__ == "__main__":

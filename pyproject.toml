@@ -4,7 +4,9 @@ version = "0.1.0"
 description = "Catches documentation that has fallen out of step with the code it describes."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "markdown-it-py>=3",  # CommonMark parser: finds Snippets the way a renderer does
+]
 
 [project.scripts]
 docs-guardian = "docs_guardian.cli:main"

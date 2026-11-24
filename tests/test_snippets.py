@@ -134,3 +134,67 @@ def test_an_exception_without_a_message_reports_just_its_type(tmp_path):
     write_page(tmp_path, "page.md", "```python\nraise RuntimeError()\n```\n")
     [result] = run_pages(tmp_path)
     assert result.error == "RuntimeError"
+
+
+# --- Regressions from the PR #8 review -------------------------------------
+
+
+@pytest.mark.parametrize(
+    "markdown",
+    [
+        "- Example:\n\n    ```python\n    x = 1\n    raise RuntimeError('nested')\n    ```\n",
+        "> ```python\n> x = 1\n> raise RuntimeError('nested')\n> ```\n",
+        "1. Step one:\n\n   ```python\n   x = 1\n   raise RuntimeError('nested')\n   ```\n",
+    ],
+    ids=["bullet-list", "blockquote", "ordered-list"],
+)
+def test_snippets_nested_in_lists_and_blockquotes_run_and_point_at_their_line(tmp_path, markdown):
+    write_page(tmp_path, "nested.md", markdown)
+    [result] = run_pages(tmp_path)
+    assert result.error == "RuntimeError: nested"  # was: PASS, 0 Snippets
+    raising_line = next(n for n, line in enumerate(markdown.splitlines(), 1) if "raise" in line)
+    assert result.line == raising_line
+
+
+def test_a_skip_marker_inside_a_list_still_skips(tmp_path):
+    write_page(
+        tmp_path,
+        "nested.md",
+        "- Example:\n\n"
+        "  <!-- docs-guardian: skip -->\n  ```python\n  raise RuntimeError()\n  ```\n",
+    )
+    [result] = run_pages(tmp_path)
+    assert result.passed
+    assert (result.ran, result.skipped) == (0, 1)
+
+
+def test_fences_inside_an_html_comment_are_not_snippets(tmp_path):
+    write_page(
+        tmp_path, "draft.md", "<!--\n```python\nraise RuntimeError('hidden draft')\n```\n-->\n"
+    )
+    [result] = run_pages(tmp_path)
+    assert result.passed
+    assert result.ran == 0
+
+
+def test_a_page_killed_at_the_timeout_fails_even_after_its_snippets_finished(tmp_path):
+    # A non-daemon thread keeps the process alive after the last Snippet.
+    write_page(
+        tmp_path,
+        "thread.md",
+        "```python\nimport threading, time\n"
+        "threading.Thread(target=lambda: time.sleep(60)).start()\n```\n",
+    )
+    [result] = run_pages(tmp_path, timeout=1)
+    assert not result.passed  # was: PASS
+    assert result.error == "Timeout: still running after 1s"
+
+
+def test_a_syntax_error_points_at_the_broken_line(tmp_path):
+    write_page(
+        tmp_path, "syntax.md", "# Syntax\n\n```python\na = 1\nb = 2\nif True print(a)\n```\n"
+    )
+    [result] = run_pages(tmp_path)
+    assert result.line == 6  # was: 4, the Snippet's first line
+    assert result.error.startswith("SyntaxError: ")
+    assert "syntax.md" not in result.error  # the location is already in result.line

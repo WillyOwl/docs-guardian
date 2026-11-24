@@ -90,7 +90,7 @@ flowchart TD
     NB["Notebook Pages"] --> NBM["nbmake via pytest"] -->|a cell failed| X
 ```
 
-A Snippet is skipped with `<!-- docs-guardian: skip -->` on the line above its fence. Run it with `docs-guardian snippets <docs-root>`; it exits 1 if any Page fails, and 2 if the folder holds no Pages, so a mistyped path cannot pass.
+Snippets are found by parsing the Page as CommonMark, the way a renderer does: fences inside lists and blockquotes count, fences inside HTML comments don't. A Snippet is skipped with `<!-- docs-guardian: skip -->` on the line above its fence. Run it with `docs-guardian snippets <docs-root>`; it exits 1 if any Page fails, and 2 if the folder holds no Pages, so a mistyped path cannot pass.
 
 ### Drift check (Advisory)
 

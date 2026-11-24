@@ -1,12 +1,13 @@
 """The snippet runner: run every Snippet of every Markdown Page, one Page per process."""
 
 import json
-import re
 import subprocess
 import sys
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
+
+from markdown_it import MarkdownIt
 
 DEFAULT_TIMEOUT = 30.0
 """Seconds a Page may run before it fails with a Timeout."""
@@ -17,8 +18,9 @@ SKIP_MARKER = "<!-- docs-guardian: skip -->"
 PYTHON_INFO_WORDS = frozenset({"python", "py", "python3"})
 """Info-string first words, case-insensitive, that make a fence a Snippet."""
 
-# A fence opens with 3+ backticks or tildes, indented at most 3 spaces (CommonMark).
-_OPENING_FENCE = re.compile(r"^(?P<indent> {0,3})(?P<fence>`{3,}|~{3,})(?P<info>.*)$")
+# One CommonMark parser for every Page: Snippets are found the way a renderer
+# finds them, inside lists and blockquotes, and never inside HTML comments.
+_MARKDOWN = MarkdownIt("commonmark")
 
 
 @dataclass(frozen=True)
@@ -27,8 +29,8 @@ class Snippet:
 
     Attributes:
         line: Line number in the Page of the Snippet's first code line.
-        code: The Snippet's source, with the fence's indentation removed.
-        skip: True for a Skipped Snippet: the line above its fence is the skip marker.
+        code: The Snippet's source, without the fence's indentation or quote markers.
+        skip: True for a Skipped Snippet: the skip marker sits directly above its fence.
     """
 
     line: int
@@ -65,10 +67,10 @@ class PageResult:
 def extract_snippets(text: str) -> list[Snippet]:
     """Find the Snippets of a Markdown Page.
 
-    Fences follow CommonMark: a fence closes only on a line of the same
-    character, at least as long as the opening fence, with nothing else on it.
-    A fence is a Snippet when its info string's first word is `python`, `py` or
-    `python3`, in any case.
+    The Page is parsed as CommonMark, so a Snippet is exactly a fenced code
+    block a renderer would show: fences inside lists and blockquotes count,
+    and fences inside HTML comments do not. A fence is a Snippet when its info
+    string's first word is `python`, `py` or `python3`, in any case.
 
     Args:
         text: The Page's Markdown source.
@@ -76,32 +78,21 @@ def extract_snippets(text: str) -> list[Snippet]:
     Returns:
         The Snippets in Page order, Skipped Snippets included.
     """
+    tokens = _MARKDOWN.parse(text)
+    # Lines where a skip-marker HTML block ends; a fence starting there is skipped.
+    skip_marker_ends = {
+        t.map[1] for t in tokens if t.type == "html_block" and t.content.strip() == SKIP_MARKER
+    }
     snippets: list[Snippet] = []
-    lines = text.splitlines()
-    i = 0
-    while i < len(lines):
-        opening = _OPENING_FENCE.match(lines[i])
-        if opening is None or (opening["fence"][0] == "`" and "`" in opening["info"]):
-            i += 1
+    for token in tokens:
+        words = token.info.split()
+        if token.type != "fence" or not words or words[0].lower() not in PYTHON_INFO_WORDS:
             continue
-        fence, indent = opening["fence"], len(opening["indent"])
-        closing = re.compile(rf"^ {{0,3}}{re.escape(fence[0])}{{{len(fence)},}}[ \t]*$")
-        end = i + 1
-        while end < len(lines) and not closing.match(lines[end]):
-            end += 1
-        words = opening["info"].split()
-        if words and words[0].lower() in PYTHON_INFO_WORDS:
-            body = [_dedent(line, indent) for line in lines[i + 1 : end]]
-            skip = i > 0 and lines[i - 1].strip() == SKIP_MARKER
-            snippets.append(Snippet(line=i + 2, code="\n".join(body) + "\n", skip=skip))
-        i = end + 1
+        fence_line = token.map[0]  # 0-based line of the opening fence
+        snippets.append(
+            Snippet(line=fence_line + 2, code=token.content, skip=fence_line in skip_marker_ends)
+        )
     return snippets
-
-
-def _dedent(line: str, indent: int) -> str:
-    """Remove up to `indent` leading spaces, as CommonMark does inside a fence."""
-    removable = len(line) - len(line.lstrip(" "))
-    return line[min(indent, removable) :]
 
 
 def run_page(page: Path, timeout: float = DEFAULT_TIMEOUT) -> PageResult:
@@ -157,9 +148,11 @@ def run_page(page: Path, timeout: float = DEFAULT_TIMEOUT) -> PageResult:
     failure = next((e for e in events if "failed" in e), None)
     if failure is not None:
         return failed_at(failure["failed"], failure["line"], failure["error"])
-    if any("done" in e for e in events):
+    finished = any("done" in e for e in events)
+    if finished and not timed_out and exit_code == 0:
         return PageResult(page=page, ran=len(snippets), skipped=skipped)
-    # No verdict from the worker: it was killed at the timeout, or it died.
+    # No clean verdict: the process was killed at the timeout (possibly after its
+    # last Snippet, kept alive by a thread or child process), or it died.
     i = max((e["started"] for e in events if "started" in e), default=0)
     line = snippets[i].line if snippets else None
     if timed_out:
