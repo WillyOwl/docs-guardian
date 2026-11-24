@@ -2,10 +2,13 @@
 
 Predict house prices from the sample dataset in under ten lines.
 
-```python
-from tinyml import evaluate, fit_linear, load_csv, train_test_split
+The sample dataset ships with tinyml, so this runs from any folder right after installing.
 
-X, y = load_csv("data/housing.csv", target="price")
+```python
+from tinyml import evaluate, fit_linear, train_test_split
+from tinyml.datasets import housing
+
+X, y = housing()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 model = fit_linear(X_train, y_train)

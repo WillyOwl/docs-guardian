@@ -6,10 +6,13 @@ This page builds the Quickstart up one step at a time. Each code block continues
 
 `load_csv` reads a CSV with a header row and splits it into features and a target. Name the column you want to predict; every other column becomes a feature, in file order.
 
+This tutorial uses the sample CSV that ships with tinyml; `housing_path()` gives its location. For your own data, pass your file's path instead.
+
 ```python
 from tinyml import load_csv
+from tinyml.datasets import housing_path
 
-X, y = load_csv("data/housing.csv", target="price")
+X, y = load_csv(housing_path(), target="price")
 print(X.shape, y.shape)
 ```
 

@@ -5,6 +5,8 @@ from pathlib import Path
 
 import numpy as np
 
+from tinyml._validation import as_samples
+
 
 def load_csv(path: str | Path, target: str) -> tuple[np.ndarray, np.ndarray]:
     """Load a numeric CSV file into features and a target.
@@ -39,18 +41,22 @@ def train_test_split(
 
     Args:
         X: Feature matrix, one row per sample.
-        y: Target values, one per row of `X`.
+        y: Target values, one per row of `X`, 1-D or a single column.
         test_size: Fraction of rows to hold out for testing, between 0 and 1.
             The test set always gets at least one row.
         seed: Random seed, so the same inputs always give the same split.
 
     Returns:
-        A tuple `(X_train, X_test, y_train, y_test)`.
+        A tuple `(X_train, X_test, y_train, y_test)`, with `X` parts 2-D and
+        `y` parts 1-D.
 
     Raises:
-        ValueError: If `test_size` is not strictly between 0 and 1, or if the
-            split would leave no rows for training.
+        ValueError: If `X` is not 2-D, if `y` is not 1-D or a single column,
+            if their sample counts differ or they are empty, if `test_size` is
+            not strictly between 0 and 1, or if the split would leave no rows
+            for training.
     """
+    X, y = as_samples(X, y)
     if not 0 < test_size < 1:
         raise ValueError(f"test_size must be between 0 and 1, got {test_size}")
     order = np.random.default_rng(seed).permutation(len(y))

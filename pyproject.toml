@@ -47,3 +47,7 @@ extend-exclude = ["tinyml/docs"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.isort]
+# The tinyml/ project folder at the root confuses first-party detection.
+known-first-party = ["docs_guardian", "tinyml"]
