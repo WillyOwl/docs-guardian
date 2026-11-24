@@ -6,6 +6,18 @@
 
 -  Write commit messages as [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/): `<type>(<optional scope>): <summary>`, with types such as `feat`, `fix`, `docs`, `test`, `ci`, `refactor`, `chore`. Mark breaking changes with `!` or a `BREAKING CHANGE:` footer.
 
+## Branching
+
+- Never commit to `main` directly, not even one-line docs fixes. Every change goes on its own branch and reaches `main` through a pull request.
+- Name branches `<type>/<short-kebab-case-summary>`. `<type>` is the Conventional Commit type of the branch's main change (`feat`, `fix`, `docs`, `test`, `ci`, `refactor`, `chore`). The summary is 2–4 lowercase words naming what is being implemented, e.g. `feat/snippet-runner`, `fix/snippet-line-offset`, `docs/branching-rule`. No dates or usernames.
+- Write the PR title as a Conventional Commit; it becomes the squash commit on `main`.
+- Open pull requests; never merge them. The maintainer merges, by squash merge.
+- Before starting new work, clean up:
+  1. For each local branch other than `main`, check its PR with `gh pr list --head <branch> --state merged`.
+  2. `git switch main && git pull --ff-only`.
+  3. Force-delete (`git branch -D`) only the branches whose PR is confirmed **merged**. Squash merges make `git branch -d` refuse, so `-D` is expected, and the merged check is what makes it safe. Leave branches whose PR is open, closed unmerged, or missing.
+  4. `git fetch --prune`, then branch the new work from the fresh `main`.
+
 ## Agent skills
 
 ### Issue tracker
