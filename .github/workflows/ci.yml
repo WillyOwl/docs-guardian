@@ -1,0 +1,35 @@
+# docs-guardian's own CI: tests and lint for the tooling and for tinyml.
+# Not a Gate: Gates check the Guarded Project's docs (see GLOSSARY.md).
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: tests (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python }}
+      - run: uv run --locked --no-group docs pytest
+
+  ruff:
+    name: ruff
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv run --locked --only-group dev ruff check .
+      - run: uv run --locked --only-group dev ruff format --check .
