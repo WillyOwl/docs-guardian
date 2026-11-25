@@ -1,0 +1,8 @@
+$ uv run --locked --no-group docs docs-guardian drift --base main --source tinyml/src --docs tinyml/docs
+<!-- docs-guardian:drift-report changes=0 drift-pages=0 -->
+### Drift Report
+
+Public API in this checkout, compared with its merge base with `main` (`6af3ec1`). Advisory: this check never fails the build.
+
+No API Changes.
+[exit 0]

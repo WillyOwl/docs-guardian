@@ -1,0 +1,19 @@
+$ git diff --stat -- tinyml/src && uv run --locked --no-group docs docs-guardian drift --base main --source tinyml/src --docs tinyml/docs
+ tinyml/src/tinyml/__init__.py | 4 ++--
+ tinyml/src/tinyml/metrics.py  | 2 +-
+ tinyml/src/tinyml/models.py   | 4 ++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+<!-- docs-guardian:drift-report changes=3 drift-pages=3 -->
+### Drift Report
+
+Public API in this checkout, compared with its merge base with `main` (`6af3ec1`). Advisory: this check never fails the build.
+
+3 API Changes; Drift on 3 Pages.
+
+| API | Change | Pages that Mention it |
+| --- | --- | --- |
+| `evaluate` | `(y: np.ndarray, y_pred: np.ndarray) -> float` → `(y: np.ndarray, y_pred: np.ndarray, metric: str='rmse') -> float` | `notebooks/walkthrough.ipynb (cell 2, line 1)`, `notebooks/walkthrough.ipynb (cell 8, line 1)`, `quickstart.md:8`, `quickstart.md:15`, `quickstart.md:19`, `tutorial.md:49`, `tutorial.md:52`, `tutorial.md:55`, `tutorial.md:58` |
+| `fit_linear` | removed | `notebooks/walkthrough.ipynb (cell 2, line 1)`, `notebooks/walkthrough.ipynb (cell 6, line 1)`, `quickstart.md:8`, `quickstart.md:14`, `tutorial.md:36`, `tutorial.md:39`, `tutorial.md:41` |
+
+**Not yet documented**: no Page Mentions `fit`.
+[exit 0]

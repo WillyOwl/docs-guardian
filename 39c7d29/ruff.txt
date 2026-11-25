@@ -1,0 +1,4 @@
+$ uv run --locked --only-group dev ruff check . && uv run --locked --only-group dev ruff format --check .
+All checks passed!
+25 files already formatted
+[exit 0]

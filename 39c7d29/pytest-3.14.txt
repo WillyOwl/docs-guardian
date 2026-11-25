@@ -1,0 +1,16 @@
+$ uv run --locked --no-group docs pytest --color=yes
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0
+rootdir: $EV/wt
+configfile: pyproject.toml
+testpaths: tests, tinyml/tests
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collected 82 items
+
+tests/test_cli.py ...                                                    [  3%]
+tests/test_drift.py ......................                               [ 30%]
+tests/test_snippets.py ..........................                        [ 62%]
+tinyml/tests/test_tinyml.py ...............................              [100%]
+
+============================== 82 passed in 6.46s ==============================
+[exit 0]

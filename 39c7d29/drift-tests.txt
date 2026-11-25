@@ -1,0 +1,34 @@
+$ uv run --locked --no-group docs pytest -v --color=yes tests/test_drift.py
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0 -- /home/yiyang/ENTER/envs/docs-guardian/bin/python3
+cachedir: .pytest_cache
+rootdir: $EV/wt
+configfile: pyproject.toml
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collecting ... collected 22 items
+
+tests/test_drift.py::test_public_functions_are_keyed_by_name_with_their_full_signature PASSED [  4%]
+tests/test_drift.py::test_private_names_are_not_public_api PASSED        [  9%]
+tests/test_drift.py::test_a_class_is_keyed_by_its_init_and_its_public_methods_by_class_dot_name PASSED [ 13%]
+tests/test_drift.py::test_nested_definitions_and_other_statements_are_not_public_api PASSED [ 18%]
+tests/test_drift.py::test_package_api_merges_public_modules_by_public_name PASSED [ 22%]
+tests/test_drift.py::test_moving_a_function_between_modules_is_not_an_api_change PASSED [ 27%]
+tests/test_drift.py::test_api_changes_are_added_removed_or_changed_in_name_order PASSED [ 31%]
+tests/test_drift.py::test_mentions_count_in_snippets_and_inline_code_but_never_in_prose PASSED [ 36%]
+tests/test_drift.py::test_a_method_is_mentioned_where_it_is_called_as_an_attribute PASSED [ 40%]
+tests/test_drift.py::test_mentions_in_notebook_code_cells_but_not_markdown_cells PASSED [ 45%]
+tests/test_drift.py::test_a_name_with_no_mentions_maps_to_an_empty_list PASSED [ 50%]
+tests/test_drift.py::test_drift_report_lists_drift_and_undocumented_additions PASSED [ 54%]
+tests/test_drift.py::test_api_changes_that_no_page_mentions_are_not_drift PASSED [ 59%]
+tests/test_drift.py::test_no_api_changes_says_so PASSED                  [ 63%]
+tests/test_drift.py::test_the_same_name_in_two_modules_is_compared_in_full PASSED [ 68%]
+tests/test_drift.py::test_a_top_level_name_is_not_mentioned_by_a_same_named_method PASSED [ 72%]
+tests/test_drift.py::test_unreadable_source_files_and_pages_become_notes_not_failures PASSED [ 77%]
+tests/test_drift.py::test_a_misconfigured_run_exits_2_instead_of_reporting_nothing[unknown-base] PASSED [ 81%]
+tests/test_drift.py::test_a_misconfigured_run_exits_2_instead_of_reporting_nothing[mistyped-source] PASSED [ 86%]
+tests/test_drift.py::test_a_misconfigured_run_exits_2_instead_of_reporting_nothing[mistyped-docs] PASSED [ 90%]
+tests/test_drift.py::test_output_writes_the_same_report_to_a_file PASSED [ 95%]
+tests/test_drift.py::test_drift_is_counted_in_pages PASSED               [100%]
+
+============================== 22 passed in 0.15s ==============================
+[exit 0]

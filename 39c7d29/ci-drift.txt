@@ -1,0 +1,36 @@
+$ gh run view --job 138966995961 --log   # drift-check / drift, CI run 45543367927 at 39c7d29
+Run uv run --locked --no-group docs docs-guardian drift --base "origin/main" --source tinyml/src --docs tinyml/docs --output drift-report.md
+shell: /usr/bin/bash -e {0}
+env:
+  UV_PYTHON: 3.14
+  UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+Using CPython 3.14.4 interpreter at: /usr/bin/python3.14
+Creating virtual environment at: .venv
+   Building docs-guardian @ file:///home/runner/work/docs-guardian/docs-guardian
+   Building tinyml @ file:///home/runner/work/docs-guardian/docs-guardian/tinyml
+Downloading ruff (10.2MiB)
+Downloading numpy (15.0MiB)
+Downloading pygments (1.2MiB)
+ Downloaded pygments
+ Downloaded ruff
+ Downloaded numpy
+      Built tinyml @ file:///home/runner/work/docs-guardian/docs-guardian/tinyml
+      Built docs-guardian @ file:///home/runner/work/docs-guardian/docs-guardian
+Installed 11 packages in 9ms
+<!-- docs-guardian:drift-report changes=0 drift-pages=0 -->
+### Drift Report
+Public API in this checkout, compared with its merge base with `origin/main` (`6af3ec1`). Advisory: this check never fails the build.
+No API Changes.
+Run cat drift-report.md >> "$GITHUB_STEP_SUMMARY"
+shell: /usr/bin/bash -e {0}
+env:
+  UV_PYTHON: 3.14
+  UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+Run # The report's hidden first line carries the marker and the counts.
+shell: /usr/bin/bash -e {0}
+env:
+  UV_PYTHON: 3.14
+  UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+  GH_TOKEN: ***
+  PR: 11
+No API Changes and no earlier Drift Report: nothing to post.

@@ -1,0 +1,5 @@
+$ uv run --locked --no-group docs docs-guardian drift --base main --source tinyml/src --docs tinyml/doc
+Uninstalled 2 packages in 0.38ms
+Installed 2 packages in 4ms
+docs-guardian: no Pages under tinyml/doc
+[exit 2]
