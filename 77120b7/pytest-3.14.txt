@@ -1,0 +1,20 @@
+$ (cd wt-new && git log --oneline -1 && uv run --no-group docs python --version && uv run --no-group docs pytest -p no:cacheprovider)
+77120b7 docs: note ignored files, coding cookies and --output in the drift docs
+Uninstalled 2 packages in 0.38ms
+Installed 2 packages in 5ms
+Python 3.14.10
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0
+rootdir: <scratchpad>/wt-new
+configfile: pyproject.toml
+testpaths: tests, tinyml/tests
+collected 103 items
+
+tests/test_cli.py ...                                                    [  2%]
+tests/test_drift.py ..................................                   [ 35%]
+tests/test_post_drift_report.py .........                                [ 44%]
+tests/test_snippets.py ..........................                        [ 69%]
+tinyml/tests/test_tinyml.py ...............................              [100%]
+
+============================= 103 passed in 7.02s ==============================
+[exit 0]

@@ -1,0 +1,7 @@
+$ (cd wt-r1 && git log --oneline -1 && echo '# the same loops on the commit round 2 reviewed: they catch F2, F3 and F5' && uv run --no-group docs python <scratchpad>/ev13/tools/fuzz_for_39c7d29.py 300 | tail -1)
+39c7d29 docs: document the drift check in README and architecture
+# the same loops on the commit round 2 reviewed: they catch F2, F3 and F5
+Uninstalled 2 packages in 0.42ms
+Installed 2 packages in 3ms
+[DEBUG-h1] failures: {'lines': 109, 'cells': 452, 'notebook': 121}
+[exit 0]

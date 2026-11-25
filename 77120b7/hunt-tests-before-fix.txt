@@ -1,0 +1,32 @@
+$ (cd wt-prev && git log --oneline -1 && echo '# the four new tests copied onto 1c1ae38' && uv run --no-group docs pytest -v --tb=line -p no:cacheprovider tests/test_drift.py tests/test_post_drift_report.py -k 'coding_cookie or git_ignores or cannot_be_written or never_splits')
+1c1ae38 docs: point README and architecture at the drift comment script
+# the four new tests copied onto 1c1ae38
+Uninstalled 2 packages in 0.66ms
+Installed 2 packages in 4ms
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0 -- /home/yiyang/ENTER/envs/docs-guardian/bin/python3
+rootdir: <scratchpad>/wt-prev
+configfile: pyproject.toml
+collecting ... collected 43 items / 39 deselected / 4 selected
+
+tests/test_drift.py::test_a_module_with_a_coding_cookie_is_read_the_way_python_reads_it FAILED [ 25%]
+tests/test_drift.py::test_files_git_ignores_are_not_api_but_new_untracked_modules_are FAILED [ 50%]
+tests/test_drift.py::test_an_output_path_that_cannot_be_written_exits_2 FAILED [ 75%]
+tests/test_post_drift_report.py::test_truncating_a_long_report_never_splits_a_character FAILED [100%]
+
+=================================== FAILURES ===================================
+E   AssertionError: assert 'changes=1 ' in '<!-- docs-guardian:drift-report changes=0 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`37670b5`). Advisory: this check never fails the build.\n\nNo API Changes.\n\n**Could not read** (skipped; not valid Python, UTF-8 text or a notebook): `pkg/l1.py`.\n'
+<scratchpad>/wt-prev/tests/test_drift.py:382: AssertionError: assert 'changes=1 ' in '<!-- docs-guardian:drift-report changes=0 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`37670b5`). Advisory: this check never fails the build.\n\nNo API Changes.\n\n**Could not read** (skipped; not valid Python, UTF-8 text or a notebook): `pkg/l1.py`.\n'
+E   AssertionError: assert 'changes=1 ' in '<!-- docs-guardian:drift-report changes=2 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`08877fa`). Advisory: this check never fails the build.\n\n2 API Changes; no Drift.\n\n**Not yet documented**: no Page Mentions `extra`, `stale_copy`.\n'
+<scratchpad>/wt-prev/tests/test_drift.py:393: AssertionError: assert 'changes=1 ' in '<!-- docs-guardian:drift-report changes=2 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`08877fa`). Advisory: this check never fails the build.\n\n2 API Changes; no Drift.\n\n**Not yet documented**: no Page Mentions `extra`, `stale_copy`.\n'
+E   FileNotFoundError: [Errno 2] No such file or directory: 'no/such/folder/r.md'
+/home/yiyang/ENTER/envs/docs-guardian/lib/python3.14/pathlib/__init__.py:771: FileNotFoundError: [Errno 2] No such file or directory: 'no/such/folder/r.md'
+E   UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe2 in position 59999: invalid continuation byte
+<scratchpad>/wt-prev/tests/test_post_drift_report.py:112: UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe2 in position 59999: invalid continuation byte
+=========================== short test summary info ============================
+FAILED tests/test_drift.py::test_a_module_with_a_coding_cookie_is_read_the_way_python_reads_it
+FAILED tests/test_drift.py::test_files_git_ignores_are_not_api_but_new_untracked_modules_are
+FAILED tests/test_drift.py::test_an_output_path_that_cannot_be_written_exits_2
+FAILED tests/test_post_drift_report.py::test_truncating_a_long_report_never_splits_a_character
+======================= 4 failed, 39 deselected in 0.16s =======================
+[exit 1]

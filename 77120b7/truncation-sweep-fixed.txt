@@ -1,0 +1,4 @@
+$ (cd wt-new && git log --oneline -1 && <scratchpad>/ev13/tools/sweep.sh $PWD/.github/scripts/post-drift-report.sh)
+77120b7 docs: note ignored files, coding cookies and --output in the drift docs
+0 of 46 alignments failed
+[exit 0]

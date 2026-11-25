@@ -1,0 +1,33 @@
+$ (cd wt-prev && git log --oneline -1 && uv run --no-group docs python <scratchpad>/ev13/tools/scenarios.py)
+1c1ae38 docs: point README and architecture at the drift comment script
+Uninstalled 2 packages in 0.41ms
+Installed 2 packages in 4ms
+[DEBUG-h2] ok   baseline: exit 0 (want 0)
+[DEBUG-h2] ok   source_is_repo_root: exit 0 (want 0)
+[DEBUG-h2] ok   run_from_subdirectory: exit 0 (want 0)
+[DEBUG-h2] ok   absolute_paths: exit 0 (want 0)
+[DEBUG-h2] ok   trailing_slashes: exit 0 (want 0)
+[DEBUG-h2] ok   base_is_a_sha: exit 0 (want 0)
+[DEBUG-h2] ok   detached_head: exit 0 (want 0)
+[DEBUG-h2] ok   new_package_not_at_base: exit 0 (want 0)
+[DEBUG-h2] ok   source_dir_not_at_base: exit 0 (want 0)
+[DEBUG-h2] ok   module_deleted: exit 0 (want 0)
+[DEBUG-h2] ok   crlf_page: exit 0 (want 0)
+[DEBUG-h2] ok   bom_page: exit 0 (want 0)
+[DEBUG-h2] ok   symlinked_module: exit 0 (want 0)
+[DEBUG-h2] RED  ignored_build_copy: exit 0 (want 0)
+    want 'changes=0'
+    out: '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`0352fb7`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n**Not yet documented**: no Page Mentions `stale_copy`.'
+    err: ''
+[DEBUG-h2] RED  output_into_missing_folder: exit 1 (want 2)
+    want ''
+    out: ''
+    err: '^^^^^^^^^^^^^\n  File "/home/yiyang/ENTER/envs/docs-guardian/lib/python3.14/pathlib/__init__.py", line 809, in write_text\n    with self.open(mode=\'w\', encoding=encoding, errors=errors, newline=newline) as f:\n         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/yiyang/ENTER/envs/docs-guardian/lib/python3.14/pathlib/__init__.py", line 771, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: \'no/such/dir/r.md\''
+[DEBUG-h2] RED  latin1_coding_cookie: exit 0 (want 0)
+    want 'no Page Mentions `café`, `plain`.'
+    out: '<!-- docs-guardian:drift-report changes=0 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`0352fb7`). Advisory: this check never fails the build.\n\nNo API Changes.\n\n**Could not read** (skipped; not valid Python, UTF-8 text or a notebook): `pkg/l1.py`.'
+    err: ''
+[DEBUG-h2] ok   docs_inside_source: exit 0 (want 0)
+[DEBUG-h2] ok   not_a_git_repo: exit 2 (want 2)
+[DEBUG-h2] ok   page_with_only_skipped_and_prose: exit 0 (want 0)
+[exit 0]

@@ -1,0 +1,17 @@
+$ (cd wt-new && git log --oneline -1 && uv run --no-group docs pytest -v -p no:cacheprovider tests/test_drift.py tests/test_post_drift_report.py -k 'coding_cookie or git_ignores or cannot_be_written or never_splits')
+77120b7 docs: note ignored files, coding cookies and --output in the drift docs
+Uninstalled 2 packages in 0.53ms
+Installed 2 packages in 3ms
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0 -- /home/yiyang/ENTER/envs/docs-guardian/bin/python3
+rootdir: <scratchpad>/wt-new
+configfile: pyproject.toml
+collecting ... collected 43 items / 39 deselected / 4 selected
+
+tests/test_drift.py::test_a_module_with_a_coding_cookie_is_read_the_way_python_reads_it PASSED [ 25%]
+tests/test_drift.py::test_files_git_ignores_are_not_api_but_new_untracked_modules_are PASSED [ 50%]
+tests/test_drift.py::test_an_output_path_that_cannot_be_written_exits_2 PASSED [ 75%]
+tests/test_post_drift_report.py::test_truncating_a_long_report_never_splits_a_character PASSED [100%]
+
+======================= 4 passed, 39 deselected in 0.14s =======================
+[exit 0]

@@ -1,0 +1,6 @@
+$ (cd wt-prev && git log --oneline -1 && <scratchpad>/ev13/tools/sweep.sh $PWD/.github/scripts/post-drift-report.sh)
+1c1ae38 docs: point README and architecture at the drift comment script
+shift 16: sent body is not valid UTF-8: ... y o f r u n 9 . \n
+shift 17: sent body is not valid UTF-8: ... y o f r u n 9 . \n
+2 of 46 alignments failed
+[exit 0]

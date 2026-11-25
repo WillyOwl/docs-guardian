@@ -1,0 +1,9 @@
+$ (cd wt-new && git log --oneline -1 && for seed in 1 2 3; do sed "s/random.Random([0-9]*)/random.Random($seed)/" <scratchpad>/ev13/tools/fuzz.py > <scratchpad>/fz.py && echo "seed $seed, 3000 rounds:" && uv run --no-group docs python <scratchpad>/fz.py 3000 | tail -1; done)
+77120b7 docs: note ignored files, coding cookies and --output in the drift docs
+seed 1, 3000 rounds:
+[DEBUG-h1] failures: {'lines': 0, 'cells': 0, 'notebook': 0}
+seed 2, 3000 rounds:
+[DEBUG-h1] failures: {'lines': 0, 'cells': 0, 'notebook': 0}
+seed 3, 3000 rounds:
+[DEBUG-h1] failures: {'lines': 0, 'cells': 0, 'notebook': 0}
+[exit 0]

@@ -1,0 +1,24 @@
+$ (cd wt-new && git log --oneline -1 && uv run --no-group docs python <scratchpad>/ev13/tools/scenarios.py)
+77120b7 docs: note ignored files, coding cookies and --output in the drift docs
+Uninstalled 2 packages in 0.52ms
+Installed 2 packages in 3ms
+[DEBUG-h2] ok   baseline: exit 0 (want 0)
+[DEBUG-h2] ok   source_is_repo_root: exit 0 (want 0)
+[DEBUG-h2] ok   run_from_subdirectory: exit 0 (want 0)
+[DEBUG-h2] ok   absolute_paths: exit 0 (want 0)
+[DEBUG-h2] ok   trailing_slashes: exit 0 (want 0)
+[DEBUG-h2] ok   base_is_a_sha: exit 0 (want 0)
+[DEBUG-h2] ok   detached_head: exit 0 (want 0)
+[DEBUG-h2] ok   new_package_not_at_base: exit 0 (want 0)
+[DEBUG-h2] ok   source_dir_not_at_base: exit 0 (want 0)
+[DEBUG-h2] ok   module_deleted: exit 0 (want 0)
+[DEBUG-h2] ok   crlf_page: exit 0 (want 0)
+[DEBUG-h2] ok   bom_page: exit 0 (want 0)
+[DEBUG-h2] ok   symlinked_module: exit 0 (want 0)
+[DEBUG-h2] ok   ignored_build_copy: exit 0 (want 0)
+[DEBUG-h2] ok   output_into_missing_folder: exit 2 (want 2)
+[DEBUG-h2] ok   latin1_coding_cookie: exit 0 (want 0)
+[DEBUG-h2] ok   docs_inside_source: exit 0 (want 0)
+[DEBUG-h2] ok   not_a_git_repo: exit 2 (want 2)
+[DEBUG-h2] ok   page_with_only_skipped_and_prose: exit 0 (want 0)
+[exit 0]

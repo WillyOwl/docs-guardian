@@ -1,0 +1,21 @@
+$ gh pr checks 11 && gh run list --commit 77120b7 && gh run view <drift-check run> --log (Post step)
+drift	pass	10s	https://github.com/WillyOwl/docs-guardian/actions/runs/45566082087/job/139041090872	
+notebooks	pass	10s	https://github.com/WillyOwl/docs-guardian/actions/runs/45566082163/job/139041090726	
+ruff	pass	6s	https://github.com/WillyOwl/docs-guardian/actions/runs/45566082191/job/139041090353	
+snippets	pass	8s	https://github.com/WillyOwl/docs-guardian/actions/runs/45566082163/job/139041090213	
+tests (Python 3.11)	pass	18s	https://github.com/WillyOwl/docs-guardian/actions/runs/45566082191/job/139041090684	
+tests (Python 3.14)	pass	14s	https://github.com/WillyOwl/docs-guardian/actions/runs/45566082191/job/139041090682	
+
+drift-check	77120b7	success
+docs-tests	77120b7	success
+ci	77120b7	success
+
+shell: /usr/bin/bash -e {0}
+env:
+  UV_PYTHON: 3.14
+  UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+  GH_TOKEN: ***
+  PR: 11
+##[endgroup]
+No API Changes and no earlier Drift Report: nothing to post.
+[exit 0]
