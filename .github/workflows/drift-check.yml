@@ -37,40 +37,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           PR: ${{ github.event.pull_request.number }}
-        run: |
-          # The report's hidden first line carries the marker and the counts.
-          first_line=$(head -n 1 drift-report.md)
-          marker=${first_line%% changes=*}
-          changes=$(sed -E 's/.* changes=([0-9]+).*/\1/' <<< "$first_line")
-
-          # GitHub caps a comment at 65536 characters.
-          limit=60000
-          if [ "$(wc -c < drift-report.md)" -gt "$limit" ]; then
-            head -c "$limit" drift-report.md > body.md
-            printf '\n\n…truncated: the full report is in the job summary of run %s.\n' \
-              "$GITHUB_RUN_ID" >> body.md
-          else
-            cp drift-report.md body.md
-          fi
-
-          # Only this workflow's own comment counts, never a person's that happens to match.
-          existing=$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate \
-            --jq ".[] | select(.user.login == \"github-actions[bot]\")
-                       | select(.body | startswith(\"$marker\")) | .id" | head -n 1)
-          if [ -n "$existing" ]; then
-            action="rewrite comment $existing"
-            cmd=(gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$existing" -F body=@body.md)
-          elif [ "$changes" != "0" ]; then
-            action="post a new comment"
-            cmd=(gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -F body=@body.md)
-          else
-            echo "No API Changes and no earlier Drift Report: nothing to post."
-            exit 0
-          fi
-
-          # Advisory: a failure to comment (a fork's read-only token, an API error) only warns.
-          if error=$("${cmd[@]}" 2>&1 > /dev/null); then
-            echo "Drift Report: did $action."
-          else
-            echo "::warning::Could not $action; the report is in the job summary. GitHub said: $error"
-          fi
+        run: bash .github/scripts/post-drift-report.sh drift-report.md
