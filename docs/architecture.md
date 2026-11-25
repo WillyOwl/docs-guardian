@@ -110,7 +110,9 @@ flowchart TD
     U --> REP
 ```
 
-A signature is the parameters, their defaults and annotations, and the return annotation. A class's signature is its `__init__`.
+A signature is the parameters, their defaults and annotations, and the return annotation; a name defined more than once keeps all its signatures. A class's signature is its own `__init__`. Known gaps: a class whose constructor comes from elsewhere (a dataclass, an inherited `__init__`) shows as `()`, and API defined in a private module (`_impl.py`) and re-exported is not seen. A top-level name is Mentioned on its own or after its package path (`tinyml.fit`), never as another object's attribute (`model.fit`).
+
+Run it with `docs-guardian drift --base <branch> --source <dir> --docs <dir>`. It exits 0 whatever it finds; files the pull request leaves unreadable are listed in the report, not fatal; a mistyped base or folder exits 2. The workflow posts the report as one comment and rewrites it on every push (one run per pull request at a time); with no API Changes and no earlier report it posts nothing, and when it cannot comment (a fork's read-only token) it warns and the report stays in the job summary.
 
 ### Health bot (Advisory)
 
