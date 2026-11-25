@@ -17,7 +17,10 @@ changes=$(sed -E 's/.* changes=([0-9]+).*/\1/' <<< "$first_line")
 # GitHub caps a comment at 65536 characters.
 limit=60000
 if [ "$(wc -c < "$report")" -gt "$limit" ]; then
-  head -c "$limit" "$report" > body.md
+  # Cut at a byte count, then drop any character the cut split in two (iconv
+  # still writes the rest, but exits 1 when it drops one).
+  head -c "$limit" "$report" > cut.md
+  iconv -f UTF-8 -t UTF-8 -c cut.md > body.md 2> /dev/null || true
   printf '\n\n…truncated: the full report is in the job summary of run %s.\n' \
     "$GITHUB_RUN_ID" >> body.md
 else
