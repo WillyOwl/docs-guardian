@@ -19,3 +19,9 @@ Each `.png` is its `.txt` rendered by `tools/render.cjs` in headless Chromium. S
 | `drift-demo` | The build guide's demo on a scratch edit of tinyml: both changes with exact Pages and cells, `fit` not yet documented |
 | `drift-misconfigured` | A mistyped `--docs`, and an unwritable `--output`: both exit 2 with one line |
 | `ci` | All six checks pass on 77120b7; the drift job runs the posting script |
+
+## Independent review round 5
+
+Reviewed the same `77120b7` head. Two additional P2 findings remain open: overloaded constructors lose later signatures; removed and namespace packages lose qualified Mentions. Full existing suite: 103 passed on each of Python 3.11 and 3.14. Independent probes: 4 failures reproducing the findings, 3 passing controls, on both interpreters.
+
+See [the raw review](round-5/review.md) and [verification steps, logs and 12 fresh screenshots](round-5/verification.md).

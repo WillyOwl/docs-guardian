@@ -1,0 +1,13 @@
+PR #11 review round 5 | reviewed commit 77120b704a46df07b8fa18c418863523e26e9cd6
+Captured UTC: 2026-11-25T07:20:16.343369+00:00
+Working directory: /tmp/pr11-review-current/source
+PYTHONPATH=/tmp/pr11-review-current/source/src:/tmp/pr11-review-current/source/tinyml/src
+
+$ /tmp/pr11-review-round2/env314/bin/python -m ruff check .
+All checks passed!
+[exit 0; 0.05s]
+
+$ /tmp/pr11-review-round2/env314/bin/python -m ruff format --check .
+26 files already formatted
+[exit 0; 0.04s]
+

@@ -1,0 +1,14 @@
+PR #11 review round 5 | reviewed commit 77120b704a46df07b8fa18c418863523e26e9cd6
+Captured UTC: 2026-11-25T07:20:17.184238+00:00
+Working directory: /tmp/pr11-review-current/source
+PYTHONPATH=/tmp/pr11-review-current/source/src:/tmp/pr11-review-current/source/tinyml/src
+
+$ /tmp/pr11-review-round2/env314/bin/python -c 'from docs_guardian.cli import main; raise SystemExit(main())' drift --base origin/main --source tinyml/src --docs tinyml/docs
+<!-- docs-guardian:drift-report changes=0 drift-pages=0 -->
+### Drift Report
+
+Public API in this checkout, compared with its merge base with `origin/main` (`6af3ec1`). Advisory: this check never fails the build.
+
+No API Changes.
+[exit 0; 0.10s]
+

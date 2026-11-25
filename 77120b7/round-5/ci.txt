@@ -1,0 +1,18 @@
+PR #11 review round 5 | reviewed commit 77120b704a46df07b8fa18c418863523e26e9cd6
+Captured UTC: 2026-11-25T07:22:26.265308+00:00
+Working directory: /tmp/pr11-review-current/source
+PYTHONPATH=/tmp/pr11-review-current/source/src:/tmp/pr11-review-current/source/tinyml/src
+
+$ gh pr checks 11 --repo WillyOwl/docs-guardian
+drift	pass	10s	https://github.com/WillyOwl/docs-guardian/actions/runs/45566082087/job/139041090872	
+notebooks	pass	10s	https://github.com/WillyOwl/docs-guardian/actions/runs/45566082163/job/139041090726	
+ruff	pass	6s	https://github.com/WillyOwl/docs-guardian/actions/runs/45566082191/job/139041090353	
+snippets	pass	8s	https://github.com/WillyOwl/docs-guardian/actions/runs/45566082163/job/139041090213	
+tests (Python 3.11)	pass	18s	https://github.com/WillyOwl/docs-guardian/actions/runs/45566082191/job/139041090684	
+tests (Python 3.14)	pass	14s	https://github.com/WillyOwl/docs-guardian/actions/runs/45566082191/job/139041090682
+[exit 0; 0.91s]
+
+$ gh pr view 11 --repo WillyOwl/docs-guardian --json headRefOid,state,isDraft
+{"headRefOid":"77120b704a46df07b8fa18c418863523e26e9cd6","isDraft":true,"state":"OPEN"}
+[exit 0; 0.55s]
+
