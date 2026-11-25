@@ -43,10 +43,11 @@ def public_api(source: str | bytes) -> Api:
 
     Public means defined at the module's top level with a name that has no
     leading underscore: functions, and classes with their non-underscore
-    methods. A class's own signature is its `__init__`, or `()` if it defines
-    none (an inherited `__init__` or a dataclass's generated one is a known
-    gap). Docstrings and decorators are not part of a signature. A name defined
-    more than once keeps all its signatures, so a change to any one shows.
+    methods. A class's own signatures are its `__init__`s (each `@overload`
+    and the implementation), or `()` if it defines none (an inherited
+    `__init__` or a dataclass's generated one is a known gap). Docstrings and
+    decorators are not part of a signature. A name defined more than once
+    keeps all its signatures, so a change to any one shows.
 
     Args:
         source: The module's Python source, as text or as the file's bytes
@@ -72,8 +73,11 @@ def public_api(source: str | bytes) -> Api:
             add(name, _signature(node))
         elif isinstance(node, ast.ClassDef):
             methods = [item for item in node.body if isinstance(item, _FUNCTIONS)]
-            init = next((m for m in methods if m.name == "__init__"), None)
-            add(name, _signature(init) if init else "()")
+            inits = [m for m in methods if m.name == "__init__"]  # `@overload`s, then the body
+            for init in inits:
+                add(name, _signature(init))
+            if not inits:
+                add(name, "()")
             for method in methods:
                 if not method.name.startswith("_"):
                     add(f"{name}.{method.name}", _signature(method))
@@ -395,6 +399,17 @@ def _source_in_checkout(top: Path, prefix: str) -> dict[str, bytes]:
     }
 
 
+def _top_level_names(paths: Iterable[str]) -> list[str]:
+    """The importable top-level names under the source root, on either side.
+
+    `pkg/ops.py` gives `pkg` (with or without an `__init__.py`: a namespace
+    package counts), `mod.py` gives `mod`. Both sides count, so `pkg.fit` is
+    still Mentioned when the pull request deletes the whole of `pkg`.
+    """
+    names = {PurePosixPath(path).parts[0].removesuffix(".py") for path in paths}
+    return sorted(names - {"__init__"})
+
+
 def _plural(n: int, word: str) -> str:
     return f"{n} {word}{'' if n == 1 else 's'}"
 
@@ -500,10 +515,12 @@ def drift_report(base: str, source_root: Path, docs_root: Path) -> str:
     unreadable: list[str] = []
     top, prefix = _locate(source_root)
     merge_base = _merge_base(base, top)
+    files_before = _source_at(merge_base, top, prefix)
+    files_after = _source_in_checkout(top, prefix)
     # The base's own unreadable files are not this pull request's problem.
-    before = _read_api(_source_at(merge_base, top, prefix), [])
-    after = _read_api(_source_in_checkout(top, prefix), unreadable)
+    before = _read_api(files_before, [])
+    after = _read_api(files_after, unreadable)
     changes = api_changes(before, after)
-    packages = [p.name for p in source_root.iterdir() if (p / "__init__.py").is_file()]
+    packages = _top_level_names(files_before.keys() | files_after.keys())
     mentions = find_mentions(docs_root, [c.name for c in changes], packages, unreadable)
     return render_report(changes, mentions, base, merge_base, unreadable)

@@ -400,3 +400,60 @@ def test_an_output_path_that_cannot_be_written_exits_2(repo, capsys):
                  "--output", "no/such/folder/r.md"])  # fmt: skip
     assert code == 2
     assert "cannot write no/such/folder/r.md" in capsys.readouterr().err
+
+
+# --- Review round 5 -----------------------------------------------------------
+
+OVERLOADED = """\
+from typing import overload
+class Estimator:
+    @overload
+    def __init__(self, value: int) -> None: ...
+    @overload
+    def __init__(self, value: str) -> None: ...
+    def __init__(self, value): ...
+"""
+
+
+def test_every_constructor_overload_is_part_of_the_class_signature():
+    assert api(OVERLOADED) == {
+        "Estimator": {"(self, value: int) -> None", "(self, value: str) -> None", "(self, value)"}
+    }
+
+
+def test_a_change_to_a_later_constructor_overload_is_drift(repo, capsys):
+    (repo / "src/pkg/est.py").write_text(OVERLOADED)
+    (repo / "docs/est.md").write_text('Create `Estimator("sample")`.\n')
+    git(repo, "add", ".")
+    git(repo, "commit", "-qm", "overloads")
+    git(repo, "branch", "-qf", "main")
+    (repo / "src/pkg/est.py").write_text(OVERLOADED.replace("value: str", "value: bytes"))
+    _, report = run_drift(capsys)
+    assert "changes=1 drift-pages=1" in report
+    assert "`est.md:1`" in report
+
+
+def test_package_qualified_mentions_of_a_removed_package_are_drift(repo, capsys):
+    (repo / "src/other").mkdir()
+    (repo / "src/other/__init__.py").write_text("def unrelated(): ...\n")
+    (repo / "docs/qualified.md").write_text("```python\nimport pkg\npkg.helper(1)\n```\n")
+    (repo / "src/pkg/__init__.py").write_text("def helper(x): ...\n")
+    git(repo, "add", ".")
+    git(repo, "commit", "-qm", "two packages")
+    git(repo, "branch", "-qf", "main")
+    git(repo, "rm", "-rq", "src/pkg")  # the whole package goes
+    _, report = run_drift(capsys)
+    assert "| `helper` | removed | `qualified.md:3` |" in report
+
+
+def test_package_qualified_mentions_count_in_a_namespace_package(repo, capsys):
+    (repo / "src/pkg/__init__.py").unlink()  # `pkg` becomes a namespace package
+    (repo / "src/pkg/ops.py").write_text("def scale(x): ...\n")
+    (repo / "docs/ops.md").write_text("Call `pkg.ops.scale(1)`.\n")
+    git(repo, "add", "-A")
+    git(repo, "commit", "-qm", "namespace package")
+    git(repo, "branch", "-qf", "main")
+    (repo / "src/pkg/ops.py").write_text("def scale(x, *, by=2): ...\n")
+    _, report = run_drift(capsys)
+    assert "changes=1 drift-pages=1" in report
+    assert "`ops.md:1`" in report
