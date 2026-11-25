@@ -10,17 +10,19 @@ from enum import StrEnum
 from pathlib import Path, PurePosixPath
 
 from markdown_it import MarkdownIt
+from markdown_it.rules_inline import StateInline, backtick
 
 from docs_guardian.snippets import extract_snippets
 
 _FUNCTIONS = (ast.FunctionDef, ast.AsyncFunctionDef)
-_MARKDOWN = MarkdownIt("commonmark")
 
 REPORT_MARKER = "<!-- docs-guardian:drift-report"
 """Opens the hidden first line of every Drift Report, so a later push finds and rewrites it."""
 
-SIGNATURE_SEPARATOR = " | "
-"""Joins the signatures of a name defined more than once (overloads, or two modules)."""
+Api = dict[str, frozenset[str]]
+"""Public name to every signature it has: more than one for an overload, or a
+name defined in two modules. Whole signatures in a set, never one joined string,
+since a signature can itself contain any separator (`int | str`)."""
 
 
 class DriftConfigError(Exception):
@@ -36,13 +38,7 @@ def _signature(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str:
     return f"({ast.unparse(node.args)}){returns}"
 
 
-def _add(api: dict[str, str], name: str, signature: str) -> None:
-    """Record a signature, keeping every distinct one for a name defined more than once."""
-    known = set(api[name].split(SIGNATURE_SEPARATOR)) if name in api else set()
-    api[name] = SIGNATURE_SEPARATOR.join(sorted(known | {signature}))
-
-
-def public_api(source: str) -> dict[str, str]:
+def public_api(source: str) -> Api:
     """Collect the public API one module defines.
 
     Public means defined at the module's top level with a name that has no
@@ -56,27 +52,31 @@ def public_api(source: str) -> dict[str, str]:
         source: The module's Python source.
 
     Returns:
-        Public name (`fit_linear`, `LinearModel`, `LinearModel.predict`) to
-        signature (`(X, y) -> LinearModel`).
+        Public name (`fit_linear`, `LinearModel`, `LinearModel.predict`) to its
+        signatures (`{"(X, y) -> LinearModel"}`).
 
     Raises:
         SyntaxError: If the source does not parse.
     """
-    api: dict[str, str] = {}
+    api: dict[str, set[str]] = {}
+
+    def add(name: str, signature: str) -> None:
+        api.setdefault(name, set()).add(signature)
+
     for node in ast.parse(source).body:
         name = getattr(node, "name", None)
         if name is None or name.startswith("_"):
             continue
         if isinstance(node, _FUNCTIONS):
-            _add(api, name, _signature(node))
+            add(name, _signature(node))
         elif isinstance(node, ast.ClassDef):
             methods = [item for item in node.body if isinstance(item, _FUNCTIONS)]
             init = next((m for m in methods if m.name == "__init__"), None)
-            _add(api, name, _signature(init) if init else "()")
+            add(name, _signature(init) if init else "()")
             for method in methods:
                 if not method.name.startswith("_"):
-                    _add(api, f"{name}.{method.name}", _signature(method))
-    return api
+                    add(f"{name}.{method.name}", _signature(method))
+    return {name: frozenset(signatures) for name, signatures in api.items()}
 
 
 def _is_private(path: str) -> bool:
@@ -84,7 +84,7 @@ def _is_private(path: str) -> bool:
     return any(p.startswith("_") and p != "__init__.py" for p in PurePosixPath(path).parts)
 
 
-def package_api(files: dict[str, str]) -> dict[str, str]:
+def package_api(files: dict[str, str]) -> Api:
     """Collect the public API of a package, keyed by public name.
 
     Modules and packages whose name starts with an underscore are private and
@@ -96,17 +96,16 @@ def package_api(files: dict[str, str]) -> dict[str, str]:
         files: Path (relative to the source root, `/`-separated) to Python source.
 
     Returns:
-        Public name to signature, across every public module.
+        Public name to its signatures, across every public module.
 
     Raises:
         SyntaxError: If a public module does not parse.
     """
-    api: dict[str, str] = {}
-    for path, source in sorted(files.items()):
+    api: Api = {}
+    for path, source in files.items():
         if not _is_private(path):
-            for name, signature in public_api(source).items():
-                for one in signature.split(SIGNATURE_SEPARATOR):
-                    _add(api, name, one)
+            for name, signatures in public_api(source).items():
+                api[name] = api.get(name, frozenset()) | signatures
     return api
 
 
@@ -126,21 +125,25 @@ class ApiChange:
     Attributes:
         name: Its public name, e.g. `fit_linear` or `LinearModel.predict`.
         kind: Added, removed or changed.
-        old: The signature before, or None if added.
-        new: The signature after, or None if removed.
+        old: Its signatures before, sorted, or None if added.
+        new: Its signatures after, sorted, or None if removed.
     """
 
     name: str
     kind: ChangeKind
-    old: str | None
-    new: str | None
+    old: tuple[str, ...] | None
+    new: tuple[str, ...] | None
 
 
-def api_changes(before: dict[str, str], after: dict[str, str]) -> list[ApiChange]:
+def _sorted(signatures: frozenset[str] | None) -> tuple[str, ...] | None:
+    return tuple(sorted(signatures)) if signatures is not None else None
+
+
+def api_changes(before: Api, after: Api) -> list[ApiChange]:
     """Find the API Changes between two public APIs.
 
     Args:
-        before: Public name to signature at the pull request's merge base.
+        before: Public name to signatures at the pull request's merge base.
         after: The same for the checkout being reviewed.
 
     Returns:
@@ -157,7 +160,7 @@ def api_changes(before: dict[str, str], after: dict[str, str]) -> list[ApiChange
             kind = ChangeKind.REMOVED
         else:
             kind = ChangeKind.CHANGED
-        changes.append(ApiChange(name, kind, old, new))
+        changes.append(ApiChange(name, kind, _sorted(old), _sorted(new)))
     return changes
 
 
@@ -206,6 +209,23 @@ def _pattern(name: str, packages: Iterable[str]) -> re.Pattern[str]:
     return re.compile(f"{via_package}|{bare}" if via_package else bare)
 
 
+def _backtick_with_offset(state: StateInline, silent: bool) -> bool:
+    """CommonMark's code-span rule, also recording where the span starts.
+
+    The offset is into the inline token's source, whose lines are the Page's
+    lines from `token.map[0]`, so a code span can be placed on its own line.
+    """
+    start, count = state.pos, len(state.tokens)
+    found = backtick(state, silent)
+    if found and len(state.tokens) > count and state.tokens[-1].type == "code_inline":
+        state.tokens[-1].meta["offset"] = start
+    return found
+
+
+_MARKDOWN = MarkdownIt("commonmark")
+_MARKDOWN.inline.ruler.at("backticks", _backtick_with_offset)
+
+
 def _markdown_code(text: str) -> Iterator[tuple[int, str]]:
     """Yield (line, code) for every line of a Snippet and every inline code span."""
     for snippet in extract_snippets(text):  # Skipped Snippets are still shown to readers
@@ -214,30 +234,36 @@ def _markdown_code(text: str) -> Iterator[tuple[int, str]]:
     for token in _MARKDOWN.parse(text):
         if token.type != "inline" or token.map is None:
             continue
-        cursor = 0
         for child in token.children or []:
-            if child.type != "code_inline":
-                continue
-            at = token.content.find(child.content, cursor)
-            if at < 0:  # whitespace was normalised; fall back to where the last span ended
-                at = cursor
-            cursor = at + len(child.content)
-            yield token.map[0] + 1 + token.content[:at].count("\n"), child.content
+            if child.type == "code_inline":
+                before = token.content[: child.meta.get("offset", 0)]
+                yield token.map[0] + 1 + before.count("\n"), child.content
 
 
 def _notebook_code(text: str) -> Iterator[tuple[int, int, str]]:
-    """Yield (cell number, line number, code) for every line of every code cell."""
-    for number, cell in enumerate(json.loads(text).get("cells", []), 1):
+    """Yield (cell number, line number, code) for every line of every code cell.
+
+    Raises:
+        ValueError: If the text is not JSON, or not shaped like a notebook.
+    """
+    notebook = json.loads(text)
+    cells = notebook.get("cells", []) if isinstance(notebook, dict) else None
+    if not isinstance(cells, list) or not all(isinstance(cell, dict) for cell in cells):
+        raise ValueError("not a notebook: `cells` must be a list of objects")
+    for number, cell in enumerate(cells, 1):
         if cell.get("cell_type") != "code":
             continue
         source = cell.get("source", "")
-        source = "".join(source) if isinstance(source, list) else source
+        if isinstance(source, list) and all(isinstance(line, str) for line in source):
+            source = "".join(source)
+        if not isinstance(source, str):
+            raise ValueError(f"not a notebook: cell {number}'s source is not text")
         for line_number, line in enumerate(source.splitlines(), 1):
             yield number, line_number, line
 
 
 def _pages(docs_root: Path) -> list[Path]:
-    return sorted(p for p in docs_root.rglob("*") if p.suffix in {".md", ".ipynb"})
+    return sorted(p for p in docs_root.rglob("*") if p.suffix in {".md", ".ipynb"} and p.is_file())
 
 
 def find_mentions(
@@ -256,7 +282,8 @@ def find_mentions(
         names: Public names, e.g. `fit_linear` or `LinearModel.predict`.
         packages: Top-level package names, so `tinyml.fit` counts as `fit`.
         unreadable: If given, Pages that could not be read (not UTF-8, or a
-            notebook that isn't JSON) are appended here instead of raising.
+            notebook that isn't valid notebook JSON) are appended here
+            instead of raising.
 
     Returns:
         Each name mapped to its Mentions, in Page order; empty if none.
@@ -276,7 +303,7 @@ def find_mentions(
                     (Mention(relative, line, cell), code)
                     for cell, line, code in _notebook_code(text)
                 ]
-        except (UnicodeDecodeError, json.JSONDecodeError, AttributeError):
+        except ValueError:  # UnicodeDecodeError and JSONDecodeError are ValueErrors too
             if unreadable is None:
                 raise
             unreadable.append(relative)
@@ -339,11 +366,29 @@ def _source_in_checkout(source_root: Path) -> dict[str, str]:
     return {
         path.relative_to(source_root).as_posix(): path.read_text(encoding="utf-8", errors="replace")
         for path in source_root.rglob("*.py")
+        if path.is_file()
     }
 
 
 def _plural(n: int, word: str) -> str:
     return f"{n} {word}{'' if n == 1 else 's'}"
+
+
+def _code(text: str) -> str:
+    """`text` as an inline code span that is safe in a table cell.
+
+    The fence is one backtick longer than any backtick run inside, padded when
+    `text` starts or ends with one. GitHub splits table cells on every `|`,
+    even inside a code span, unless it is escaped as `\\|`; the escape is
+    removed before the span is rendered, so the reader sees a plain `|`.
+    """
+    fence = "`" * (max((len(run) for run in re.findall("`+", text)), default=0) + 1)
+    pad = " " if text.startswith("`") or text.endswith("`") else ""
+    return f"{fence}{pad}{text}{pad}{fence}".replace("|", "\\|")
+
+
+def _signatures(signatures: tuple[str, ...]) -> str:
+    return ", ".join(_code(signature) for signature in signatures)
 
 
 def render_report(
@@ -386,18 +431,19 @@ def render_report(
     if gone:
         lines += ["", "| API | Change | Pages that Mention it |", "| --- | --- | --- |"]
         for change in gone:
-            if change.kind is ChangeKind.REMOVED:
-                what = "removed"
+            if change.kind is ChangeKind.CHANGED:
+                what = f"{_signatures(change.old)} → {_signatures(change.new)}"
             else:
-                what = f"`{change.old}` → `{change.new}`"
-            where = ", ".join(f"`{m.where}`" for m in mentions.get(change.name, [])) or "none"
-            lines.append(f"| `{change.name}` | {what} | {where} |")
+                what = "removed"
+            where = ", ".join(_code(m.where) for m in mentions.get(change.name, [])) or "none"
+            lines.append(f"| {_code(change.name)} | {what} | {where} |")
     if undocumented:
-        names = ", ".join(f"`{name}`" for name in undocumented)
+        names = ", ".join(_code(name) for name in undocumented)
         lines += ["", f"**Not yet documented**: no Page Mentions {names}."]
     if unreadable:
-        files = ", ".join(f"`{path}`" for path in sorted(set(unreadable)))
-        lines += ["", f"**Could not read** (skipped; not valid Python, UTF-8 or JSON): {files}."]
+        files = ", ".join(_code(path) for path in sorted(set(unreadable)))
+        why = "skipped; not valid Python, UTF-8 text or a notebook"
+        lines += ["", f"**Could not read** ({why}): {files}."]
     return "\n".join(lines) + "\n"
 
 
@@ -405,8 +451,8 @@ def drift_report(base: str, source_root: Path, docs_root: Path) -> str:
     """Build the Drift Report for the current checkout.
 
     Files the pull request leaves unreadable (a syntax error, a Page that isn't
-    UTF-8, a notebook that isn't JSON) are skipped and listed in the report:
-    the check is Advisory, so content problems never fail it.
+    UTF-8, a notebook that isn't valid notebook JSON) are skipped and listed
+    in the report: the check is Advisory, so content problems never fail it.
 
     Args:
         base: The branch the pull request merges into, e.g. `origin/main`.
@@ -421,7 +467,7 @@ def drift_report(base: str, source_root: Path, docs_root: Path) -> str:
             folder holds nothing to check (likely a mistyped path).
     """
     source_root, docs_root = Path(source_root), Path(docs_root)
-    if not source_root.is_dir() or not any(source_root.rglob("*.py")):
+    if not source_root.is_dir() or not any(p.is_file() for p in source_root.rglob("*.py")):
         raise DriftConfigError(f"no Python files under {source_root}")
     if not docs_root.is_dir() or not _pages(docs_root):
         raise DriftConfigError(f"no Pages under {docs_root}")

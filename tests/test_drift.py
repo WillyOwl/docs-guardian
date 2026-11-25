@@ -4,12 +4,22 @@ import textwrap
 from pathlib import Path
 
 import pytest
+from markdown_it import MarkdownIt
 
 from docs_guardian.cli import main
-from docs_guardian.drift import ApiChange, api_changes, find_mentions, package_api, public_api
+from docs_guardian.drift import (
+    ApiChange,
+    ChangeKind,
+    Mention,
+    api_changes,
+    find_mentions,
+    package_api,
+    public_api,
+    render_report,
+)
 
 
-def api(source: str) -> dict[str, str]:
+def api(source: str) -> dict[str, frozenset[str]]:
     return public_api(textwrap.dedent(source))
 
 
@@ -20,8 +30,8 @@ def test_public_functions_are_keyed_by_name_with_their_full_signature():
         async def fetch(url, *, retries=3): ...
         """
     ) == {
-        "evaluate": "(y, y_pred, metric: str='rmse') -> float",
-        "fetch": "(url, *, retries=3)",
+        "evaluate": {"(y, y_pred, metric: str='rmse') -> float"},
+        "fetch": {"(url, *, retries=3)"},
     }
 
 
@@ -34,7 +44,7 @@ def test_private_names_are_not_public_api():
         class Shown:
             def _private(self): ...
         """
-    ) == {"Shown": "()"}
+    ) == {"Shown": {"()"}}
 
 
 def test_a_class_is_keyed_by_its_init_and_its_public_methods_by_class_dot_name():
@@ -46,8 +56,8 @@ def test_a_class_is_keyed_by_its_init_and_its_public_methods_by_class_dot_name()
             def __repr__(self): ...
         """
     ) == {
-        "LinearModel": "(self, coef, intercept: float) -> None",
-        "LinearModel.predict": "(self, X)",
+        "LinearModel": {"(self, coef, intercept: float) -> None"},
+        "LinearModel.predict": {"(self, X)"},
     }
 
 
@@ -61,7 +71,7 @@ def test_nested_definitions_and_other_statements_are_not_public_api():
         if True:
             def conditional(): ...
         """
-    ) == {"outer": "()"}
+    ) == {"outer": {"()"}}
 
 
 def test_package_api_merges_public_modules_by_public_name():
@@ -71,7 +81,7 @@ def test_package_api_merges_public_modules_by_public_name():
         "tinyml/_validation.py": "def as_target(values, name): ...\n",  # private module
         "tinyml/_data/loader.py": "def load(): ...\n",  # inside a private package
     }
-    assert package_api(files) == {"fit_linear": "(X, y)"}
+    assert package_api(files) == {"fit_linear": {"(X, y)"}}
 
 
 def test_moving_a_function_between_modules_is_not_an_api_change():
@@ -81,12 +91,12 @@ def test_moving_a_function_between_modules_is_not_an_api_change():
 
 
 def test_api_changes_are_added_removed_or_changed_in_name_order():
-    before = {"evaluate": "(y, y_pred)", "fit_linear": "(X, y)", "load_csv": "(path)"}
-    after = {"evaluate": "(y, y_pred, metric='rmse')", "fit": "(X, y)", "load_csv": "(path)"}
+    before = {"evaluate": {"(y, y_pred)"}, "fit_linear": {"(X, y)"}, "load_csv": {"(path)"}}
+    after = {"evaluate": {"(y, y_pred, metric='rmse')"}, "fit": {"(X, y)"}, "load_csv": {"(path)"}}
     assert api_changes(before, after) == [
-        ApiChange("evaluate", "changed", "(y, y_pred)", "(y, y_pred, metric='rmse')"),
-        ApiChange("fit", "added", None, "(X, y)"),
-        ApiChange("fit_linear", "removed", "(X, y)", None),
+        ApiChange("evaluate", "changed", ("(y, y_pred)",), ("(y, y_pred, metric='rmse')",)),
+        ApiChange("fit", "added", None, ("(X, y)",)),
+        ApiChange("fit_linear", "removed", ("(X, y)",), None),
     ]
 
 
@@ -285,3 +295,74 @@ def test_drift_is_counted_in_pages(repo, capsys):
     _, report = run_drift(capsys)
     assert "changes=1 drift-pages=2" in report
     assert "1 API Change; Drift on 2 Pages." in report
+
+
+# --- Review round 2 -----------------------------------------------------------
+
+
+def test_a_change_inside_union_annotations_is_an_api_change(repo, capsys):
+    before = "def convert(value: int | str | bytes) -> float | bool | None: ...\n"
+    after = "def convert(value: int | bool | bytes) -> float | str | None: ...\n"
+    (repo / "src/pkg/__init__.py").write_text(before)
+    git(repo, "commit", "-qam", "unions")
+    git(repo, "branch", "-qf", "main")
+    (repo / "src/pkg/__init__.py").write_text(after)
+    _, report = run_drift(capsys)
+    assert "changes=1 " in report
+    assert (  # pipes escaped, so GitHub keeps the table cells (see the next test)
+        r"`(value: int \| str \| bytes) -> float \| bool \| None` → "
+        r"`(value: int \| bool \| bytes) -> float \| str \| None`" in report
+    )
+
+
+def test_pipes_and_backticks_in_signatures_keep_every_table_cell():
+    change = ApiChange("fit", ChangeKind.CHANGED, ("(x: int | str)",), ("(x: int | str, sep='`')",))
+    report = render_report([change], {"fit": [Mention("quick|start.md", 2)]}, "main", "1234567")
+    html = MarkdownIt("commonmark").enable("table").render(report)
+    row = html.split("<tbody>")[1].split("</tr>")[0]
+    assert row.count("<td>") == 3
+    assert "<code>(x: int | str)</code>" in row
+    assert "<code>(x: int | str, sep='`')</code>" in row
+    assert "<code>quick|start.md:2</code>" in row
+
+
+@pytest.mark.parametrize(
+    "notebook",
+    [
+        {"cells": None},
+        [],
+        {"cells": [None]},
+        {"cells": [{"cell_type": "code", "source": 3}]},
+        {"cells": [{"cell_type": "code", "source": ["x = 1\n", 2]}]},
+    ],
+    ids=["null-cells", "not-an-object", "null-cell", "int-source", "non-string-line"],
+)
+def test_valid_json_that_is_not_a_notebook_becomes_a_note(repo, capsys, notebook):
+    (repo / "docs/broken.ipynb").write_text(json.dumps(notebook))
+    code, report = run_drift(capsys)
+    assert code == 0
+    assert "**Could not read**" in report and "`broken.ipynb`" in report
+
+
+def test_folders_named_like_pages_or_modules_are_not_read(repo, capsys):
+    (repo / "docs/guide.md").mkdir()
+    (repo / "src/pkg/legacy.py").mkdir()
+    code, report = run_drift(capsys)
+    assert code == 0
+    assert "No API Changes." in report
+
+
+def test_an_inline_mention_is_located_on_its_own_line_not_on_earlier_prose(tmp_path):
+    page = (
+        "We evaluate the model.\n"  # 1  prose
+        "Then call `evaluate`.\n"  # 2
+        "\n"
+        "- a list item that spans `a\n"  # 4  a code span over two lines
+        "  b`, then `evaluate` again.\n"  # 5
+        "\n"
+        "> evaluate in a quote, and\n"  # 7
+        "> [`evaluate`](api.md) as a link.\n"  # 8
+    )
+    assert mentions_in(tmp_path, {"guide.md": page}, ["evaluate"]) == {
+        "evaluate": ["guide.md:2", "guide.md:5", "guide.md:8"]
+    }
