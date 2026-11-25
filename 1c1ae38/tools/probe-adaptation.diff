@@ -1,0 +1,14 @@
+60c60
+<         [ApiChange('fit', ChangeKind.CHANGED, '(x: int | str)', '(x: int | str, y=0)')],
+---
+>         [ApiChange('fit', ChangeKind.CHANGED, ('(x: int | str)',), ('(x: int | str, y=0)',))],
+69,71c69
+<     workflow = (ROOT / '.github/workflows/drift-check.yml').read_text()
+<     script = textwrap.dedent(workflow.split('        run: |\n', 1)[1])
+<     (tmp_path / 'post-comment.sh').write_text(script)
+---
+>     (tmp_path / 'post-comment.sh').write_text((ROOT / '.github/scripts/post-drift-report.sh').read_text())
+99c97
+<     run = subprocess.run(['bash', '-e', '-o', 'pipefail', 'post-comment.sh'],
+---
+>     run = subprocess.run(['bash', '-e', '-o', 'pipefail', 'post-comment.sh', 'drift-report.md'],

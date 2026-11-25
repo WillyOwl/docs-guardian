@@ -1,0 +1,20 @@
+$ (cd wt-fix && git log --oneline -1 && uv run --no-group docs python --version && uv run --no-group docs pytest -p no:cacheprovider)
+1c1ae38 docs: point README and architecture at the drift comment script
+Uninstalled 2 packages in 0.34ms
+Installed 2 packages in 4ms
+Python 3.14.10
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0
+rootdir: <scratchpad>/wt-fix
+configfile: pyproject.toml
+testpaths: tests, tinyml/tests
+collected 99 items
+
+tests/test_cli.py ...                                                    [  3%]
+tests/test_drift.py ...............................                      [ 34%]
+tests/test_post_drift_report.py ........                                 [ 42%]
+tests/test_snippets.py ..........................                        [ 68%]
+tinyml/tests/test_tinyml.py ...............................              [100%]
+
+============================== 99 passed in 6.96s ==============================
+[exit 0]

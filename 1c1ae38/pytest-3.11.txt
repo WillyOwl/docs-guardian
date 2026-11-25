@@ -1,0 +1,18 @@
+$ (cd wt-fix && git log --oneline -1 && UV_PROJECT_ENVIRONMENT=<scratchpad>/env311 uv run --python 3.11 --no-group docs python --version && UV_PROJECT_ENVIRONMENT=<scratchpad>/env311 uv run --python 3.11 --no-group docs pytest -p no:cacheprovider)
+1c1ae38 docs: point README and architecture at the drift comment script
+Python 3.11.15
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.2.0, pluggy-1.7.0
+rootdir: <scratchpad>/wt-fix
+configfile: pyproject.toml
+testpaths: tests, tinyml/tests
+collected 99 items
+
+tests/test_cli.py ...                                                    [  3%]
+tests/test_drift.py ...............................                      [ 34%]
+tests/test_post_drift_report.py ........                                 [ 42%]
+tests/test_snippets.py ..........................                        [ 68%]
+tinyml/tests/test_tinyml.py ...............................              [100%]
+
+============================== 99 passed in 7.00s ==============================
+[exit 0]

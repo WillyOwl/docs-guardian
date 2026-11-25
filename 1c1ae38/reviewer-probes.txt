@@ -1,0 +1,37 @@
+$ (cd wt-fix && git log --oneline -1 && cat probe-adaptation.diff && uv run --no-group docs pytest -v -p no:cacheprovider test_review_regressions_adapted.py)
+1c1ae38 docs: point README and architecture at the drift comment script
+60c60
+<         [ApiChange('fit', ChangeKind.CHANGED, '(x: int | str)', '(x: int | str, y=0)')],
+---
+>         [ApiChange('fit', ChangeKind.CHANGED, ('(x: int | str)',), ('(x: int | str, y=0)',))],
+69,71c69
+<     workflow = (ROOT / '.github/workflows/drift-check.yml').read_text()
+<     script = textwrap.dedent(workflow.split('        run: |\n', 1)[1])
+<     (tmp_path / 'post-comment.sh').write_text(script)
+---
+>     (tmp_path / 'post-comment.sh').write_text((ROOT / '.github/scripts/post-drift-report.sh').read_text())
+99c97
+<     run = subprocess.run(['bash', '-e', '-o', 'pipefail', 'post-comment.sh'],
+---
+>     run = subprocess.run(['bash', '-e', '-o', 'pipefail', 'post-comment.sh', 'drift-report.md'],
+Uninstalled 2 packages in 0.57ms
+Installed 2 packages in 4ms
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0 -- /home/yiyang/ENTER/envs/docs-guardian/bin/python3
+rootdir: <scratchpad>/wt-fix
+configfile: pyproject.toml
+collecting ... collected 10 items
+
+test_review_regressions_adapted.py::test_union_annotation_changes_are_reported PASSED [ 10%]
+test_review_regressions_adapted.py::test_malformed_notebook_is_advisory PASSED [ 20%]
+test_review_regressions_adapted.py::test_inline_code_location_skips_preceding_prose PASSED [ 30%]
+test_review_regressions_adapted.py::test_union_signature_keeps_the_pages_table_cell PASSED [ 40%]
+test_review_regressions_adapted.py::test_comment_lookup_failure_is_advisory PASSED [ 50%]
+test_review_regressions_adapted.py::test_comment_workflow_existing_paths[no-changes-0-None] PASSED [ 60%]
+test_review_regressions_adapted.py::test_comment_workflow_existing_paths[new-1-POST] PASSED [ 70%]
+test_review_regressions_adapted.py::test_comment_workflow_existing_paths[rewrite-1-PATCH] PASSED [ 80%]
+test_review_regressions_adapted.py::test_comment_workflow_existing_paths[rewrite-zero-0-PATCH] PASSED [ 90%]
+test_review_regressions_adapted.py::test_comment_workflow_existing_paths[post-forbidden-1-POST] PASSED [100%]
+
+============================== 10 passed in 0.34s ==============================
+[exit 0]

@@ -1,0 +1,27 @@
+$ (cd wt-fix && git log --oneline -1 && uv run --no-group docs python make_report.py > union-report.md && cat union-report.md && echo '--- GitHub renderer (POST /markdown, mode=gfm): table body ---' && gh api --method POST markdown -f mode=gfm -F text=@union-report.md | sed -n '/<tbody>/,/<\/tbody>/p')
+1c1ae38 docs: point README and architecture at the drift comment script
+<!-- docs-guardian:drift-report changes=2 drift-pages=2 -->
+### Drift Report
+
+Public API in this checkout, compared with its merge base with `main` (`1234567`). Advisory: this check never fails the build.
+
+2 API Changes; Drift on 2 Pages.
+
+| API | Change | Pages that Mention it |
+| --- | --- | --- |
+| `fit` | `(x: int \| str)` → ``(x: int \| str, sep='`')``, `(y)` | `quick\|start.md:2`, `walk.ipynb (cell 3, line 1)` |
+| `old` | removed | none |
+--- GitHub renderer (POST /markdown, mode=gfm): table body ---
+<tbody>
+<tr>
+<td><code class="notranslate">fit</code></td>
+<td><code class="notranslate">(x: int | str)</code> → <code class="notranslate">(x: int | str, sep='`')</code>, <code class="notranslate">(y)</code></td>
+<td><code class="notranslate">quick|start.md:2</code>, <code class="notranslate">walk.ipynb (cell 3, line 1)</code></td>
+</tr>
+<tr>
+<td><code class="notranslate">old</code></td>
+<td>removed</td>
+<td>none</td>
+</tr>
+</tbody>
+[exit 0]

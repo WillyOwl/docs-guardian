@@ -1,0 +1,5 @@
+$ (cd wt-fix && git log --oneline -1 && uv run --no-group docs ruff check . && uv run --no-group docs ruff format --check .)
+1c1ae38 docs: point README and architecture at the drift comment script
+All checks passed!
+26 files already formatted
+[exit 0]

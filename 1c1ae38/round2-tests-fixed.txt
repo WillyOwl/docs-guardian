@@ -1,0 +1,28 @@
+$ (cd wt-fix && git log --oneline -1 && uv run --no-group docs pytest -v -p no:cacheprovider tests/test_post_drift_report.py tests/test_drift.py -k 'union or pipes or not_a_notebook or folders or own_line or post_drift or posts or warns or runs_this')
+1c1ae38 docs: point README and architecture at the drift comment script
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0 -- /home/yiyang/ENTER/envs/docs-guardian/bin/python3
+rootdir: <scratchpad>/wt-fix
+configfile: pyproject.toml
+collecting ... collected 39 items / 22 deselected / 17 selected
+
+tests/test_post_drift_report.py::test_posts_a_first_report_and_rewrites_the_earlier_one[nothing-to-post] PASSED [  5%]
+tests/test_post_drift_report.py::test_posts_a_first_report_and_rewrites_the_earlier_one[first-report] PASSED [ 11%]
+tests/test_post_drift_report.py::test_posts_a_first_report_and_rewrites_the_earlier_one[rewrite] PASSED [ 17%]
+tests/test_post_drift_report.py::test_posts_a_first_report_and_rewrites_the_earlier_one[rewrite-to-clear] PASSED [ 23%]
+tests/test_post_drift_report.py::test_posts_a_first_report_and_rewrites_the_earlier_one[many-matches] PASSED [ 29%]
+tests/test_post_drift_report.py::test_a_github_api_failure_only_warns[lookup-fails-HTTP 503] PASSED [ 35%]
+tests/test_post_drift_report.py::test_a_github_api_failure_only_warns[write-forbidden-HTTP 403] PASSED [ 41%]
+tests/test_post_drift_report.py::test_the_workflow_runs_this_script PASSED [ 47%]
+tests/test_drift.py::test_a_change_inside_union_annotations_is_an_api_change PASSED [ 52%]
+tests/test_drift.py::test_pipes_and_backticks_in_signatures_keep_every_table_cell PASSED [ 58%]
+tests/test_drift.py::test_valid_json_that_is_not_a_notebook_becomes_a_note[null-cells] PASSED [ 64%]
+tests/test_drift.py::test_valid_json_that_is_not_a_notebook_becomes_a_note[not-an-object] PASSED [ 70%]
+tests/test_drift.py::test_valid_json_that_is_not_a_notebook_becomes_a_note[null-cell] PASSED [ 76%]
+tests/test_drift.py::test_valid_json_that_is_not_a_notebook_becomes_a_note[int-source] PASSED [ 82%]
+tests/test_drift.py::test_valid_json_that_is_not_a_notebook_becomes_a_note[non-string-line] PASSED [ 88%]
+tests/test_drift.py::test_folders_named_like_pages_or_modules_are_not_read PASSED [ 94%]
+tests/test_drift.py::test_an_inline_mention_is_located_on_its_own_line_not_on_earlier_prose PASSED [100%]
+
+====================== 17 passed, 22 deselected in 0.49s =======================
+[exit 0]

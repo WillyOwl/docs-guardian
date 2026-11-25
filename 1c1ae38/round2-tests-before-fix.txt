@@ -1,0 +1,79 @@
+$ (cd wt-old && git log --oneline -1 && echo '# the new test files copied onto the reviewed commit; the inline posting script extracted verbatim' && uv run --no-group docs pytest -v --tb=line -p no:cacheprovider tests/test_post_drift_report.py tests/test_drift.py -k 'union or pipes or not_a_notebook or folders or own_line or post_drift or posts or warns or runs_this')
+39c7d29 docs: document the drift check in README and architecture
+# the new test files copied onto the reviewed commit; the inline posting script extracted verbatim
+Uninstalled 2 packages in 0.51ms
+Installed 2 packages in 4ms
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0 -- /home/yiyang/ENTER/envs/docs-guardian/bin/python3
+rootdir: <scratchpad>/wt-old
+configfile: pyproject.toml
+collecting ... collected 39 items / 22 deselected / 17 selected
+
+tests/test_post_drift_report.py::test_posts_a_first_report_and_rewrites_the_earlier_one[nothing-to-post] PASSED [  5%]
+tests/test_post_drift_report.py::test_posts_a_first_report_and_rewrites_the_earlier_one[first-report] PASSED [ 11%]
+tests/test_post_drift_report.py::test_posts_a_first_report_and_rewrites_the_earlier_one[rewrite] PASSED [ 17%]
+tests/test_post_drift_report.py::test_posts_a_first_report_and_rewrites_the_earlier_one[rewrite-to-clear] PASSED [ 23%]
+tests/test_post_drift_report.py::test_posts_a_first_report_and_rewrites_the_earlier_one[many-matches] FAILED [ 29%]
+tests/test_post_drift_report.py::test_a_github_api_failure_only_warns[lookup-fails-HTTP 503] FAILED [ 35%]
+tests/test_post_drift_report.py::test_a_github_api_failure_only_warns[write-forbidden-HTTP 403] PASSED [ 41%]
+tests/test_post_drift_report.py::test_the_workflow_runs_this_script FAILED [ 47%]
+tests/test_drift.py::test_a_change_inside_union_annotations_is_an_api_change FAILED [ 52%]
+tests/test_drift.py::test_pipes_and_backticks_in_signatures_keep_every_table_cell FAILED [ 58%]
+tests/test_drift.py::test_valid_json_that_is_not_a_notebook_becomes_a_note[null-cells] FAILED [ 64%]
+tests/test_drift.py::test_valid_json_that_is_not_a_notebook_becomes_a_note[not-an-object] PASSED [ 70%]
+tests/test_drift.py::test_valid_json_that_is_not_a_notebook_becomes_a_note[null-cell] PASSED [ 76%]
+tests/test_drift.py::test_valid_json_that_is_not_a_notebook_becomes_a_note[int-source] PASSED [ 82%]
+tests/test_drift.py::test_valid_json_that_is_not_a_notebook_becomes_a_note[non-string-line] FAILED [ 88%]
+tests/test_drift.py::test_folders_named_like_pages_or_modules_are_not_read FAILED [ 94%]
+tests/test_drift.py::test_an_inline_mention_is_located_on_its_own_line_not_on_earlier_prose FAILED [100%]
+
+=================================== FAILURES ===================================
+E   AssertionError: Traceback (most recent call last):
+        File "/tmp/pytest-of-yiyang/pytest-34/test_posts_a_first_report_and_4/bin/gh", line 11, in <module>
+          sys.stdout.write("".join(f"{1000 + i}\n" for i in range(ids)))
+          ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      BrokenPipeError: [Errno 32] Broken pipe
+      
+    assert 1 == 0
+     +  where 1 = CompletedProcess(args=['bash', '<scratchpad>/wt-old/.github/scripts/post-drift-report.sh', '/tmp/pytest-of-yiyang/pytest-34/test_posts_a_first_report_and_4/drift-report.md'], returncode=1, stdout='', stderr='Traceback (most recent call last):\n  File "/tmp/pytest-of-yiyang/pytest-34/test_posts_a_first_report_and_4/bin/gh", line 11, in <module>\n    sys.stdout.write("".join(f"{1000 + i}\\n" for i in range(ids)))\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nBrokenPipeError: [Errno 32] Broken pipe\n').returncode
+<scratchpad>/wt-old/tests/test_post_drift_report.py:77: AssertionError: Traceback (most recent call last):
+E   AssertionError: gh: HTTP 503 Service Unavailable
+      
+    assert 1 == 0
+     +  where 1 = CompletedProcess(args=['bash', '<scratchpad>/wt-old/.github/scripts/post-drift-report.sh', '/tmp/pytest-of-yiyang/pytest-34/test_a_github_api_failure_only0/drift-report.md'], returncode=1, stdout='', stderr='gh: HTTP 503 Service Unavailable\n').returncode
+<scratchpad>/wt-old/tests/test_post_drift_report.py:91: AssertionError: gh: HTTP 503 Service Unavailable
+E   assert 'bash .github/scripts/post-drift-report.sh drift-report.md' in '# Advisory: report API Changes and the Pages that Mention them as one PR comment.\n# It never fails on what it finds (ADR 0001). docs-guardian is installed from this checkout.\nname: drift-check\n\non:\n  pull_request:\n\npermissions:\n  contents: read\n  pull-requests: write\n\n# One run per pull request at a time: a newer push cancels an older run, so two\n# runs can\'t both post a first comment, and a stale report can\'t land last.\nconcurrency:\n  group: drift-check-${{ github.event.pull_request.number }}\n  cancel-in-progress: true\n\njobs:\n  drift:\n    name: drift\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 0 # the merge base with the target branch must be reachable\n      - uses: astral-sh/setup-uv@v6\n        with:\n          python-version: "3.14"\n      - name: Build the Drift Report\n        run: >-\n          uv run --locked --no-group docs docs-guardian drift\n          --base "origin/${{ github.base_ref }}"\n          --source tinyml/src --docs tinyml/docs --output drift-report.md\n      - name: Show it in the job summary\n        run: cat drift-report.md >> "$GITHUB_STEP_SUMMARY"\n      - name...i\n\n          # Only this workflow\'s own comment counts, never a person\'s that happens to match.\n          existing=$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate \\\n            --jq ".[] | select(.user.login == \\"github-actions[bot]\\")\n                       | select(.body | startswith(\\"$marker\\")) | .id" | head -n 1)\n          if [ -n "$existing" ]; then\n            action="rewrite comment $existing"\n            cmd=(gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$existing" -F body=@body.md)\n          elif [ "$changes" != "0" ]; then\n            action="post a new comment"\n            cmd=(gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -F body=@body.md)\n          else\n            echo "No API Changes and no earlier Drift Report: nothing to post."\n            exit 0\n          fi\n\n          # Advisory: a failure to comment (a fork\'s read-only token, an API error) only warns.\n          if error=$("${cmd[@]}" 2>&1 > /dev/null); then\n            echo "Drift Report: did $action."\n          else\n            echo "::warning::Could not $action; the report is in the job summary. GitHub said: $error"\n          fi\n'
+<scratchpad>/wt-old/tests/test_post_drift_report.py:98: assert 'bash .github/scripts/post-drift-report.sh drift-report.md' in '# Advisory: report API Changes and the Pages that Mention them as one PR comment.\n# It never fails on what it finds (ADR 0001). docs-guardian is installed from this checkout.\nname: drift-check\n\non:\n  pull_request:\n\npermissions:\n  contents: read\n  pull-requests: write\n\n# One run per pull request at a time: a newer push cancels an older run, so two\n# runs can\'t both post a first comment, and a stale report can\'t land last.\nconcurrency:\n  group: drift-check-${{ github.event.pull_request.number }}\n  cancel-in-progress: true\n\njobs:\n  drift:\n    name: drift\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 0 # the merge base with the target branch must be reachable\n      - uses: astral-sh/setup-uv@v6\n        with:\n          python-version: "3.14"\n      - name: Build the Drift Report\n        run: >-\n          uv run --locked --no-group docs docs-guardian drift\n          --base "origin/${{ github.base_ref }}"\n          --source tinyml/src --docs tinyml/docs --output drift-report.md\n      - name: Show it in the job summary\n        run: cat drift-report.md >> "$GITHUB_STEP_SUMMARY"\n      - name...i\n\n          # Only this workflow\'s own comment counts, never a person\'s that happens to match.\n          existing=$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate \\\n            --jq ".[] | select(.user.login == \\"github-actions[bot]\\")\n                       | select(.body | startswith(\\"$marker\\")) | .id" | head -n 1)\n          if [ -n "$existing" ]; then\n            action="rewrite comment $existing"\n            cmd=(gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$existing" -F body=@body.md)\n          elif [ "$changes" != "0" ]; then\n            action="post a new comment"\n            cmd=(gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -F body=@body.md)\n          else\n            echo "No API Changes and no earlier Drift Report: nothing to post."\n            exit 0\n          fi\n\n          # Advisory: a failure to comment (a fork\'s read-only token, an API error) only warns.\n          if error=$("${cmd[@]}" 2>&1 > /dev/null); then\n            echo "Drift Report: did $action."\n          else\n            echo "::warning::Could not $action; the report is in the job summary. GitHub said: $error"\n          fi\n'
+E   AssertionError: assert 'changes=1 ' in '<!-- docs-guardian:drift-report changes=0 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`a27958d`). Advisory: this check never fails the build.\n\nNo API Changes.\n'
+<scratchpad>/wt-old/tests/test_drift.py:311: AssertionError: assert 'changes=1 ' in '<!-- docs-guardian:drift-report changes=0 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`a27958d`). Advisory: this check never fails the build.\n\nNo API Changes.\n'
+E   assert '<code>(x: int | str)</code>' in "\n<tr>\n<td><code>fit</code></td>\n<td>`('(x: int</td>\n<td>str)',)<code>→</code>(&quot;(x: int</td>\n"
+<scratchpad>/wt-old/tests/test_drift.py:324: assert '<code>(x: int | str)</code>' in "\n<tr>\n<td><code>fit</code></td>\n<td>`('(x: int</td>\n<td>str)',)<code>→</code>(&quot;(x: int</td>\n"
+E   TypeError: 'NoneType' object is not iterable
+<scratchpad>/wt-old/src/docs_guardian/drift.py:230: TypeError: 'NoneType' object is not iterable
+E   TypeError: sequence item 1: expected str instance, int found
+<scratchpad>/wt-old/src/docs_guardian/drift.py:234: TypeError: sequence item 1: expected str instance, int found
+E   IsADirectoryError: [Errno 21] Is a directory: 'src/pkg/legacy.py'
+/home/yiyang/ENTER/envs/docs-guardian/lib/python3.14/pathlib/__init__.py:771: IsADirectoryError: [Errno 21] Is a directory: 'src/pkg/legacy.py'
+E   AssertionError: assert {'evaluate': ...'guide.md:7']} == {'evaluate': ...'guide.md:8']}
+      
+      Differing items:
+      {'evaluate': ['guide.md:1', 'guide.md:5', 'guide.md:7']} != {'evaluate': ['guide.md:2', 'guide.md:5', 'guide.md:8']}
+      
+      Full diff: (-: missing in left side, +: extra in left side)
+        {
+            'evaluate': [...
+      
+      ...Full output truncated, use '-vv' to show
+<scratchpad>/wt-old/tests/test_drift.py:366: AssertionError: assert {'evaluate': ...'guide.md:7']} == {'evaluate': ...'guide.md:8']}
+=========================== short test summary info ============================
+FAILED tests/test_post_drift_report.py::test_posts_a_first_report_and_rewrites_the_earlier_one[many-matches]
+FAILED tests/test_post_drift_report.py::test_a_github_api_failure_only_warns[lookup-fails-HTTP 503]
+FAILED tests/test_post_drift_report.py::test_the_workflow_runs_this_script - ...
+FAILED tests/test_drift.py::test_a_change_inside_union_annotations_is_an_api_change
+FAILED tests/test_drift.py::test_pipes_and_backticks_in_signatures_keep_every_table_cell
+FAILED tests/test_drift.py::test_valid_json_that_is_not_a_notebook_becomes_a_note[null-cells]
+FAILED tests/test_drift.py::test_valid_json_that_is_not_a_notebook_becomes_a_note[non-string-line]
+FAILED tests/test_drift.py::test_folders_named_like_pages_or_modules_are_not_read
+FAILED tests/test_drift.py::test_an_inline_mention_is_located_on_its_own_line_not_on_earlier_prose
+================== 9 failed, 8 passed, 22 deselected in 0.50s ==================
+[exit 1]

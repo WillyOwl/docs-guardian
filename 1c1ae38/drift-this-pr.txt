@@ -1,0 +1,9 @@
+$ (cd wt-fix && git log --oneline -1 && uv run --no-group docs docs-guardian drift --base origin/main --source tinyml/src --docs tinyml/docs)
+1c1ae38 docs: point README and architecture at the drift comment script
+<!-- docs-guardian:drift-report changes=0 drift-pages=0 -->
+### Drift Report
+
+Public API in this checkout, compared with its merge base with `origin/main` (`6af3ec1`). Advisory: this check never fails the build.
+
+No API Changes.
+[exit 0]
