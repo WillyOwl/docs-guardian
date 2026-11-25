@@ -1,0 +1,41 @@
+$ (cd wt-prev && git log --oneline -1 && echo '# the 4 new tests copied onto 77120b7' && uv run --no-group docs pytest -v --tb=line -p no:cacheprovider tests/test_drift.py -k 'overload or removed_package or namespace_package')
+77120b7 docs: note ignored files, coding cookies and --output in the drift docs
+# the 4 new tests copied onto 77120b7
+Uninstalled 2 packages in 0.39ms
+Installed 2 packages in 3ms
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0 -- /home/yiyang/ENTER/envs/docs-guardian/bin/python3
+rootdir: <scratchpad>/wt-prev
+configfile: pyproject.toml
+collecting ... collected 38 items / 34 deselected / 4 selected
+
+tests/test_drift.py::test_every_constructor_overload_is_part_of_the_class_signature FAILED [ 25%]
+tests/test_drift.py::test_a_change_to_a_later_constructor_overload_is_drift FAILED [ 50%]
+tests/test_drift.py::test_package_qualified_mentions_of_a_removed_package_are_drift FAILED [ 75%]
+tests/test_drift.py::test_package_qualified_mentions_count_in_a_namespace_package FAILED [100%]
+
+=================================== FAILURES ===================================
+E   AssertionError: assert {'Estimator':...t) -> None'})} == {'Estimator':...tr) -> None'}}
+      
+      Differing items:
+      {'Estimator': frozenset({'(self, value: int) -> None'})} != {'Estimator': {'(self, value)', '(self, value: int) -> None', '(self, value: str) -> None'}}
+      
+      Full diff: (-: missing in left side, +: extra in left side)
+        {
+      -     'Estimator': {...
+      
+      ...Full output truncated, use '-vv' to show
+<scratchpad>/wt-prev/tests/test_drift.py:419: AssertionError: assert {'Estimator':...t) -> None'})} == {'Estimator':...tr) -> None'}}
+E   AssertionError: assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=0 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`1e6eb9f`). Advisory: this check never fails the build.\n\nNo API Changes.\n'
+<scratchpad>/wt-prev/tests/test_drift.py:432: AssertionError: assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=0 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`1e6eb9f`). Advisory: this check never fails the build.\n\nNo API Changes.\n'
+E   AssertionError: assert '| `helper` | removed | `qualified.md:3` |' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`fda1fc1`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `helper` | removed | none |\n'
+<scratchpad>/wt-prev/tests/test_drift.py:446: AssertionError: assert '| `helper` | removed | `qualified.md:3` |' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`fda1fc1`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `helper` | removed | none |\n'
+E   AssertionError: assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`133b87f`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `scale` | `(x)` → `(x, *, by=2)` | none |\n'
+<scratchpad>/wt-prev/tests/test_drift.py:458: AssertionError: assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`133b87f`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `scale` | `(x)` → `(x, *, by=2)` | none |\n'
+=========================== short test summary info ============================
+FAILED tests/test_drift.py::test_every_constructor_overload_is_part_of_the_class_signature
+FAILED tests/test_drift.py::test_a_change_to_a_later_constructor_overload_is_drift
+FAILED tests/test_drift.py::test_package_qualified_mentions_of_a_removed_package_are_drift
+FAILED tests/test_drift.py::test_package_qualified_mentions_count_in_a_namespace_package
+======================= 4 failed, 34 deselected in 0.13s =======================
+[exit 1]

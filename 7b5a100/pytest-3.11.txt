@@ -1,0 +1,23 @@
+$ (cd wt-new && git log --oneline -1 && UV_PROJECT_ENVIRONMENT=<scratchpad>/env311 uv run --python 3.11 --no-group docs python --version && UV_PROJECT_ENVIRONMENT=<scratchpad>/env311 uv run --python 3.11 --no-group docs pytest -p no:cacheprovider)
+7b5a100 docs: note constructor overloads and package paths in the drift section
+Uninstalled 2 packages in 0.42ms
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 2 packages in 4ms
+Python 3.11.15
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.2.0, pluggy-1.7.0
+rootdir: <scratchpad>/wt-new
+configfile: pyproject.toml
+testpaths: tests, tinyml/tests
+collected 107 items
+
+tests/test_cli.py ...                                                    [  2%]
+tests/test_drift.py ......................................               [ 38%]
+tests/test_post_drift_report.py .........                                [ 46%]
+tests/test_snippets.py ..........................                        [ 71%]
+tinyml/tests/test_tinyml.py ...............................              [100%]
+
+============================= 107 passed in 7.00s ==============================
+[exit 0]

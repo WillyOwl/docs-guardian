@@ -1,0 +1,17 @@
+$ (cd wt-new && git log --oneline -1 && uv run --no-group docs pytest -v -p no:cacheprovider tests/test_drift.py -k 'overload or removed_package or namespace_package')
+7b5a100 docs: note constructor overloads and package paths in the drift section
+Uninstalled 2 packages in 0.48ms
+Installed 2 packages in 3ms
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0 -- /home/yiyang/ENTER/envs/docs-guardian/bin/python3
+rootdir: <scratchpad>/wt-new
+configfile: pyproject.toml
+collecting ... collected 38 items / 34 deselected / 4 selected
+
+tests/test_drift.py::test_every_constructor_overload_is_part_of_the_class_signature PASSED [ 25%]
+tests/test_drift.py::test_a_change_to_a_later_constructor_overload_is_drift PASSED [ 50%]
+tests/test_drift.py::test_package_qualified_mentions_of_a_removed_package_are_drift PASSED [ 75%]
+tests/test_drift.py::test_package_qualified_mentions_count_in_a_namespace_package PASSED [100%]
+
+======================= 4 passed, 34 deselected in 0.11s =======================
+[exit 0]

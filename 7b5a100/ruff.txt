@@ -1,0 +1,5 @@
+$ (cd wt-new && git log --oneline -1 && uv run --no-group docs ruff check . && uv run --no-group docs ruff format --check .)
+7b5a100 docs: note constructor overloads and package paths in the drift section
+All checks passed!
+26 files already formatted
+[exit 0]
