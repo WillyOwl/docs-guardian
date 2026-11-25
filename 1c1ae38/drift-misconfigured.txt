@@ -1,0 +1,4 @@
+$ (cd wt-fix && git log --oneline -1 && uv run --no-group docs docs-guardian drift --base origin/main --source tinyml/src --docs tinyml/doc)
+1c1ae38 docs: point README and architecture at the drift comment script
+docs-guardian: no Pages under tinyml/doc
+[exit 2]

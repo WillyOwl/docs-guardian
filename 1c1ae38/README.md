@@ -10,6 +10,8 @@ Every `.txt` file is a command's full output, with ANSI colour codes removed. Th
 | `reviewer-probes` | The reviewer's own `39c7d29/round-2/test_review_regressions.py`, with the two changes shown in `tools/probe-adaptation.diff` (ApiChange now takes tuples; the posting script is its own file): 10 passed |
 | `github-render` | `tools/make_report.py` renders a report with a union, a backtick and a `\|` in a Page name; GitHub's `POST /markdown` keeps all three cells |
 | `ruff`, `snippets`, `drift-this-pr` | Lint and format, the snippet runner on tinyml's Pages, and this PR's own Drift Report |
+| `drift-demo` | The build guide's demo on a scratch edit of tinyml (`fit_linear` renamed to `fit`, `metric` added to `evaluate`): both changes with their exact Pages, lines and notebook cells, and `fit` not yet documented |
+| `drift-misconfigured` | A mistyped `--docs` exits 2 |
 | `ci` | All six checks pass on 1c1ae38, and the drift job ran the new script |
 
 `tools/check.sh` is the capture function. The posting tests run the real `.github/scripts/post-drift-report.sh` against a stub `gh`, and nothing is posted to GitHub. A live post, then a rewrite on a second push, is still unverified: this PR changes no tinyml API.

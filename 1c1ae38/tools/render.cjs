@@ -5,7 +5,7 @@ const { chromium } = require('/home/yiyang/F26project-DojoFoundations/node_modul
 
 const EV = __dirname;
 const NAMES = ['pytest-3.14', 'pytest-3.11', 'round2-tests-before-fix', 'round2-tests-fixed', 'reviewer-probes',
-  'github-render', 'ruff', 'snippets', 'drift-this-pr', 'ci'];
+  'github-render', 'ruff', 'snippets', 'drift-this-pr', 'drift-demo', 'drift-misconfigured', 'ci'];
 
 // Minimal ANSI SGR → HTML: bold, dim, and the 8 standard foreground colours.
 const COLORS = { 30: '#555', 31: '#f14c4c', 32: '#23d18b', 33: '#e5e510', 34: '#3b8eea', 35: '#d670d6', 36: '#29b8db', 37: '#e5e5e5' };
