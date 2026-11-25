@@ -110,7 +110,9 @@ flowchart TD
     U --> REP
 ```
 
-A signature is the parameters, their defaults and annotations, and the return annotation. A class's signature is its `__init__`.
+A signature is the parameters, their defaults and annotations, and the return annotation; a name defined more than once keeps all its signatures. A class's signatures are its own `__init__`s, every `@overload` and the implementation. Known gaps: a class whose constructor comes from elsewhere (a dataclass, an inherited `__init__`) shows as `()`, and API defined in a private module (`_impl.py`) and re-exported is not seen. A top-level name is Mentioned on its own or after its package path (`tinyml.fit`, `tinyml.models.fit`), never as another object's attribute (`model.fit`). Package paths come from the source folder on both sides of the pull request, so `pkg.fit` still counts when the pull request deletes `pkg`, and namespace packages (no `__init__.py`) count too.
+
+Run it with `docs-guardian drift --base <branch> --source <dir> --docs <dir>`. The checkout side is what's on disk, uncommitted edits and new files included, but never files git ignores, so a local run matches CI's clean checkout. Sources are parsed as bytes, the way Python reads them (a coding cookie, a byte-order mark). It exits 0 whatever it finds; files the pull request leaves unreadable are listed in the report, not fatal; a mistyped base, folder or `--output` exits 2. The workflow posts the report as one comment and rewrites it on every push (one run per pull request at a time); with no API Changes and no earlier report it posts nothing, and when GitHub's API fails (a fork's read-only token, an outage) it warns and the report stays in the job summary. The posting lives in `.github/scripts/post-drift-report.sh`, so its tests run the real script against a stub `gh`.
 
 ### Health bot (Advisory)
 
@@ -170,5 +172,6 @@ docs-guardian/                  ← the repo
 │   ├── architecture.md         ← this page
 │   └── adr/
 ├── .github/workflows/          ← one workflow per trigger
+├── .github/scripts/            ← the drift check's comment poster
 └── GLOSSARY.md
 ```

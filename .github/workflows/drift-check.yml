@@ -1,0 +1,40 @@
+# Advisory: report API Changes and the Pages that Mention them as one PR comment.
+# It never fails on what it finds (ADR 0001). docs-guardian is installed from this checkout.
+name: drift-check
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+# One run per pull request at a time: a newer push cancels an older run, so two
+# runs can't both post a first comment, and a stale report can't land last.
+concurrency:
+  group: drift-check-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  drift:
+    name: drift
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # the merge base with the target branch must be reachable
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.14"
+      - name: Build the Drift Report
+        run: >-
+          uv run --locked --no-group docs docs-guardian drift
+          --base "origin/${{ github.base_ref }}"
+          --source tinyml/src --docs tinyml/docs --output drift-report.md
+      - name: Show it in the job summary
+        run: cat drift-report.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Post or rewrite the Drift Report comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: bash .github/scripts/post-drift-report.sh drift-report.md
