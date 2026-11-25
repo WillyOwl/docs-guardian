@@ -61,8 +61,9 @@ def _run_drift(args: argparse.Namespace) -> int:
     Returns:
         0 whatever the report says: the drift check is Advisory (ADR 0001), and
         files the pull request leaves unreadable are listed, not fatal. 2 for a
-        misconfigured run (unknown base, or a folder with nothing to check), so
-        a mistyped path cannot pass as "No API Changes".
+        misconfigured run (unknown base, a folder with nothing to check, or an
+        `--output` that cannot be written), so a mistyped path cannot pass as
+        "No API Changes".
     """
     try:
         report = drift_report(args.base, Path(args.source), Path(args.docs))
@@ -70,7 +71,11 @@ def _run_drift(args: argparse.Namespace) -> int:
         print(f"docs-guardian: {error}", file=sys.stderr)
         return 2
     if args.output:
-        Path(args.output).write_text(report, encoding="utf-8")
+        try:
+            Path(args.output).write_text(report, encoding="utf-8")
+        except OSError as error:
+            print(f"docs-guardian: cannot write {args.output}: {error.strerror}", file=sys.stderr)
+            return 2
     print(report, end="")
     return 0
 

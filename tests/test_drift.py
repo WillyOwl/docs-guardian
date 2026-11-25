@@ -366,3 +366,37 @@ def test_an_inline_mention_is_located_on_its_own_line_not_on_earlier_prose(tmp_p
     assert mentions_in(tmp_path, {"guide.md": page}, ["evaluate"]) == {
         "evaluate": ["guide.md:2", "guide.md:5", "guide.md:8"]
     }
+
+
+# --- Self-review before the live demo ------------------------------------------
+
+
+def test_a_module_with_a_coding_cookie_is_read_the_way_python_reads_it(repo, capsys):
+    latin1 = b"# -*- coding: latin-1 -*-\ndef caf\xe9(): ...\n"
+    (repo / "src/pkg/l1.py").write_bytes(latin1)
+    git(repo, "add", ".")
+    git(repo, "commit", "-qm", "latin-1 module")
+    git(repo, "branch", "-qf", "main")
+    (repo / "src/pkg/l1.py").write_bytes(latin1 + b"def plain(): ...\n")
+    _, report = run_drift(capsys)
+    assert "changes=1 " in report  # only `plain`: `café` parses on both sides
+    assert "no Page Mentions `plain`" in report
+    assert "Could not read" not in report
+
+
+def test_files_git_ignores_are_not_api_but_new_untracked_modules_are(repo, capsys):
+    (repo / ".gitignore").write_text("build/\n")
+    (repo / "src/pkg/build").mkdir()
+    (repo / "src/pkg/build/copy.py").write_text("def stale_copy(): ...\n")  # a build leftover
+    (repo / "src/pkg/extra.py").write_text("def extra(): ...\n")  # new, not yet `git add`ed
+    _, report = run_drift(capsys)
+    assert "changes=1 " in report
+    assert "no Page Mentions `extra`" in report
+    assert "stale_copy" not in report
+
+
+def test_an_output_path_that_cannot_be_written_exits_2(repo, capsys):
+    code = main(["drift", "--base", "main", "--source", "src", "--docs", "docs",
+                 "--output", "no/such/folder/r.md"])  # fmt: skip
+    assert code == 2
+    assert "cannot write no/such/folder/r.md" in capsys.readouterr().err

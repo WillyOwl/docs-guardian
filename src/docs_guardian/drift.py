@@ -38,7 +38,7 @@ def _signature(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str:
     return f"({ast.unparse(node.args)}){returns}"
 
 
-def public_api(source: str) -> Api:
+def public_api(source: str | bytes) -> Api:
     """Collect the public API one module defines.
 
     Public means defined at the module's top level with a name that has no
@@ -49,7 +49,8 @@ def public_api(source: str) -> Api:
     more than once keeps all its signatures, so a change to any one shows.
 
     Args:
-        source: The module's Python source.
+        source: The module's Python source, as text or as the file's bytes
+            (decoded as Python does, honouring a coding cookie).
 
     Returns:
         Public name (`fit_linear`, `LinearModel`, `LinearModel.predict`) to its
@@ -84,7 +85,7 @@ def _is_private(path: str) -> bool:
     return any(p.startswith("_") and p != "__init__.py" for p in PurePosixPath(path).parts)
 
 
-def package_api(files: dict[str, str]) -> Api:
+def package_api(files: dict[str, str | bytes]) -> Api:
     """Collect the public API of a package, keyed by public name.
 
     Modules and packages whose name starts with an underscore are private and
@@ -93,7 +94,8 @@ def package_api(files: dict[str, str]) -> Api:
     function between modules is not an API Change.
 
     Args:
-        files: Path (relative to the source root, `/`-separated) to Python source.
+        files: Path (relative to the source root, `/`-separated) to Python
+            source, as text or bytes.
 
     Returns:
         Public name to its signatures, across every public module.
@@ -324,7 +326,7 @@ def _git(*args: str, cwd: Path) -> str:
     ).stdout
 
 
-def _read_api(files: dict[str, str], unreadable: list[str]) -> dict[str, str]:
+def _read_api(files: dict[str, bytes], unreadable: list[str]) -> Api:
     """`package_api`, skipping public modules that do not parse (noted in `unreadable`)."""
     readable = {}
     for path, source in files.items():
@@ -337,36 +339,59 @@ def _read_api(files: dict[str, str], unreadable: list[str]) -> dict[str, str]:
     return package_api(readable)
 
 
-def _source_at_merge_base(base: str, source_root: Path) -> tuple[str, dict[str, str]]:
-    """The merge base of `base` and HEAD, and the Python files under `source_root` there."""
+def _locate(source_root: Path) -> tuple[Path, str]:
+    """The repository's top folder, and `source_root` relative to it (`/`-separated)."""
     try:
         top = Path(_git("rev-parse", "--show-toplevel", cwd=source_root).strip())
-        merge_base = _git("merge-base", base, "HEAD", cwd=top).strip()
+    except subprocess.CalledProcessError as error:
+        raise DriftConfigError(f"{source_root} is not in a git repository") from error
+    return top, source_root.resolve().relative_to(top.resolve()).as_posix()
+
+
+def _merge_base(base: str, top: Path) -> str:
+    try:
+        return _git("merge-base", base, "HEAD", cwd=top).strip()
     except subprocess.CalledProcessError as error:
         detail = error.stderr.strip().splitlines()[-1] if error.stderr.strip() else ""
         raise DriftConfigError(
             f"cannot find the merge base of {base} and HEAD: {detail}"
         ) from error
-    prefix = source_root.resolve().relative_to(top.resolve()).as_posix()
+
+
+def _under(prefix: str, path: str) -> str:
+    return PurePosixPath(path).relative_to(prefix).as_posix()
+
+
+def _source_at(merge_base: str, top: Path, prefix: str) -> dict[str, bytes]:
+    """The Python files under `prefix` at the merge base.
+
+    Sources stay bytes, so `ast.parse` decodes them the way Python does (a
+    coding cookie, a byte-order mark), and invalid UTF-8 is a syntax error.
+    """
     listed = _git("ls-tree", "-r", "--name-only", "-z", merge_base, "--", prefix, cwd=top)
-    files = {}
-    for path in listed.split("\0"):
-        if path.endswith(".py"):
-            raw = subprocess.run(
-                ["git", "show", f"{merge_base}:{path}"], cwd=top, check=True, capture_output=True
-            ).stdout
-            files[PurePosixPath(path).relative_to(prefix).as_posix()] = raw.decode(
-                "utf-8", "replace"
-            )
-    return merge_base, files
-
-
-def _source_in_checkout(source_root: Path) -> dict[str, str]:
-    """The Python files under `source_root` as they are on disk, uncommitted edits included."""
     return {
-        path.relative_to(source_root).as_posix(): path.read_text(encoding="utf-8", errors="replace")
-        for path in source_root.rglob("*.py")
-        if path.is_file()
+        _under(prefix, path): subprocess.run(
+            ["git", "show", f"{merge_base}:{path}"], cwd=top, check=True, capture_output=True
+        ).stdout
+        for path in listed.split("\0")
+        if path.endswith(".py")
+    }
+
+
+def _source_in_checkout(top: Path, prefix: str) -> dict[str, bytes]:
+    """The Python files under `prefix` in the working tree, as bytes.
+
+    Tracked files as they are on disk (uncommitted edits included) and new
+    files not yet added, but never files git ignores, such as build leftovers:
+    the local report matches the one a clean CI checkout gets.
+    """
+    listed = _git(
+        "ls-files", "-z", "--cached", "--others", "--exclude-standard", "--", prefix, cwd=top
+    )
+    return {
+        _under(prefix, path): (top / path).read_bytes()
+        for path in listed.split("\0")
+        if path.endswith(".py") and (top / path).is_file()  # a deleted file is still cached
     }
 
 
@@ -463,8 +488,9 @@ def drift_report(base: str, source_root: Path, docs_root: Path) -> str:
         The rendered Drift Report.
 
     Raises:
-        DriftConfigError: If the base has no merge base with HEAD, or either
-            folder holds nothing to check (likely a mistyped path).
+        DriftConfigError: If the source is not in a git repository, the base
+            has no merge base with HEAD, or either folder holds nothing to
+            check (likely a mistyped path).
     """
     source_root, docs_root = Path(source_root), Path(docs_root)
     if not source_root.is_dir() or not any(p.is_file() for p in source_root.rglob("*.py")):
@@ -472,9 +498,11 @@ def drift_report(base: str, source_root: Path, docs_root: Path) -> str:
     if not docs_root.is_dir() or not _pages(docs_root):
         raise DriftConfigError(f"no Pages under {docs_root}")
     unreadable: list[str] = []
-    merge_base, files_before = _source_at_merge_base(base, source_root)
-    before = _read_api(files_before, [])  # the base's own problems are not this PR's
-    after = _read_api(_source_in_checkout(source_root), unreadable)
+    top, prefix = _locate(source_root)
+    merge_base = _merge_base(base, top)
+    # The base's own unreadable files are not this pull request's problem.
+    before = _read_api(_source_at(merge_base, top, prefix), [])
+    after = _read_api(_source_in_checkout(top, prefix), unreadable)
     changes = api_changes(before, after)
     packages = [p.name for p in source_root.iterdir() if (p / "__init__.py").is_file()]
     mentions = find_mentions(docs_root, [c.name for c in changes], packages, unreadable)
