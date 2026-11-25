@@ -1,0 +1,32 @@
+<!doctype html><meta charset="utf-8"><style>
+body{margin:0;background:#101827;color:#e5e7eb;font-family:Arial,sans-serif}
+main{margin:28px;padding:26px;background:#172135;border:1px solid #475569;border-radius:10px}
+h1{font-size:23px;margin:0 0 12px}p{font-size:14px;color:#b7c8db;line-height:1.5}
+pre{font:13px/20px "DejaVu Sans Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:24px}
+article{background:white;color:#111827;padding:20px;border-radius:6px}
+article p{color:#111827}table{border-collapse:collapse;width:100%}
+th,td{border:1px solid #cbd5e1;padding:12px;text-align:left}code{font-family:monospace}
+</style><main><h1>PR #11 · Review round 3 · report-demo</h1><p>Reviewed commit: 1c1ae382b858fb9c3aa9d8303a590df02773a34c.<br>Chromium screenshot of the complete saved command output; original logs and commands are stored alongside.</p><pre>PR #11 review round 3 | reviewed commit 1c1ae382b858fb9c3aa9d8303a590df02773a34c
+Captured UTC: 2026-11-25T06:51:06.908131+00:00
+Working directory: /tmp/pr11-review-round3/source
+PYTHONPATH=/tmp/pr11-review-round3/source/src:/tmp/pr11-review-round3/source/tinyml/src
+
+$ /tmp/pr11-review-round2/env314/bin/python /tmp/pr11-review-round3/1c1ae38/round-3/report_demo.py
+Isolated fixture: changed fit (union annotation + backtick default), removed old, added added.
+Two Pages: quick|start.md and a notebook. No source files in the PR checkout were edited.
+&lt;!-- docs-guardian:drift-report changes=3 drift-pages=2 --&gt;
+### Drift Report
+
+Public API in this checkout, compared with its merge base with `main` (`84e151c`). Advisory: this check never fails the build.
+
+3 API Changes; Drift on 2 Pages.
+
+| API | Change | Pages that Mention it |
+| --- | --- | --- |
+| `fit` | `(x: int \| str)` → ``(x: int \| str, sep=&#x27;`&#x27;)`` | `quick\|start.md:2`, `walk.ipynb (cell 2, line 1)` |
+| `old` | removed | `quick\|start.md:3` |
+
+**Not yet documented**: no Page Mentions `added`.
+[exit 0; 0.10s]
+
+</pre></main>

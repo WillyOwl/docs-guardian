@@ -1,0 +1,18 @@
+PR #11 review round 3 | reviewed commit 1c1ae382b858fb9c3aa9d8303a590df02773a34c
+Captured UTC: 2026-11-25T06:51:09.114190+00:00
+Working directory: /tmp/pr11-review-round3/source
+PYTHONPATH=/tmp/pr11-review-round3/source/src:/tmp/pr11-review-round3/source/tinyml/src
+
+$ gh pr checks 11 --repo WillyOwl/docs-guardian
+drift	pass	9s	https://github.com/WillyOwl/docs-guardian/actions/runs/45561603622/job/139026374470	
+notebooks	pass	10s	https://github.com/WillyOwl/docs-guardian/actions/runs/45561603590/job/139026374006	
+ruff	pass	6s	https://github.com/WillyOwl/docs-guardian/actions/runs/45561603624/job/139026374627	
+snippets	pass	8s	https://github.com/WillyOwl/docs-guardian/actions/runs/45561603590/job/139026374478	
+tests (Python 3.11)	pass	15s	https://github.com/WillyOwl/docs-guardian/actions/runs/45561603624/job/139026374141	
+tests (Python 3.14)	pass	15s	https://github.com/WillyOwl/docs-guardian/actions/runs/45561603624/job/139026374543
+[exit 0; 1.00s]
+
+$ gh pr view 11 --repo WillyOwl/docs-guardian --json headRefOid,state,isDraft
+{"headRefOid":"1c1ae382b858fb9c3aa9d8303a590df02773a34c","isDraft":true,"state":"OPEN"}
+[exit 0; 0.52s]
+

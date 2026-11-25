@@ -1,0 +1,33 @@
+<!doctype html><meta charset="utf-8"><style>
+body{margin:0;background:#101827;color:#e5e7eb;font-family:Arial,sans-serif}
+main{margin:28px;padding:26px;background:#172135;border:1px solid #475569;border-radius:10px}
+h1{font-size:23px;margin:0 0 12px}p{font-size:14px;color:#b7c8db;line-height:1.5}
+pre{font:13px/20px "DejaVu Sans Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:24px}
+article{background:white;color:#111827;padding:20px;border-radius:6px}
+article p{color:#111827}table{border-collapse:collapse;width:100%}
+th,td{border:1px solid #cbd5e1;padding:12px;text-align:left}code{font-family:monospace}
+</style><main><h1>PR #11 · Review round 3 · build-docs</h1><p>Reviewed commit: 1c1ae382b858fb9c3aa9d8303a590df02773a34c.<br>Chromium screenshot of the complete saved command output; original logs and commands are stored alongside.</p><pre>PR #11 review round 3 | reviewed commit 1c1ae382b858fb9c3aa9d8303a590df02773a34c
+Captured UTC: 2026-11-25T06:48:30.814305+00:00
+Working directory: /tmp/pr11-review-round3/source
+PYTHONPATH=/tmp/pr11-review-round3/source/src:/tmp/pr11-review-round3/source/tinyml/src
+
+$ /tmp/pr11-review-round2/envdocs/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml -d /tmp/pr11-review-round3/site
+
+ │  Material for MkDocs reaches end of life on May 5, 2027.
+ │  Critical fixes and security updates continue until that date.
+ │
+ │  Zensical is its maintained successor, built by the same team.
+ │  Try it alongside MkDocs with your existing mkdocs.yml:
+ │  https://zensical.org/docs/compatibility/mkdocs/migration/
+
+  To disable this warning, set NO_MKDOCS_2_WARNING=1.
+
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr11-review-round3/site
+INFO    -  Converting notebook (execute=False): /tmp/pr11-review-round3/source/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr11-review-round3/source/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr11-review-round3/source/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr11-review-round3/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.72 seconds
+[exit 0; 1.89s]
+
+</pre></main>

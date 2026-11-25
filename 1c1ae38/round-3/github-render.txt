@@ -1,0 +1,34 @@
+PR #11 review round 3 | reviewed commit 1c1ae382b858fb9c3aa9d8303a590df02773a34c
+Captured UTC: 2026-11-25T06:51:49.168690+00:00
+Working directory: /tmp/pr11-review-round3/source
+PYTHONPATH=/tmp/pr11-review-round3/source/src:/tmp/pr11-review-round3/source/tinyml/src
+
+$ gh api --method POST markdown -f mode=gfm -F text=@/tmp/pr11-review-round3/1c1ae38/round-3/report-demo.md
+
+<h3>Drift Report</h3>
+<p>Public API in this checkout, compared with its merge base with <code class="notranslate">main</code> (<code class="notranslate">84e151c</code>). Advisory: this check never fails the build.</p>
+<p>3 API Changes; Drift on 2 Pages.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>API</th>
+<th>Change</th>
+<th>Pages that Mention it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">fit</code></td>
+<td><code class="notranslate">(x: int | str)</code> → <code class="notranslate">(x: int | str, sep='`')</code></td>
+<td><code class="notranslate">quick|start.md:2</code>, <code class="notranslate">walk.ipynb (cell 2, line 1)</code></td>
+</tr>
+<tr>
+<td><code class="notranslate">old</code></td>
+<td>removed</td>
+<td><code class="notranslate">quick|start.md:3</code></td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p><strong>Not yet documented</strong>: no Page Mentions <code class="notranslate">added</code>.</p>
+[exit 0; 0.46s]
+

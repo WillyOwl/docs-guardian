@@ -15,3 +15,9 @@ Every `.txt` file is a command's full output, with ANSI colour codes removed. Th
 | `ci` | All six checks pass on 1c1ae38, and the drift job ran the new script |
 
 `tools/check.sh` is the capture function. The posting tests run the real `.github/scripts/post-drift-report.sh` against a stub `gh`, and nothing is posted to GitHub. A live post, then a rewrite on a second push, is still unverified: this PR changes no tinyml API.
+
+## Independent review round 3
+
+The latest independent review, fresh test output and 14 screenshots are in
+[`round-3/`](round-3/): [review](round-3/review.md),
+[verification and complete index](round-3/verification.md).

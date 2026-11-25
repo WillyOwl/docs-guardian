@@ -1,0 +1,43 @@
+<!doctype html><meta charset="utf-8"><style>
+body{margin:0;background:#101827;color:#e5e7eb;font-family:Arial,sans-serif}
+main{margin:28px;padding:26px;background:#172135;border:1px solid #475569;border-radius:10px}
+h1{font-size:23px;margin:0 0 12px}p{font-size:14px;color:#b7c8db;line-height:1.5}
+pre{font:13px/20px "DejaVu Sans Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:24px}
+article{background:white;color:#111827;padding:20px;border-radius:6px}
+article p{color:#111827}table{border-collapse:collapse;width:100%}
+th,td{border:1px solid #cbd5e1;padding:12px;text-align:left}code{font-family:monospace}
+</style><main><h1>PR #11 · Review round 3 · github-render</h1><p>Reviewed commit: 1c1ae382b858fb9c3aa9d8303a590df02773a34c.<br>Chromium screenshot of the complete saved command output; original logs and commands are stored alongside.</p><pre>PR #11 review round 3 | reviewed commit 1c1ae382b858fb9c3aa9d8303a590df02773a34c
+Captured UTC: 2026-11-25T06:51:49.168690+00:00
+Working directory: /tmp/pr11-review-round3/source
+PYTHONPATH=/tmp/pr11-review-round3/source/src:/tmp/pr11-review-round3/source/tinyml/src
+
+$ gh api --method POST markdown -f mode=gfm -F text=@/tmp/pr11-review-round3/1c1ae38/round-3/report-demo.md
+
+&lt;h3&gt;Drift Report&lt;/h3&gt;
+&lt;p&gt;Public API in this checkout, compared with its merge base with &lt;code class=&quot;notranslate&quot;&gt;main&lt;/code&gt; (&lt;code class=&quot;notranslate&quot;&gt;84e151c&lt;/code&gt;). Advisory: this check never fails the build.&lt;/p&gt;
+&lt;p&gt;3 API Changes; Drift on 2 Pages.&lt;/p&gt;
+&lt;markdown-accessiblity-table&gt;&lt;table role=&quot;table&quot;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;API&lt;/th&gt;
+&lt;th&gt;Change&lt;/th&gt;
+&lt;th&gt;Pages that Mention it&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code class=&quot;notranslate&quot;&gt;fit&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code class=&quot;notranslate&quot;&gt;(x: int | str)&lt;/code&gt; → &lt;code class=&quot;notranslate&quot;&gt;(x: int | str, sep=&#x27;`&#x27;)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code class=&quot;notranslate&quot;&gt;quick|start.md:2&lt;/code&gt;, &lt;code class=&quot;notranslate&quot;&gt;walk.ipynb (cell 2, line 1)&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code class=&quot;notranslate&quot;&gt;old&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;removed&lt;/td&gt;
+&lt;td&gt;&lt;code class=&quot;notranslate&quot;&gt;quick|start.md:3&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/markdown-accessiblity-table&gt;
+&lt;p&gt;&lt;strong&gt;Not yet documented&lt;/strong&gt;: no Page Mentions &lt;code class=&quot;notranslate&quot;&gt;added&lt;/code&gt;.&lt;/p&gt;
+[exit 0; 0.46s]
+
+</pre></main>

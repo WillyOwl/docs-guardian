@@ -1,0 +1,24 @@
+PR #11 review round 3 | reviewed commit 1c1ae382b858fb9c3aa9d8303a590df02773a34c
+Captured UTC: 2026-11-25T06:48:30.814305+00:00
+Working directory: /tmp/pr11-review-round3/source
+PYTHONPATH=/tmp/pr11-review-round3/source/src:/tmp/pr11-review-round3/source/tinyml/src
+
+$ /tmp/pr11-review-round2/envdocs/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml -d /tmp/pr11-review-round3/site
+
+[33m │  [1mMaterial for MkDocs reaches end of life on May 5, 2027.[0m
+[33m │[0m  Critical fixes and security updates continue until that date.
+[33m │[0m
+[33m │[0m  Zensical is its maintained successor, built by the same team.
+[33m │[0m  Try it alongside MkDocs with your existing mkdocs.yml:
+[33m │[0m  [36m[4mhttps://zensical.org/docs/compatibility/mkdocs/migration/[0m
+
+[90m  To disable this warning, set NO_MKDOCS_2_WARNING=1.[0m
+
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr11-review-round3/site
+INFO    -  Converting notebook (execute=False): /tmp/pr11-review-round3/source/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr11-review-round3/source/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr11-review-round3/source/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr11-review-round3/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.72 seconds
+[exit 0; 1.89s]
+

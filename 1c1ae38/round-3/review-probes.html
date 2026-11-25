@@ -1,0 +1,41 @@
+<!doctype html><meta charset="utf-8"><style>
+body{margin:0;background:#101827;color:#e5e7eb;font-family:Arial,sans-serif}
+main{margin:28px;padding:26px;background:#172135;border:1px solid #475569;border-radius:10px}
+h1{font-size:23px;margin:0 0 12px}p{font-size:14px;color:#b7c8db;line-height:1.5}
+pre{font:13px/20px "DejaVu Sans Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:24px}
+article{background:white;color:#111827;padding:20px;border-radius:6px}
+article p{color:#111827}table{border-collapse:collapse;width:100%}
+th,td{border:1px solid #cbd5e1;padding:12px;text-align:left}code{font-family:monospace}
+</style><main><h1>PR #11 · Review round 3 · review-probes</h1><p>Reviewed commit: 1c1ae382b858fb9c3aa9d8303a590df02773a34c.<br>Chromium screenshot of the complete saved command output; original logs and commands are stored alongside.</p><pre>PR #11 review round 3 | reviewed commit 1c1ae382b858fb9c3aa9d8303a590df02773a34c
+Captured UTC: 2026-11-25T06:51:49.686778+00:00
+Working directory: /tmp/pr11-review-round3/source
+PYTHONPATH=/tmp/pr11-review-round3/source/src:/tmp/pr11-review-round3/source/tinyml/src
+
+$ /tmp/pr11-review-round2/env314/bin/python -m pytest /tmp/pr11-review-round3/1c1ae38/round-3/test_review_round3.py -vv --tb=short -p no:cacheprovider --color=no
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- /tmp/pr11-review-round2/env314/bin/python
+rootdir: /tmp/pr11-review-round3
+collecting ... collected 17 items
+
+../1c1ae38/round-3/test_review_round3.py::test_union_annotation_changes_are_reported PASSED [  5%]
+../1c1ae38/round-3/test_review_round3.py::test_malformed_notebook_is_advisory PASSED [ 11%]
+../1c1ae38/round-3/test_review_round3.py::test_inline_code_location_skips_preceding_prose PASSED [ 17%]
+../1c1ae38/round-3/test_review_round3.py::test_union_signature_keeps_the_pages_table_cell PASSED [ 23%]
+../1c1ae38/round-3/test_review_round3.py::test_comment_lookup_failure_is_advisory PASSED [ 29%]
+../1c1ae38/round-3/test_review_round3.py::test_comment_workflow_existing_paths[no-changes-0-None] PASSED [ 35%]
+../1c1ae38/round-3/test_review_round3.py::test_comment_workflow_existing_paths[new-1-POST] PASSED [ 41%]
+../1c1ae38/round-3/test_review_round3.py::test_comment_workflow_existing_paths[rewrite-1-PATCH] PASSED [ 47%]
+../1c1ae38/round-3/test_review_round3.py::test_comment_workflow_existing_paths[rewrite-zero-0-PATCH] PASSED [ 52%]
+../1c1ae38/round-3/test_review_round3.py::test_comment_workflow_existing_paths[post-forbidden-1-POST] PASSED [ 58%]
+../1c1ae38/round-3/test_review_round3.py::test_private_module_changes_do_not_leak_into_report PASSED [ 64%]
+../1c1ae38/round-3/test_review_round3.py::test_nested_pages_and_notebook_cells_have_stable_locations PASSED [ 70%]
+../1c1ae38/round-3/test_review_round3.py::test_unreadable_utf8_is_not_silent PASSED [ 76%]
+../1c1ae38/round-3/test_review_round3.py::test_invalid_base_still_reports_a_configuration_error PASSED [ 82%]
+../1c1ae38/round-3/test_review_round3.py::test_bad_source_syntax_is_advisory PASSED [ 88%]
+../1c1ae38/round-3/test_review_round3.py::test_report_table_keeps_backticks_pipes_and_page_paths PASSED [ 94%]
+../1c1ae38/round-3/test_review_round3.py::test_oversized_report_stays_under_comment_limit_and_points_to_summary PASSED [100%]
+
+============================== 17 passed in 0.52s ==============================
+[exit 0; 0.69s]
+
+</pre></main>
