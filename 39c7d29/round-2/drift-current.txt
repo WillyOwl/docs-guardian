@@ -1,0 +1,13 @@
+PR #11 review round 2 | commit 39c7d290bbb0a982e8f173d518ea5b03fe23b84c
+Captured UTC: 2026-11-25T05:19:30.113840+00:00
+Working directory: /home/yiyang/docs-guardian
+
+$ /tmp/pr11-review-round2/env314/bin/docs-guardian drift --base origin/main --source tinyml/src --docs tinyml/docs
+<!-- docs-guardian:drift-report changes=0 drift-pages=0 -->
+### Drift Report
+
+Public API in this checkout, compared with its merge base with `origin/main` (`6af3ec1`). Advisory: this check never fails the build.
+
+No API Changes.
+[exit 0; 0.10s]
+

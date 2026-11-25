@@ -1,0 +1,37 @@
+<!doctype html><meta charset="utf-8"><style>
+body{margin:0;background:#101827;color:#e5e7eb;font-family:Arial,sans-serif}
+main{margin:28px;padding:26px;background:#172135;border:1px solid #475569;border-radius:10px}
+h1{font-size:23px;margin:0 0 12px}p{font-size:14px;color:#b7c8db;line-height:1.5}
+pre{font:13px/20px "DejaVu Sans Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:24px}
+article{background:white;color:#111827;padding:20px;border-radius:6px}
+article p{color:#111827}
+table{border-collapse:collapse;width:100%}th,td{border:1px solid #cbd5e1;padding:12px;text-align:left}
+code{font-family:monospace}a{color:#2866b8}
+</style><main><h1>PR #11 · Review round 2 · github-table-render</h1><p>Chromium capture of saved command output. Code under review: 39c7d290bbb0a982e8f173d518ea5b03fe23b84c.<br>Raw output and reproduction steps are stored beside this screenshot.</p><pre>PR #11 review round 2 | commit 39c7d290bbb0a982e8f173d518ea5b03fe23b84c
+Captured UTC: 2026-11-25T05:22:20.600395+00:00
+Working directory: /home/yiyang/docs-guardian
+
+$ gh api --method POST markdown -f mode=gfm -f context=WillyOwl/docs-guardian -F text=@/tmp/pr11-review-round2/39c7d29/round-2/union-report.md
+
+&lt;h3 dir=&quot;auto&quot;&gt;Drift Report&lt;/h3&gt;
+&lt;p dir=&quot;auto&quot;&gt;Public API in this checkout, compared with its merge base with &lt;code class=&quot;notranslate&quot;&gt;main&lt;/code&gt; (&lt;code class=&quot;notranslate&quot;&gt;1234567&lt;/code&gt;). Advisory: this check never fails the build.&lt;/p&gt;
+&lt;p dir=&quot;auto&quot;&gt;1 API Change; Drift on 1 Page.&lt;/p&gt;
+&lt;markdown-accessiblity-table&gt;&lt;table role=&quot;table&quot;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;API&lt;/th&gt;
+&lt;th&gt;Change&lt;/th&gt;
+&lt;th&gt;Pages that Mention it&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code class=&quot;notranslate&quot;&gt;fit&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;`(x: int&lt;/td&gt;
+&lt;td&gt;str)&lt;code class=&quot;notranslate&quot;&gt;→&lt;/code&gt;(x: int&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/markdown-accessiblity-table&gt;
+[exit 0; 0.53s]
+
+</pre></main>

@@ -1,0 +1,20 @@
+PR #11 review round 2 | commit 39c7d290bbb0a982e8f173d518ea5b03fe23b84c
+Captured UTC: 2026-11-25T05:21:44.810228+00:00
+Working directory: /home/yiyang/docs-guardian
+
+$ /tmp/pr11-review-round2/envdocs/bin/python -m pytest --nbmake tinyml/docs/notebooks -p no:cacheprovider --color=no
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: /home/yiyang/docs-guardian
+configfile: pyproject.toml
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collected 1 item
+
+tinyml/docs/notebooks/walkthrough.ipynb .                                [100%]
+
+Learn more about nbmake at https://github.com/treebeardtech/nbmake
+
+
+============================== 1 passed in 1.42s ===============================
+[exit 0; 1.75s]
+

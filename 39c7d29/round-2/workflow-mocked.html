@@ -1,0 +1,35 @@
+<!doctype html><meta charset="utf-8"><style>
+body{margin:0;background:#101827;color:#e5e7eb;font-family:Arial,sans-serif}
+main{margin:28px;padding:26px;background:#172135;border:1px solid #475569;border-radius:10px}
+h1{font-size:23px;margin:0 0 12px}p{font-size:14px;color:#b7c8db;line-height:1.5}
+pre{font:13px/20px "DejaVu Sans Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:24px}
+article{background:white;color:#111827;padding:20px;border-radius:6px}
+article p{color:#111827}
+table{border-collapse:collapse;width:100%}th,td{border:1px solid #cbd5e1;padding:12px;text-align:left}
+code{font-family:monospace}a{color:#2866b8}
+</style><main><h1>PR #11 · Review round 2 · workflow-mocked</h1><p>Chromium capture of saved command output. Code under review: 39c7d290bbb0a982e8f173d518ea5b03fe23b84c.<br>Raw output and reproduction steps are stored beside this screenshot.</p><pre>PR #11 review round 2 | commit 39c7d290bbb0a982e8f173d518ea5b03fe23b84c
+Captured UTC: 2026-11-25T05:21:16.508348+00:00
+Working directory: /home/yiyang/docs-guardian
+
+$ /tmp/pr11-review-round2/env314/bin/python -m pytest -v -s --tb=short --color=no /tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py -k existing_paths
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- /tmp/pr11-review-round2/env314/bin/python
+cachedir: .pytest_cache
+rootdir: /tmp/pr11-review-round2/39c7d29/round-2
+collecting ... collected 10 items / 5 deselected / 5 selected
+
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_comment_workflow_existing_paths[no-changes-0-None] no-changes exit: 0 calls: [[&#x27;api&#x27;, &#x27;repos/WillyOwl/docs-guardian/issues/11/comments&#x27;, &#x27;--paginate&#x27;, &#x27;--jq&#x27;, &#x27;.[] | select(.user.login == &quot;github-actions[bot]&quot;)\n             | select(.body | startswith(&quot;&lt;!-- docs-guardian:drift-report&quot;)) | .id&#x27;]] output: No API Changes and no earlier Drift Report: nothing to post.
+PASSED
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_comment_workflow_existing_paths[new-1-POST] new exit: 0 calls: [[&#x27;api&#x27;, &#x27;repos/WillyOwl/docs-guardian/issues/11/comments&#x27;, &#x27;--paginate&#x27;, &#x27;--jq&#x27;, &#x27;.[] | select(.user.login == &quot;github-actions[bot]&quot;)\n             | select(.body | startswith(&quot;&lt;!-- docs-guardian:drift-report&quot;)) | .id&#x27;], [&#x27;api&#x27;, &#x27;-X&#x27;, &#x27;POST&#x27;, &#x27;repos/WillyOwl/docs-guardian/issues/11/comments&#x27;, &#x27;-F&#x27;, &#x27;body=@body.md&#x27;]] output: Drift Report: did post a new comment.
+PASSED
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_comment_workflow_existing_paths[rewrite-1-PATCH] rewrite exit: 0 calls: [[&#x27;api&#x27;, &#x27;repos/WillyOwl/docs-guardian/issues/11/comments&#x27;, &#x27;--paginate&#x27;, &#x27;--jq&#x27;, &#x27;.[] | select(.user.login == &quot;github-actions[bot]&quot;)\n             | select(.body | startswith(&quot;&lt;!-- docs-guardian:drift-report&quot;)) | .id&#x27;], [&#x27;api&#x27;, &#x27;-X&#x27;, &#x27;PATCH&#x27;, &#x27;repos/WillyOwl/docs-guardian/issues/comments/12345&#x27;, &#x27;-F&#x27;, &#x27;body=@body.md&#x27;]] output: Drift Report: did rewrite comment 12345.
+PASSED
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_comment_workflow_existing_paths[rewrite-zero-0-PATCH] rewrite-zero exit: 0 calls: [[&#x27;api&#x27;, &#x27;repos/WillyOwl/docs-guardian/issues/11/comments&#x27;, &#x27;--paginate&#x27;, &#x27;--jq&#x27;, &#x27;.[] | select(.user.login == &quot;github-actions[bot]&quot;)\n             | select(.body | startswith(&quot;&lt;!-- docs-guardian:drift-report&quot;)) | .id&#x27;], [&#x27;api&#x27;, &#x27;-X&#x27;, &#x27;PATCH&#x27;, &#x27;repos/WillyOwl/docs-guardian/issues/comments/12345&#x27;, &#x27;-F&#x27;, &#x27;body=@body.md&#x27;]] output: Drift Report: did rewrite comment 12345.
+PASSED
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_comment_workflow_existing_paths[post-forbidden-1-POST] post-forbidden exit: 0 calls: [[&#x27;api&#x27;, &#x27;repos/WillyOwl/docs-guardian/issues/11/comments&#x27;, &#x27;--paginate&#x27;, &#x27;--jq&#x27;, &#x27;.[] | select(.user.login == &quot;github-actions[bot]&quot;)\n             | select(.body | startswith(&quot;&lt;!-- docs-guardian:drift-report&quot;)) | .id&#x27;], [&#x27;api&#x27;, &#x27;-X&#x27;, &#x27;POST&#x27;, &#x27;repos/WillyOwl/docs-guardian/issues/11/comments&#x27;, &#x27;-F&#x27;, &#x27;body=@body.md&#x27;]] output: ::warning::Could not post a new comment; the report is in the job summary. GitHub said: gh: HTTP 403 Resource not accessible by integration
+PASSED
+
+======================= 5 passed, 5 deselected in 0.31s ========================
+[exit 0; 0.48s]
+
+</pre></main>

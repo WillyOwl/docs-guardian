@@ -1,0 +1,27 @@
+PR #11 review round 2 | commit 39c7d290bbb0a982e8f173d518ea5b03fe23b84c
+Captured UTC: 2026-11-25T05:22:20.600395+00:00
+Working directory: /home/yiyang/docs-guardian
+
+$ gh api --method POST markdown -f mode=gfm -f context=WillyOwl/docs-guardian -F text=@/tmp/pr11-review-round2/39c7d29/round-2/union-report.md
+
+<h3 dir="auto">Drift Report</h3>
+<p dir="auto">Public API in this checkout, compared with its merge base with <code class="notranslate">main</code> (<code class="notranslate">1234567</code>). Advisory: this check never fails the build.</p>
+<p dir="auto">1 API Change; Drift on 1 Page.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>API</th>
+<th>Change</th>
+<th>Pages that Mention it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">fit</code></td>
+<td>`(x: int</td>
+<td>str)<code class="notranslate">→</code>(x: int</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+[exit 0; 0.53s]
+

@@ -1,0 +1,13 @@
+PR #11 review round 2 | commit 39c7d290bbb0a982e8f173d518ea5b03fe23b84c
+Captured UTC: 2026-11-25T05:19:29.583596+00:00
+Working directory: /home/yiyang/docs-guardian
+
+$ /tmp/pr11-review-round2/env314/bin/docs-guardian snippets tinyml/docs
+PASS tinyml/docs/api.md  0 Snippets
+PASS tinyml/docs/index.md  0 Snippets
+PASS tinyml/docs/quickstart.md  1 Snippet
+PASS tinyml/docs/tutorial.md  5 Snippets
+
+4 Pages: 4 passed, 0 failed
+[exit 0; 0.53s]
+

@@ -1,0 +1,47 @@
+<!doctype html><meta charset="utf-8"><style>
+body{margin:0;background:#101827;color:#e5e7eb;font-family:Arial,sans-serif}
+main{margin:28px;padding:26px;background:#172135;border:1px solid #475569;border-radius:10px}
+h1{font-size:23px;margin:0 0 12px}p{font-size:14px;color:#b7c8db;line-height:1.5}
+pre{font:13px/20px "DejaVu Sans Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:24px}
+article{background:white;color:#111827;padding:20px;border-radius:6px}
+article p{color:#111827}
+table{border-collapse:collapse;width:100%}th,td{border:1px solid #cbd5e1;padding:12px;text-align:left}
+code{font-family:monospace}a{color:#2866b8}
+</style><main><h1>PR #11 · Review round 2 · notebooks-sandbox</h1><p>Chromium capture of saved command output. Code under review: 39c7d290bbb0a982e8f173d518ea5b03fe23b84c.<br>Raw output and reproduction steps are stored beside this screenshot.</p><pre>PR #11 review round 2 | commit 39c7d290bbb0a982e8f173d518ea5b03fe23b84c
+Captured UTC: 2026-11-25T05:21:16.182678+00:00
+Working directory: /home/yiyang/docs-guardian
+
+$ /tmp/pr11-review-round2/envdocs/bin/python -m pytest --nbmake tinyml/docs/notebooks -p no:cacheprovider --color=no
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: /home/yiyang/docs-guardian
+configfile: pyproject.toml
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collected 1 item
+
+tinyml/docs/notebooks/walkthrough.ipynb F                                [100%]
+
+=================================== FAILURES ===================================
+______ /home/yiyang/docs-guardian/tinyml/docs/notebooks/walkthrough.ipynb ______
+NBMAKE INTERNAL ERROR
+[Errno 1] Operation not permitted
+  File &quot;/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/_pytest/runner.py&quot;, line 361, in from_call
+    result: TResult | None = func()
+                             ~~~~^^
+  File &quot;/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/_pytest/runner.py&quot;, line 250, in &lt;lambda&gt;
+    lambda: runtest_hook(item=item, **kwds),
+            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/pluggy/_caller.py&quot;, line 197, in __call__
+[Middle of traceback omitted from this view; complete output in notebooks-sandbox.txt]
+  /tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_client/localinterfaces.py:58: UserWarning: Unexpected error discovering local network interfaces: [Errno 1] Operation not permitted
+    ret = f(**kwargs)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+Learn more about nbmake at https://github.com/treebeardtech/nbmake
+
+=========================== short test summary info ============================
+FAILED tinyml/docs/notebooks/walkthrough.ipynb::walkthrough.ipynb - NBMAKE IN...
+========================= 1 failed, 1 warning in 0.19s =========================
+[exit 1; 1.00s]
+</pre></main>

@@ -1,0 +1,25 @@
+PR #11 review round 2 | commit 39c7d290bbb0a982e8f173d518ea5b03fe23b84c
+Captured UTC: 2026-11-25T05:21:16.508348+00:00
+Working directory: /home/yiyang/docs-guardian
+
+$ /tmp/pr11-review-round2/env314/bin/python -m pytest -v -s --tb=short --color=no /tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py -k existing_paths
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- /tmp/pr11-review-round2/env314/bin/python
+cachedir: .pytest_cache
+rootdir: /tmp/pr11-review-round2/39c7d29/round-2
+collecting ... collected 10 items / 5 deselected / 5 selected
+
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_comment_workflow_existing_paths[no-changes-0-None] no-changes exit: 0 calls: [['api', 'repos/WillyOwl/docs-guardian/issues/11/comments', '--paginate', '--jq', '.[] | select(.user.login == "github-actions[bot]")\n             | select(.body | startswith("<!-- docs-guardian:drift-report")) | .id']] output: No API Changes and no earlier Drift Report: nothing to post.
+PASSED
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_comment_workflow_existing_paths[new-1-POST] new exit: 0 calls: [['api', 'repos/WillyOwl/docs-guardian/issues/11/comments', '--paginate', '--jq', '.[] | select(.user.login == "github-actions[bot]")\n             | select(.body | startswith("<!-- docs-guardian:drift-report")) | .id'], ['api', '-X', 'POST', 'repos/WillyOwl/docs-guardian/issues/11/comments', '-F', 'body=@body.md']] output: Drift Report: did post a new comment.
+PASSED
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_comment_workflow_existing_paths[rewrite-1-PATCH] rewrite exit: 0 calls: [['api', 'repos/WillyOwl/docs-guardian/issues/11/comments', '--paginate', '--jq', '.[] | select(.user.login == "github-actions[bot]")\n             | select(.body | startswith("<!-- docs-guardian:drift-report")) | .id'], ['api', '-X', 'PATCH', 'repos/WillyOwl/docs-guardian/issues/comments/12345', '-F', 'body=@body.md']] output: Drift Report: did rewrite comment 12345.
+PASSED
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_comment_workflow_existing_paths[rewrite-zero-0-PATCH] rewrite-zero exit: 0 calls: [['api', 'repos/WillyOwl/docs-guardian/issues/11/comments', '--paginate', '--jq', '.[] | select(.user.login == "github-actions[bot]")\n             | select(.body | startswith("<!-- docs-guardian:drift-report")) | .id'], ['api', '-X', 'PATCH', 'repos/WillyOwl/docs-guardian/issues/comments/12345', '-F', 'body=@body.md']] output: Drift Report: did rewrite comment 12345.
+PASSED
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_comment_workflow_existing_paths[post-forbidden-1-POST] post-forbidden exit: 0 calls: [['api', 'repos/WillyOwl/docs-guardian/issues/11/comments', '--paginate', '--jq', '.[] | select(.user.login == "github-actions[bot]")\n             | select(.body | startswith("<!-- docs-guardian:drift-report")) | .id'], ['api', '-X', 'POST', 'repos/WillyOwl/docs-guardian/issues/11/comments', '-F', 'body=@body.md']] output: ::warning::Could not post a new comment; the report is in the job summary. GitHub said: gh: HTTP 403 Resource not accessible by integration
+PASSED
+
+======================= 5 passed, 5 deselected in 0.31s ========================
+[exit 0; 0.48s]
+

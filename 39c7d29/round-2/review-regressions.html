@@ -1,0 +1,146 @@
+<!doctype html><meta charset="utf-8"><style>
+body{margin:0;background:#101827;color:#e5e7eb;font-family:Arial,sans-serif}
+main{margin:28px;padding:26px;background:#172135;border:1px solid #475569;border-radius:10px}
+h1{font-size:23px;margin:0 0 12px}p{font-size:14px;color:#b7c8db;line-height:1.5}
+pre{font:13px/20px "DejaVu Sans Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:24px}
+article{background:white;color:#111827;padding:20px;border-radius:6px}
+article p{color:#111827}
+table{border-collapse:collapse;width:100%}th,td{border:1px solid #cbd5e1;padding:12px;text-align:left}
+code{font-family:monospace}a{color:#2866b8}
+</style><main><h1>PR #11 · Review round 2 · review-regressions</h1><p>Chromium capture of saved command output. Code under review: 39c7d290bbb0a982e8f173d518ea5b03fe23b84c.<br>Raw output and reproduction steps are stored beside this screenshot.</p><pre>PR #11 review round 2 | commit 39c7d290bbb0a982e8f173d518ea5b03fe23b84c
+Captured UTC: 2026-11-25T05:21:16.174649+00:00
+Working directory: /home/yiyang/docs-guardian
+
+$ /tmp/pr11-review-round2/env314/bin/python -m pytest -v --tb=short --color=no /tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py -k &#x27;not existing_paths&#x27;
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- /tmp/pr11-review-round2/env314/bin/python
+cachedir: .pytest_cache
+rootdir: /tmp/pr11-review-round2/39c7d29/round-2
+collecting ... collected 10 items / 5 deselected / 5 selected
+
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_union_annotation_changes_are_reported FAILED [ 20%]
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_malformed_notebook_is_advisory FAILED [ 40%]
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_inline_code_location_skips_preceding_prose FAILED [ 60%]
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_union_signature_keeps_the_pages_table_cell FAILED [ 80%]
+../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_comment_lookup_failure_is_advisory FAILED [100%]
+
+=================================== FAILURES ===================================
+__________________ test_union_annotation_changes_are_reported __________________
+/tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py:43: in test_union_annotation_changes_are_reported
+    assert &#x27;changes=1 &#x27; in report, &#x27;real parameter and return annotation changes were lost&#x27;
+E   AssertionError: real parameter and return annotation changes were lost
+E   assert &#x27;changes=1 &#x27; in &#x27;&lt;!-- docs-guardian:drift-report changes=0 drift-pages=0 --&gt;\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `baseline` (`b38d449`). Advisory: this check never fails the build.\n\nNo API Changes.\n&#x27;
+----------------------------- Captured stdout call -----------------------------
+BEFORE: def convert(value: int | str | bytes) -&gt; float | bool | None: ... 
+AFTER: def convert(value: int | bool | bytes) -&gt; float | str | None: ... 
+OBSERVED:
+ &lt;!-- docs-guardian:drift-report changes=0 drift-pages=0 --&gt;
+### Drift Report
+
+Public API in this checkout, compared with its merge base with `baseline` (`b38d449`). Advisory: this check never fails the build.
+
+No API Changes.
+
+_____________________ test_malformed_notebook_is_advisory ______________________
+/tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py:47: in test_malformed_notebook_is_advisory
+    result = run_cli()
+             ^^^^^^^^^
+/tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py:36: in run_cli
+    return main([&#x27;drift&#x27;, &#x27;--base&#x27;, &#x27;baseline&#x27;, &#x27;--source&#x27;, &#x27;src&#x27;, &#x27;--docs&#x27;, &#x27;docs&#x27;])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/yiyang/docs-guardian/src/docs_guardian/cli.py:121: in main
+    return args.handler(args)
+           ^^^^^^^^^^^^^^^^^^
+/home/yiyang/docs-guardian/src/docs_guardian/cli.py:68: in _run_drift
+    report = drift_report(args.base, Path(args.source), Path(args.docs))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/yiyang/docs-guardian/src/docs_guardian/drift.py:434: in drift_report
+    mentions = find_mentions(docs_root, [c.name for c in changes], packages, unreadable)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/yiyang/docs-guardian/src/docs_guardian/drift.py:277: in find_mentions
+    for cell, line, code in _notebook_code(text)
+                            ^^^^^^^^^^^^^^^^^^^^
+/home/yiyang/docs-guardian/src/docs_guardian/drift.py:230: in _notebook_code
+    for number, cell in enumerate(json.loads(text).get(&quot;cells&quot;, []), 1):
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: &#x27;NoneType&#x27; object is not iterable
+_______________ test_inline_code_location_skips_preceding_prose ________________
+/tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py:56: in test_inline_code_location_skips_preceding_prose
+    assert found == [&#x27;guide.md:2&#x27;]
+E   AssertionError: assert [&#x27;guide.md:1&#x27;] == [&#x27;guide.md:2&#x27;]
+E     
+E     At index 0 diff: &#x27;guide.md:1&#x27; != &#x27;guide.md:2&#x27;
+E     
+E     Full diff: (-: missing in left side, +: extra in left side)
+E       [
+E     -     &#x27;guide.md:2&#x27;,
+E     ?               ^...
+E     
+E     ...Full output truncated, use &#x27;-vv&#x27; to show
+----------------------------- Captured stdout call -----------------------------
+PAGE:
+1: We evaluate the model.
+2: Then call `evaluate`.
+OBSERVED: [&#x27;guide.md:1&#x27;]
+_______________ test_union_signature_keeps_the_pages_table_cell ________________
+/tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py:65: in test_union_signature_keeps_the_pages_table_cell
+    assert &#x27;quickstart.md:2&#x27; in html, &#x27;unescaped union pipes discard the Pages column&#x27;
+E   AssertionError: unescaped union pipes discard the Pages column
+E   assert &#x27;quickstart.md:2&#x27; in &#x27;&lt;!-- docs-guardian:drift-report changes=1 drift-pages=1 --&gt;\n&lt;h3&gt;Drift Report&lt;/h3&gt;\n&lt;p&gt;Public API in this checkout, compared with its merge base with &lt;code&gt;main&lt;/code&gt; (&lt;code&gt;1234567&lt;/code&gt;). Advisory: this check never fails the build.&lt;/p&gt;\n&lt;p&gt;1 API Change; Drift on 1 Page.&lt;/p&gt;\n&lt;table&gt;\n&lt;thead&gt;\n&lt;tr&gt;\n&lt;th&gt;API&lt;/th&gt;\n&lt;th&gt;Change&lt;/th&gt;\n&lt;th&gt;Pages that Mention it&lt;/th&gt;\n&lt;/tr&gt;\n&lt;/thead&gt;\n&lt;tbody&gt;\n&lt;tr&gt;\n&lt;td&gt;&lt;code&gt;fit&lt;/code&gt;&lt;/td&gt;\n&lt;td&gt;`(x: int&lt;/td&gt;\n&lt;td&gt;str)&lt;code&gt;→&lt;/code&gt;(x: int&lt;/td&gt;\n&lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;\n&#x27;
+----------------------------- Captured stdout call -----------------------------
+RAW REPORT:
+ &lt;!-- docs-guardian:drift-report changes=1 drift-pages=1 --&gt;
+### Drift Report
+
+Public API in this checkout, compared with its merge base with `main` (`1234567`). Advisory: this check never fails the build.
+
+1 API Change; Drift on 1 Page.
+
+| API | Change | Pages that Mention it |
+| --- | --- | --- |
+| `fit` | `(x: int | str)` → `(x: int | str, y=0)` | `quickstart.md:2` |
+ 
+RENDERED HTML:
+ &lt;!-- docs-guardian:drift-report changes=1 drift-pages=1 --&gt;
+&lt;h3&gt;Drift Report&lt;/h3&gt;
+&lt;p&gt;Public API in this checkout, compared with its merge base with &lt;code&gt;main&lt;/code&gt; (&lt;code&gt;1234567&lt;/code&gt;). Advisory: this check never fails the build.&lt;/p&gt;
+&lt;p&gt;1 API Change; Drift on 1 Page.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;API&lt;/th&gt;
+&lt;th&gt;Change&lt;/th&gt;
+&lt;th&gt;Pages that Mention it&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;fit&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;`(x: int&lt;/td&gt;
+&lt;td&gt;str)&lt;code&gt;→&lt;/code&gt;(x: int&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+___________________ test_comment_lookup_failure_is_advisory ____________________
+/tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py:108: in test_comment_lookup_failure_is_advisory
+    assert run.returncode == 0, &#x27;comment lookup failure makes the Advisory workflow fail&#x27;
+E   AssertionError: comment lookup failure makes the Advisory workflow fail
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=[&#x27;bash&#x27;, &#x27;-e&#x27;, &#x27;-o&#x27;, &#x27;pipefail&#x27;, &#x27;post-comment.sh&#x27;], returncode=1, stdout=&#x27;&#x27;, stderr=&#x27;gh: HTTP 503 Service Unavailable\n&#x27;).returncode
+----------------------------- Captured stdout call -----------------------------
+MOCKED CALLS: [[&#x27;api&#x27;, &#x27;repos/WillyOwl/docs-guardian/issues/11/comments&#x27;, &#x27;--paginate&#x27;, &#x27;--jq&#x27;, &#x27;.[] | select(.user.login == &quot;github-actions[bot]&quot;)\n             | select(.body | startswith(&quot;&lt;!-- docs-guardian:drift-report&quot;)) | .id&#x27;]] 
+STDOUT:  
+STDERR: gh: HTTP 503 Service Unavailable
+ 
+OBSERVED EXIT: 1
+=========================== short test summary info ============================
+FAILED ../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_union_annotation_changes_are_reported
+FAILED ../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_malformed_notebook_is_advisory
+FAILED ../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_inline_code_location_skips_preceding_prose
+FAILED ../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_union_signature_keeps_the_pages_table_cell
+FAILED ../../../tmp/pr11-review-round2/39c7d29/round-2/test_review_regressions.py::test_comment_lookup_failure_is_advisory
+======================= 5 failed, 5 deselected in 0.14s ========================
+[exit 1; 0.33s]
+
+</pre></main>
