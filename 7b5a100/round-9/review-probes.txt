@@ -1,0 +1,204 @@
+PR #11 review round 9 | reviewed commit 7b5a100481ec7a078551d307325c3f422f48793b
+Captured UTC: 2026-11-25T23:16:10.472123+00:00
+Working directory: /tmp/pr11-review-round9/source
+PYTHONPATH=/tmp/pr11-review-round9/source/src:/tmp/pr11-review-round9/source/tinyml/src
+
+$ /tmp/pr11-review-round2/envdocs/bin/python -m pytest /tmp/pr11-review-round9/7b5a100/round-9/test_review_round9.py -vv --tb=short -p no:cacheprovider --color=no
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- /tmp/pr11-review-round2/envdocs/bin/python
+rootdir: /tmp/pr11-review-round9
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collecting ... collected 13 items
+
+../7b5a100/round-9/test_review_round9.py::test_f1_module_alias_mentions_are_not_lost[package-alias] FAILED [  7%]
+../7b5a100/round-9/test_review_round9.py::test_f1_module_alias_mentions_are_not_lost[module-alias] FAILED [ 15%]
+../7b5a100/round-9/test_review_round9.py::test_f1_module_alias_mentions_are_not_lost[from-import-module] FAILED [ 23%]
+../7b5a100/round-9/test_review_round9.py::test_f2_mentions_in_site_admonitions_are_not_lost[python-fence] FAILED [ 30%]
+../7b5a100/round-9/test_review_round9.py::test_f2_mentions_in_site_admonitions_are_not_lost[inline-code] FAILED [ 38%]
+../7b5a100/round-9/test_review_round9.py::test_f3_notebook_markdown_inline_code_is_a_mention FAILED [ 46%]
+../7b5a100/round-9/test_review_round9.py::test_f4_removing_the_last_module_reports_removals_and_stays_advisory FAILED [ 53%]
+../7b5a100/round-9/test_review_round9.py::test_control_direct_qualified_mention_and_empty_module_work PASSED [ 61%]
+../7b5a100/round-9/test_review_round9.py::test_control_deleting_a_module_works_when_a_second_module_remains PASSED [ 69%]
+../7b5a100/round-9/test_review_round9.py::test_control_unrelated_object_and_prose_are_not_mentions PASSED [ 76%]
+../7b5a100/round-9/test_review_round9.py::test_control_bare_and_notebook_code_mentions_work PASSED [ 84%]
+../7b5a100/round-9/test_review_round9.py::test_control_alias_import_is_valid_python PASSED [ 92%]
+../7b5a100/round-9/test_review_round9.py::test_control_site_renders_admonition_fence_and_inline_code PASSED [100%]
+
+=================================== FAILURES ===================================
+__________ test_f1_module_alias_mentions_are_not_lost[package-alias] ___________
+/tmp/pr11-review-round9/7b5a100/round-9/test_review_round9.py:50: in test_f1_module_alias_mentions_are_not_lost
+    assert 'changes=1 drift-pages=1' in report, report
+E   AssertionError: <!-- docs-guardian:drift-report changes=1 drift-pages=0 -->
+E     ### Drift Report
+E     
+E     Public API in this checkout, compared with its merge base with `main` (`1949bfe`). Advisory: this check never fails the build.
+E     
+E     1 API Change; no Drift.
+E     
+E     | API | Change | Pages that Mention it |
+E     | --- | --- | --- |
+E     | `fit_linear` | removed | none |
+E     
+E   assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`1949bfe`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `fit_linear` | removed | none |\n'
+___________ test_f1_module_alias_mentions_are_not_lost[module-alias] ___________
+/tmp/pr11-review-round9/7b5a100/round-9/test_review_round9.py:50: in test_f1_module_alias_mentions_are_not_lost
+    assert 'changes=1 drift-pages=1' in report, report
+E   AssertionError: <!-- docs-guardian:drift-report changes=1 drift-pages=0 -->
+E     ### Drift Report
+E     
+E     Public API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.
+E     
+E     1 API Change; no Drift.
+E     
+E     | API | Change | Pages that Mention it |
+E     | --- | --- | --- |
+E     | `fit_linear` | removed | none |
+E     
+E   assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `fit_linear` | removed | none |\n'
+________ test_f1_module_alias_mentions_are_not_lost[from-import-module] ________
+/tmp/pr11-review-round9/7b5a100/round-9/test_review_round9.py:50: in test_f1_module_alias_mentions_are_not_lost
+    assert 'changes=1 drift-pages=1' in report, report
+E   AssertionError: <!-- docs-guardian:drift-report changes=1 drift-pages=0 -->
+E     ### Drift Report
+E     
+E     Public API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.
+E     
+E     1 API Change; no Drift.
+E     
+E     | API | Change | Pages that Mention it |
+E     | --- | --- | --- |
+E     | `fit_linear` | removed | none |
+E     
+E   assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `fit_linear` | removed | none |\n'
+_______ test_f2_mentions_in_site_admonitions_are_not_lost[python-fence] ________
+/tmp/pr11-review-round9/7b5a100/round-9/test_review_round9.py:63: in test_f2_mentions_in_site_admonitions_are_not_lost
+    assert 'changes=1 drift-pages=1' in report, report
+E   AssertionError: <!-- docs-guardian:drift-report changes=1 drift-pages=0 -->
+E     ### Drift Report
+E     
+E     Public API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.
+E     
+E     1 API Change; no Drift.
+E     
+E     | API | Change | Pages that Mention it |
+E     | --- | --- | --- |
+E     | `fit_linear` | removed | none |
+E     
+E   assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `fit_linear` | removed | none |\n'
+________ test_f2_mentions_in_site_admonitions_are_not_lost[inline-code] ________
+/tmp/pr11-review-round9/7b5a100/round-9/test_review_round9.py:63: in test_f2_mentions_in_site_admonitions_are_not_lost
+    assert 'changes=1 drift-pages=1' in report, report
+E   AssertionError: <!-- docs-guardian:drift-report changes=1 drift-pages=0 -->
+E     ### Drift Report
+E     
+E     Public API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.
+E     
+E     1 API Change; no Drift.
+E     
+E     | API | Change | Pages that Mention it |
+E     | --- | --- | --- |
+E     | `fit_linear` | removed | none |
+E     
+E   assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `fit_linear` | removed | none |\n'
+______________ test_f3_notebook_markdown_inline_code_is_a_mention ______________
+/tmp/pr11-review-round9/7b5a100/round-9/test_review_round9.py:77: in test_f3_notebook_markdown_inline_code_is_a_mention
+    assert 'changes=1 drift-pages=1' in report, report
+E   AssertionError: <!-- docs-guardian:drift-report changes=1 drift-pages=0 -->
+E     ### Drift Report
+E     
+E     Public API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.
+E     
+E     1 API Change; no Drift.
+E     
+E     | API | Change | Pages that Mention it |
+E     | --- | --- | --- |
+E     | `fit_linear` | removed | none |
+E     
+E   assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `fit_linear` | removed | none |\n'
+_____ test_f4_removing_the_last_module_reports_removals_and_stays_advisory _____
+/tmp/pr11-review-round9/7b5a100/round-9/test_review_round9.py:86: in test_f4_removing_the_last_module_reports_removals_and_stays_advisory
+    assert status == 0, f'{error}\n{report}'
+E   AssertionError: docs-guardian: no Python files under src
+E     
+E     
+E   assert 2 == 0
+=========================== short test summary info ============================
+FAILED ../7b5a100/round-9/test_review_round9.py::test_f1_module_alias_mentions_are_not_lost[package-alias] - AssertionError: <!-- docs-guardian:drift-report changes=1 drift-pages=0 -->
+  ### Drift Report
+  
+  Public API in this checkout, compared with its merge base with `main` (`1949bfe`). Advisory: this check never fails the build.
+  
+  1 API Change; no Drift.
+  
+  | API | Change | Pages that Mention it |
+  | --- | --- | --- |
+  | `fit_linear` | removed | none |
+  
+assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`1949bfe`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `fit_linear` | removed | none |\n'
+FAILED ../7b5a100/round-9/test_review_round9.py::test_f1_module_alias_mentions_are_not_lost[module-alias] - AssertionError: <!-- docs-guardian:drift-report changes=1 drift-pages=0 -->
+  ### Drift Report
+  
+  Public API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.
+  
+  1 API Change; no Drift.
+  
+  | API | Change | Pages that Mention it |
+  | --- | --- | --- |
+  | `fit_linear` | removed | none |
+  
+assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `fit_linear` | removed | none |\n'
+FAILED ../7b5a100/round-9/test_review_round9.py::test_f1_module_alias_mentions_are_not_lost[from-import-module] - AssertionError: <!-- docs-guardian:drift-report changes=1 drift-pages=0 -->
+  ### Drift Report
+  
+  Public API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.
+  
+  1 API Change; no Drift.
+  
+  | API | Change | Pages that Mention it |
+  | --- | --- | --- |
+  | `fit_linear` | removed | none |
+  
+assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `fit_linear` | removed | none |\n'
+FAILED ../7b5a100/round-9/test_review_round9.py::test_f2_mentions_in_site_admonitions_are_not_lost[python-fence] - AssertionError: <!-- docs-guardian:drift-report changes=1 drift-pages=0 -->
+  ### Drift Report
+  
+  Public API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.
+  
+  1 API Change; no Drift.
+  
+  | API | Change | Pages that Mention it |
+  | --- | --- | --- |
+  | `fit_linear` | removed | none |
+  
+assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `fit_linear` | removed | none |\n'
+FAILED ../7b5a100/round-9/test_review_round9.py::test_f2_mentions_in_site_admonitions_are_not_lost[inline-code] - AssertionError: <!-- docs-guardian:drift-report changes=1 drift-pages=0 -->
+  ### Drift Report
+  
+  Public API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.
+  
+  1 API Change; no Drift.
+  
+  | API | Change | Pages that Mention it |
+  | --- | --- | --- |
+  | `fit_linear` | removed | none |
+  
+assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `fit_linear` | removed | none |\n'
+FAILED ../7b5a100/round-9/test_review_round9.py::test_f3_notebook_markdown_inline_code_is_a_mention - AssertionError: <!-- docs-guardian:drift-report changes=1 drift-pages=0 -->
+  ### Drift Report
+  
+  Public API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.
+  
+  1 API Change; no Drift.
+  
+  | API | Change | Pages that Mention it |
+  | --- | --- | --- |
+  | `fit_linear` | removed | none |
+  
+assert 'changes=1 drift-pages=1' in '<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->\n### Drift Report\n\nPublic API in this checkout, compared with its merge base with `main` (`e37f54e`). Advisory: this check never fails the build.\n\n1 API Change; no Drift.\n\n| API | Change | Pages that Mention it |\n| --- | --- | --- |\n| `fit_linear` | removed | none |\n'
+FAILED ../7b5a100/round-9/test_review_round9.py::test_f4_removing_the_last_module_reports_removals_and_stays_advisory - AssertionError: docs-guardian: no Python files under src
+  
+  
+assert 2 == 0
+========================= 7 failed, 6 passed in 0.56s ==========================
+[exit 1; 1.04s]
+

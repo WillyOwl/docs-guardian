@@ -1,0 +1,22 @@
+F1 | PR #11 review round 9 | reviewed commit 7b5a100481ec7a078551d307325c3f422f48793b
+Setup: temporary git repo with fit_linear(X, y) at main; feature removes it.
+Page source:
+```python
+import tinyml as tm
+tm.fit_linear(X, y)
+```
+
+$ docs-guardian drift --base main --source <fixture>/src --docs <fixture>/docs
+<!-- docs-guardian:drift-report changes=1 drift-pages=0 -->
+### Drift Report
+
+Public API in this checkout, compared with its merge base with `main` (`7dd1248`). Advisory: this check never fails the build.
+
+1 API Change; no Drift.
+
+| API | Change | Pages that Mention it |
+| --- | --- | --- |
+| `fit_linear` | removed | none |
+
+
+Actual CLI exit: 0; expected: 0, with one API removal and one Drift Page.

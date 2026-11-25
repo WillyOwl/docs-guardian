@@ -1,0 +1,11 @@
+F4 | PR #11 review round 9 | reviewed commit 7b5a100481ec7a078551d307325c3f422f48793b
+Setup: temporary git repo with fit_linear(X, y) at main; feature removes it.
+Configured src directory still exists; its last Python module was deleted.
+Page source:
+Call `tinyml.fit_linear(X, y)`.
+
+$ docs-guardian drift --base main --source <fixture>/src --docs <fixture>/docs
+
+docs-guardian: no Python files under <fixture>/src
+
+Actual CLI exit: 2; expected: 0, with one API removal and one Drift Page.

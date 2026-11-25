@@ -1,0 +1,14 @@
+PR #11 review round 9 | reviewed commit 7b5a100481ec7a078551d307325c3f422f48793b
+Captured UTC: 2026-11-25T23:16:10.540609+00:00
+Working directory: /tmp/pr11-review-round9/source
+PYTHONPATH=/tmp/pr11-review-round9/source/src:/tmp/pr11-review-round9/source/tinyml/src
+
+$ /tmp/pr11-review-round2/env314/bin/python -c 'from docs_guardian.cli import main; raise SystemExit(main())' snippets tinyml/docs
+PASS tinyml/docs/api.md  0 Snippets
+PASS tinyml/docs/index.md  0 Snippets
+PASS tinyml/docs/quickstart.md  1 Snippet
+PASS tinyml/docs/tutorial.md  5 Snippets
+
+4 Pages: 4 passed, 0 failed
+[exit 0; 0.69s]
+

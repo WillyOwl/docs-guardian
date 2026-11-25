@@ -1,0 +1,26 @@
+PR #11 review round 9 | reviewed commit 7b5a100481ec7a078551d307325c3f422f48793b
+Captured UTC: 2026-11-25T23:19:13.461992+00:00
+Working directory: /tmp/pr11-review-round9/source
+PYTHONPATH=/tmp/pr11-review-round9/source/src:/tmp/pr11-review-round9/source/tinyml/src
+
+$ git rev-parse HEAD
+7b5a100481ec7a078551d307325c3f422f48793b
+[exit 0; 0.00s]
+
+$ git status --porcelain
+
+[exit 0; 0.00s]
+
+$ git diff --check
+
+[exit 0; 0.00s]
+
+$ git ls-remote origin refs/heads/feat/drift-check refs/pull/11/head
+7b5a100481ec7a078551d307325c3f422f48793b	refs/heads/feat/drift-check
+7b5a100481ec7a078551d307325c3f422f48793b	refs/pull/11/head
+[exit 0; 0.38s]
+
+$ gh pr view 11 --repo WillyOwl/docs-guardian --json headRefOid,state,isDraft
+{"headRefOid":"7b5a100481ec7a078551d307325c3f422f48793b","isDraft":true,"state":"OPEN"}
+[exit 0; 0.57s]
+

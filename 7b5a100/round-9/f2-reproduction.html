@@ -1,0 +1,38 @@
+<!doctype html><meta charset="utf-8"><style>
+body{margin:0;background:#101827;color:#e5e7eb;font-family:Arial,sans-serif}
+main{margin:28px;padding:26px;background:#172135;border:1px solid #475569;border-radius:10px}
+h1{font-size:23px;margin:0 0 12px}p{font-size:14px;color:#b7c8db;line-height:1.5}
+pre{font:13px/20px "DejaVu Sans Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:24px}
+article{background:white;color:#111827;padding:20px;border-radius:6px}
+article p{color:#111827}table{border-collapse:collapse;width:100%}
+th,td{border:1px solid #cbd5e1;padding:12px;text-align:left}code{font-family:monospace}
+</style><main><h1>PR #11 · Review round 9 · f2-reproduction</h1><p>Reviewed commit: 7b5a100481ec7a078551d307325c3f422f48793b.<br>Chromium screenshot of the complete saved command output; original logs and commands are stored alongside.</p><pre>F2 | PR #11 review round 9 | reviewed commit 7b5a100481ec7a078551d307325c3f422f48793b
+Setup: temporary git repo with fit_linear(X, y) at main; feature removes it.
+Page source:
+!!! note
+
+    ```python
+    tinyml.fit_linear(X, y)
+    ```
+
+$ docs-guardian drift --base main --source &lt;fixture&gt;/src --docs &lt;fixture&gt;/docs
+&lt;!-- docs-guardian:drift-report changes=1 drift-pages=0 --&gt;
+### Drift Report
+
+Public API in this checkout, compared with its merge base with `main` (`ac76f32`). Advisory: this check never fails the build.
+
+1 API Change; no Drift.
+
+| API | Change | Pages that Mention it |
+| --- | --- | --- |
+| `fit_linear` | removed | none |
+
+
+Actual CLI exit: 0; expected: 0, with one API removal and one Drift Page.
+Configured site renderer HTML (admonition + superfences):
+&lt;div class=&quot;admonition note&quot;&gt;
+&lt;p class=&quot;admonition-title&quot;&gt;Note&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;tinyml&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit_linear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+</pre></main>

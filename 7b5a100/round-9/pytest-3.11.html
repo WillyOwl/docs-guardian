@@ -1,0 +1,35 @@
+<!doctype html><meta charset="utf-8"><style>
+body{margin:0;background:#101827;color:#e5e7eb;font-family:Arial,sans-serif}
+main{margin:28px;padding:26px;background:#172135;border:1px solid #475569;border-radius:10px}
+h1{font-size:23px;margin:0 0 12px}p{font-size:14px;color:#b7c8db;line-height:1.5}
+pre{font:13px/20px "DejaVu Sans Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:24px}
+article{background:white;color:#111827;padding:20px;border-radius:6px}
+article p{color:#111827}table{border-collapse:collapse;width:100%}
+th,td{border:1px solid #cbd5e1;padding:12px;text-align:left}code{font-family:monospace}
+</style><main><h1>PR #11 · Review round 9 · pytest-3.11</h1><p>Reviewed commit: 7b5a100481ec7a078551d307325c3f422f48793b.<br>Chromium screenshot of the complete saved command output; original logs and commands are stored alongside.</p><pre>PR #11 review round 9 | reviewed commit 7b5a100481ec7a078551d307325c3f422f48793b
+Captured UTC: 2026-11-25T23:16:10.506827+00:00
+Working directory: /tmp/pr11-review-round9/source
+PYTHONPATH=/tmp/pr11-review-round9/source/src:/tmp/pr11-review-round9/source/tinyml/src
+
+$ /tmp/pr11-review-round2/env311/bin/python --version
+Python 3.11.15
+[exit 0; 0.00s]
+
+$ /tmp/pr11-review-round2/env311/bin/python -m pytest -p no:cacheprovider --color=no
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.2.0, pluggy-1.7.0
+rootdir: /tmp/pr11-review-round9/source
+configfile: pyproject.toml
+testpaths: tests, tinyml/tests
+collected 107 items
+
+tests/test_cli.py ...                                                    [  2%]
+tests/test_drift.py ......................................               [ 38%]
+tests/test_post_drift_report.py .........                                [ 46%]
+tests/test_snippets.py ..........................                        [ 71%]
+tinyml/tests/test_tinyml.py ...............................              [100%]
+
+============================= 107 passed in 7.31s ==============================
+[exit 0; 7.54s]
+
+</pre></main>
