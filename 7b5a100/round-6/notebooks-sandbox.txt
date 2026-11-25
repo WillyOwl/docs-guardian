@@ -1,0 +1,141 @@
+PR #11 review round 6 | reviewed commit 7b5a100481ec7a078551d307325c3f422f48793b
+Captured UTC: 2026-11-25T22:41:47.694368+00:00
+Working directory: /tmp/pr11-review-round6/source
+PYTHONPATH=/tmp/pr11-review-round6/source/src:/tmp/pr11-review-round6/source/tinyml/src
+
+$ /tmp/pr11-review-round2/envdocs/bin/python -m pytest --nbmake tinyml/docs/notebooks -p no:cacheprovider --color=no
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: /tmp/pr11-review-round6/source
+configfile: pyproject.toml
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collected 1 item
+
+tinyml/docs/notebooks/walkthrough.ipynb F                                [100%]
+
+=================================== FAILURES ===================================
+____ /tmp/pr11-review-round6/source/tinyml/docs/notebooks/walkthrough.ipynb ____
+NBMAKE INTERNAL ERROR
+[Errno 1] Operation not permitted
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/_pytest/runner.py"[39m, line [38;2;102;102;102m361[39m, in from_call
+[38;2;187;187;187m    [39mresult: TResult [38;2;102;102;102m|[39m [38;2;0;128;0;01mNone[39;00m [38;2;102;102;102m=[39m func()
+[38;2;187;187;187m                             [39m~~~~^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/_pytest/runner.py"[39m, line [38;2;102;102;102m250[39m, in <lambda>
+[38;2;187;187;187m    [39m[38;2;0;128;0;01mlambda[39;00m: runtest_hook(item[38;2;102;102;102m=[39mitem, [38;2;102;102;102m*[39m[38;2;102;102;102m*[39mkwds),
+[38;2;187;187;187m            [39m~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/pluggy/_caller.py"[39m, line [38;2;102;102;102m197[39m, in __call__
+[38;2;187;187;187m    [39m[38;2;0;128;0;01mreturn[39;00m [38;2;0;128;0mself[39m[38;2;102;102;102m.[39m_hookexec(
+[38;2;187;187;187m           [39m~~~~~~~~~~~~~~^
+[38;2;187;187;187m    [39m    [38;2;0;128;0mself[39m[38;2;102;102;102m.[39mname, [38;2;0;128;0mself[39m[38;2;102;102;102m.[39m_hookimpls[38;2;102;102;102m.[39mcopy(), call_kwargs, firstresult
+[38;2;187;187;187m        [39m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[38;2;187;187;187m    [39m)
+[38;2;187;187;187m    [39m^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/pluggy/_manager.py"[39m, line [38;2;102;102;102m183[39m, in _hookexec
+[38;2;187;187;187m    [39m[38;2;0;128;0;01mreturn[39;00m [38;2;0;128;0mself[39m[38;2;102;102;102m.[39m_inner_hookexec(hook_name, methods, kwargs, firstresult)
+[38;2;187;187;187m           [39m~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/pluggy/_execution.py"[39m, line [38;2;102;102;102m195[39m, in _multicall
+[38;2;187;187;187m    [39m[38;2;0;128;0;01mraise[39;00m exception
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/pluggy/_execution.py"[39m, line [38;2;102;102;102m167[39m, in _multicall
+[38;2;187;187;187m    [39mteardown[38;2;102;102;102m.[39mthrow(exception)
+[38;2;187;187;187m    [39m~~~~~~~~~~~~~~^^^^^^^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/_pytest/logging.py"[39m, line [38;2;102;102;102m878[39m, in pytest_runtest_call
+[38;2;187;187;187m    [39m[38;2;0;128;0;01myield[39;00m
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/pluggy/_execution.py"[39m, line [38;2;102;102;102m167[39m, in _multicall
+[38;2;187;187;187m    [39mteardown[38;2;102;102;102m.[39mthrow(exception)
+[38;2;187;187;187m    [39m~~~~~~~~~~~~~~^^^^^^^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/_pytest/capture.py"[39m, line [38;2;102;102;102m906[39m, in pytest_runtest_call
+[38;2;187;187;187m    [39m[38;2;0;128;0;01mreturn[39;00m ([38;2;0;128;0;01myield[39;00m)
+[38;2;187;187;187m            [39m^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/pluggy/_execution.py"[39m, line [38;2;102;102;102m167[39m, in _multicall
+[38;2;187;187;187m    [39mteardown[38;2;102;102;102m.[39mthrow(exception)
+[38;2;187;187;187m    [39m~~~~~~~~~~~~~~^^^^^^^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/_pytest/skipping.py"[39m, line [38;2;102;102;102m268[39m, in pytest_runtest_call
+[38;2;187;187;187m    [39m[38;2;0;128;0;01mreturn[39;00m ([38;2;0;128;0;01myield[39;00m)
+[38;2;187;187;187m            [39m^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/pluggy/_execution.py"[39m, line [38;2;102;102;102m147[39m, in _multicall
+[38;2;187;187;187m    [39mres [38;2;102;102;102m=[39m hook_impl[38;2;102;102;102m.[39mfunction([38;2;102;102;102m*[39margs)
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/_pytest/runner.py"[39m, line [38;2;102;102;102m184[39m, in pytest_runtest_call
+[38;2;187;187;187m    [39mitem[38;2;102;102;102m.[39mruntest()
+[38;2;187;187;187m    [39m~~~~~~~~~~~~^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/nbmake/pytest_items.py"[39m, line [38;2;102;102;102m54[39m, in runtest
+[38;2;187;187;187m    [39mres: NotebookResult [38;2;102;102;102m=[39m run[38;2;102;102;102m.[39mexecute()
+[38;2;187;187;187m                          [39m~~~~~~~~~~~^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/nbmake/nb_run.py"[39m, line [38;2;102;102;102m131[39m, in execute
+[38;2;187;187;187m    [39m[38;2;0;128;0;01mraise[39;00m err
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/nbmake/nb_run.py"[39m, line [38;2;102;102;102m113[39m, in execute
+[38;2;187;187;187m    [39mc[38;2;102;102;102m.[39mexecute(cwd[38;2;102;102;102m=[39m[38;2;0;128;0mself[39m[38;2;102;102;102m.[39mfilename[38;2;102;102;102m.[39mparent)
+[38;2;187;187;187m    [39m~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_core/utils/__init__.py"[39m, line [38;2;102;102;102m165[39m, in wrapped
+[38;2;187;187;187m    [39m[38;2;0;128;0;01mreturn[39;00m loop[38;2;102;102;102m.[39mrun_until_complete(inner)
+[38;2;187;187;187m           [39m~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File [38;2;0;128;0m"/home/yiyang/ENTER/lib/python3.14/asyncio/base_events.py"[39m, line [38;2;102;102;102m719[39m, in run_until_complete
+[38;2;187;187;187m    [39m[38;2;0;128;0;01mreturn[39;00m future[38;2;102;102;102m.[39mresult()
+[38;2;187;187;187m           [39m~~~~~~~~~~~~~^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/nbclient/client.py"[39m, line [38;2;102;102;102m693[39m, in async_execute
+[38;2;187;187;187m    [39m[38;2;0;128;0;01masync[39;00m [38;2;0;128;0;01mwith[39;00m [38;2;0;128;0mself[39m[38;2;102;102;102m.[39masync_setup_kernel([38;2;102;102;102m*[39m[38;2;102;102;102m*[39mkwargs):
+[38;2;187;187;187m               [39m~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File [38;2;0;128;0m"/home/yiyang/ENTER/lib/python3.14/contextlib.py"[39m, line [38;2;102;102;102m214[39m, in __aenter__
+[38;2;187;187;187m    [39m[38;2;0;128;0;01mreturn[39;00m [38;2;0;128;0;01mawait[39;00m anext([38;2;0;128;0mself[39m[38;2;102;102;102m.[39mgen)
+[38;2;187;187;187m           [39m^^^^^^^^^^^^^^^^^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/nbclient/client.py"[39m, line [38;2;102;102;102m648[39m, in async_setup_kernel
+[38;2;187;187;187m    [39m[38;2;0;128;0;01mawait[39;00m [38;2;0;128;0mself[39m[38;2;102;102;102m.[39masync_start_new_kernel([38;2;102;102;102m*[39m[38;2;102;102;102m*[39mkwargs)
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/nbclient/client.py"[39m, line [38;2;102;102;102m550[39m, in async_start_new_kernel
+[38;2;187;187;187m    [39m[38;2;0;128;0;01mawait[39;00m ensure_async([38;2;0;128;0mself[39m[38;2;102;102;102m.[39mkm[38;2;102;102;102m.[39mstart_kernel(extra_arguments[38;2;102;102;102m=[39m[38;2;0;128;0mself[39m[38;2;102;102;102m.[39mextra_arguments, [38;2;102;102;102m*[39m[38;2;102;102;102m*[39mkwargs))
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_core/utils/__init__.py"[39m, line [38;2;102;102;102m214[39m, in ensure_async
+[38;2;187;187;187m    [39mresult [38;2;102;102;102m=[39m [38;2;0;128;0;01mawait[39;00m obj
+[38;2;187;187;187m             [39m^^^^^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_client/manager.py"[39m, line [38;2;102;102;102m116[39m, in wrapper
+[38;2;187;187;187m    [39m[38;2;0;128;0;01mraise[39;00m e
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_client/manager.py"[39m, line [38;2;102;102;102m107[39m, in wrapper
+[38;2;187;187;187m    [39mout [38;2;102;102;102m=[39m [38;2;0;128;0;01mawait[39;00m method([38;2;0;128;0mself[39m, [38;2;102;102;102m*[39margs, [38;2;102;102;102m*[39m[38;2;102;102;102m*[39mkwargs)
+[38;2;187;187;187m          [39m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_client/manager.py"[39m, line [38;2;102;102;102m528[39m, in _async_start_kernel
+[38;2;187;187;187m    [39mkernel_cmd, kw [38;2;102;102;102m=[39m [38;2;0;128;0;01mawait[39;00m [38;2;0;128;0mself[39m[38;2;102;102;102m.[39m_async_pre_start_kernel([38;2;102;102;102m*[39m[38;2;102;102;102m*[39mkw)
+[38;2;187;187;187m                     [39m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_client/manager.py"[39m, line [38;2;102;102;102m493[39m, in _async_pre_start_kernel
+[38;2;187;187;187m    [39mkw [38;2;102;102;102m=[39m [38;2;0;128;0;01mawait[39;00m [38;2;0;128;0mself[39m[38;2;102;102;102m.[39mprovisioner[38;2;102;102;102m.[39mpre_launch([38;2;102;102;102m*[39m[38;2;102;102;102m*[39mkw)
+[38;2;187;187;187m         [39m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_client/provisioning/local_provisioner.py"[39m, line [38;2;102;102;102m216[39m, in pre_launch
+[38;2;187;187;187m    [39mkm[38;2;102;102;102m.[39mshell_port [38;2;102;102;102m=[39m lpc[38;2;102;102;102m.[39mfind_available_port(km[38;2;102;102;102m.[39mip)
+[38;2;187;187;187m                    [39m~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File [38;2;0;128;0m"/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_client/connect.py"[39m, line [38;2;102;102;102m753[39m, in find_available_port
+[38;2;187;187;187m    [39mtmp_sock [38;2;102;102;102m=[39m socket[38;2;102;102;102m.[39msocket()
+  File [38;2;0;128;0m"/home/yiyang/ENTER/lib/python3.14/socket.py"[39m, line [38;2;102;102;102m236[39m, in __init__
+[38;2;187;187;187m    [39m_socket[38;2;102;102;102m.[39msocket[38;2;102;102;102m.[39m[38;2;0;0;255m__init__[39m([38;2;0;128;0mself[39m, family, [38;2;0;128;0mtype[39m, proto, fileno)
+[38;2;187;187;187m    [39m~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+------------------------------ Captured log call -------------------------------
+ERROR    traitlets:manager.py:115 [Errno 1] Operation not permitted
+Traceback (most recent call last):
+  File "/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_client/manager.py", line 107, in wrapper
+    out = await method(self, *args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_client/manager.py", line 528, in _async_start_kernel
+    kernel_cmd, kw = await self._async_pre_start_kernel(**kw)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_client/manager.py", line 493, in _async_pre_start_kernel
+    kw = await self.provisioner.pre_launch(**kw)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_client/provisioning/local_provisioner.py", line 216, in pre_launch
+    km.shell_port = lpc.find_available_port(km.ip)
+                    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_client/connect.py", line 753, in find_available_port
+    tmp_sock = socket.socket()
+  File "/home/yiyang/ENTER/lib/python3.14/socket.py", line 236, in __init__
+    _socket.socket.__init__(self, family, type, proto, fileno)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 1] Operation not permitted
+=============================== warnings summary ===============================
+tinyml/docs/notebooks/walkthrough.ipynb::walkthrough.ipynb
+  /tmp/pr11-review-round2/envdocs/lib/python3.14/site-packages/jupyter_client/localinterfaces.py:58: UserWarning: Unexpected error discovering local network interfaces: [Errno 1] Operation not permitted
+    ret = f(**kwargs)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+Learn more about nbmake at https://github.com/treebeardtech/nbmake
+
+=========================== short test summary info ============================
+FAILED tinyml/docs/notebooks/walkthrough.ipynb::walkthrough.ipynb - NBMAKE IN...
+========================= 1 failed, 1 warning in 0.09s =========================
+[exit 1; 0.42s]
+

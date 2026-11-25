@@ -1,0 +1,27 @@
+<!doctype html><meta charset="utf-8"><style>
+body{margin:0;background:#101827;color:#e5e7eb;font-family:Arial,sans-serif}
+main{margin:28px;padding:26px;background:#172135;border:1px solid #475569;border-radius:10px}
+h1{font-size:23px;margin:0 0 12px}p{font-size:14px;color:#b7c8db;line-height:1.5}
+pre{font:13px/20px "DejaVu Sans Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:24px}
+article{background:white;color:#111827;padding:20px;border-radius:6px}
+article p{color:#111827}table{border-collapse:collapse;width:100%}
+th,td{border:1px solid #cbd5e1;padding:12px;text-align:left}code{font-family:monospace}
+</style><main><h1>PR #11 · Review round 6 · ci</h1><p>Reviewed commit: 7b5a100481ec7a078551d307325c3f422f48793b.<br>Chromium screenshot of the complete saved command output; original logs and commands are stored alongside.</p><pre>PR #11 review round 6 | reviewed commit 7b5a100481ec7a078551d307325c3f422f48793b
+Captured UTC: 2026-11-25T22:41:50.446334+00:00
+Working directory: /tmp/pr11-review-round6/source
+PYTHONPATH=/tmp/pr11-review-round6/source/src:/tmp/pr11-review-round6/source/tinyml/src
+
+$ gh pr checks 11 --repo WillyOwl/docs-guardian
+drift	pass	10s	https://github.com/WillyOwl/docs-guardian/actions/runs/45637057134/job/139285250873	
+notebooks	pass	10s	https://github.com/WillyOwl/docs-guardian/actions/runs/45637057194/job/139285245751	
+ruff	pass	14s	https://github.com/WillyOwl/docs-guardian/actions/runs/45637057291/job/139285245193	
+snippets	pass	12s	https://github.com/WillyOwl/docs-guardian/actions/runs/45637057194/job/139285244996	
+tests (Python 3.11)	pass	16s	https://github.com/WillyOwl/docs-guardian/actions/runs/45637057291/job/139285245988	
+tests (Python 3.14)	pass	16s	https://github.com/WillyOwl/docs-guardian/actions/runs/45637057291/job/139285246429
+[exit 0; 0.91s]
+
+$ gh pr view 11 --repo WillyOwl/docs-guardian --json headRefOid,state,isDraft
+{&quot;headRefOid&quot;:&quot;7b5a100481ec7a078551d307325c3f422f48793b&quot;,&quot;isDraft&quot;:true,&quot;state&quot;:&quot;OPEN&quot;}
+[exit 0; 0.49s]
+
+</pre></main>

@@ -1,0 +1,31 @@
+<!doctype html><meta charset="utf-8"><style>
+body{margin:0;background:#101827;color:#e5e7eb;font-family:Arial,sans-serif}
+main{margin:28px;padding:26px;background:#172135;border:1px solid #475569;border-radius:10px}
+h1{font-size:23px;margin:0 0 12px}p{font-size:14px;color:#b7c8db;line-height:1.5}
+pre{font:13px/20px "DejaVu Sans Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:24px}
+article{background:white;color:#111827;padding:20px;border-radius:6px}
+article p{color:#111827}table{border-collapse:collapse;width:100%}
+th,td{border:1px solid #cbd5e1;padding:12px;text-align:left}code{font-family:monospace}
+</style><main><h1>PR #11 · Review round 6 · review-probes-3.11</h1><p>Reviewed commit: 7b5a100481ec7a078551d307325c3f422f48793b.<br>Chromium screenshot of the complete saved command output; original logs and commands are stored alongside.</p><pre>PR #11 review round 6 | reviewed commit 7b5a100481ec7a078551d307325c3f422f48793b
+Captured UTC: 2026-11-25T22:41:29.582846+00:00
+Working directory: /tmp/pr11-review-round6/source
+PYTHONPATH=/tmp/pr11-review-round6/source/src:/tmp/pr11-review-round6/source/tinyml/src
+
+$ /tmp/pr11-review-round2/env311/bin/python -m pytest /tmp/pr11-review-round6/7b5a100/round-6/test_review_round5.py -vv --tb=short -p no:cacheprovider --color=no
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.2.0, pluggy-1.7.0 -- /tmp/pr11-review-round2/env311/bin/python
+rootdir: /tmp/pr11-review-round6
+collecting ... collected 7 items
+
+../7b5a100/round-6/test_review_round5.py::test_r5_f1_second_constructor_overload_change_is_reported PASSED [ 14%]
+../7b5a100/round-6/test_review_round5.py::test_r5_f1_constructor_implementation_signature_change_is_reported PASSED [ 28%]
+../7b5a100/round-6/test_review_round5.py::test_r5_f2_removed_package_qualified_mention_still_counts PASSED [ 42%]
+../7b5a100/round-6/test_review_round5.py::test_r5_f2_namespace_package_qualified_mention_counts PASSED [ 57%]
+../7b5a100/round-6/test_review_round5.py::test_control_non_overloaded_constructor_changes_are_detected PASSED [ 71%]
+../7b5a100/round-6/test_review_round5.py::test_control_removing_function_from_existing_package_counts PASSED [ 85%]
+../7b5a100/round-6/test_review_round5.py::test_control_regular_package_qualified_mention_counts PASSED [100%]
+
+============================== 7 passed in 0.32s ===============================
+[exit 0; 0.57s]
+
+</pre></main>
