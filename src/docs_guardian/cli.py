@@ -5,6 +5,7 @@ import os
 import sys
 from pathlib import Path
 
+from docs_guardian.drift import DriftConfigError, drift_report
 from docs_guardian.snippets import DEFAULT_TIMEOUT, PageResult, run_pages
 
 
@@ -51,6 +52,29 @@ def _run_snippets(args: argparse.Namespace) -> int:
     return 1 if failed else 0
 
 
+def _run_drift(args: argparse.Namespace) -> int:
+    """`docs-guardian drift`: print the Drift Report, and write it to `--output` if given.
+
+    Args:
+        args: Parsed arguments: `base`, `source`, `docs` and `output`.
+
+    Returns:
+        0 whatever the report says: the drift check is Advisory (ADR 0001), and
+        files the pull request leaves unreadable are listed, not fatal. 2 for a
+        misconfigured run (unknown base, or a folder with nothing to check), so
+        a mistyped path cannot pass as "No API Changes".
+    """
+    try:
+        report = drift_report(args.base, Path(args.source), Path(args.docs))
+    except DriftConfigError as error:
+        print(f"docs-guardian: {error}", file=sys.stderr)
+        return 2
+    if args.output:
+        Path(args.output).write_text(report, encoding="utf-8")
+    print(report, end="")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     """Run the `docs-guardian` command line.
 
@@ -80,6 +104,19 @@ def main(argv: list[str] | None = None) -> int:
         help=f"seconds a Page may run (default: {DEFAULT_TIMEOUT:g})",
     )
     snippets.set_defaults(handler=_run_snippets)
+    drift = commands.add_parser(
+        "drift",
+        help="report API Changes and the Pages that Mention them (Advisory)",
+        description="Compare the public API under --source in this checkout (uncommitted "
+        "edits included) with its merge base with --base, and list the Pages under --docs "
+        "whose code Mentions what changed. Exits 0 whatever it finds: the drift check warns, "
+        "it never fails the build. Exits 2 if --base or a folder is wrong.",
+    )
+    drift.add_argument("--base", required=True, help="branch to compare with, e.g. origin/main")
+    drift.add_argument("--source", required=True, help="folder holding the Python packages")
+    drift.add_argument("--docs", required=True, help="folder of Pages, searched recursively")
+    drift.add_argument("--output", help="also write the report to this file")
+    drift.set_defaults(handler=_run_drift)
     args = parser.parse_args(argv)
     return args.handler(args)
 
