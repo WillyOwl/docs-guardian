@@ -60,6 +60,7 @@ uv run mkdocs serve
 | `tests/` | docs-guardian's own tests |
 | `docs/` | Design docs: [architecture](docs/architecture.md), [ADRs](docs/adr/), agent guides |
 | `.github/workflows/` | CI, docs tests, the drift check and docs-site deploy |
+| `.github/scripts/` | The drift check's comment-posting script, tested in `tests/` |
 
 ## Further reading
 
