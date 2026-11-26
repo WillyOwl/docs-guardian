@@ -1,0 +1,7 @@
+diff --git a/tinyml/docs/index.md b/tinyml/docs/index.md
+--- a/tinyml/docs/index.md
++++ b/tinyml/docs/index.md
+@@ -15,1 +15,3 @@
+ The examples use a small sample dataset that ships with tinyml: 40 houses with their size, number of bedrooms, age and sale price. Load it with `tinyml.datasets.housing()`, or [view the CSV](https://github.com/WillyOwl/docs-guardian/blob/main/tinyml/src/tinyml/_data/housing.csv).
++
++[Review missing page](https://willyowl.github.io/docs-guardian/pr12-review-missing-page/)

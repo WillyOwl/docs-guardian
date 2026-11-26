@@ -1,0 +1,18 @@
+$ (cd wt && git log --oneline -1 && echo '# reviewer fixture: same-site-url.patch' && (cd tinyml && NO_MKDOCS_2_WARNING=1 uv run -q mkdocs build --strict) && echo 'strict build: passes' && bash .github/scripts/check-links.sh tinyml/site)
+eab5b3c docs: describe the link check script, same-site remap and anchor checks
+# reviewer fixture: same-site-url.patch
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: <scratchpad>/wt/tinyml/site
+INFO    -  Converting notebook (execute=False): <scratchpad>/wt/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: <scratchpad>/wt/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: <scratchpad>/wt/tinyml/docs/notebooks/walkthrough.ipynb to <scratchpad>/wt/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.70 seconds
+strict build: passes
+Issues found in 1 input. Find details below.
+
+[tinyml/site/index.html]:
+[ERROR] file://<scratchpad>/wt/tinyml/site/pr12-review-missing-page/ (at 414:13) | File not found. Check if file exists and path is correct | Remaps: https://willyowl.github.io/docs-guardian/pr12-review-missing-page/ --> file://<scratchpad>/wt/tinyml/site/pr12-review-missing-page/
+
+🔍 286 Total (in 316ms) 🔗 177 Unique ✅ 143 OK 🚫 1 Error ⛔ 142 Unsupported
+
+[exit 2]

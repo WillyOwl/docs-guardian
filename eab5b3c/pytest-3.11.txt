@@ -1,0 +1,24 @@
+$ (cd wt && git log --oneline -1 && UV_PROJECT_ENVIRONMENT=<scratchpad>/env311 uv run --python 3.11 --no-group docs python --version && LYCHEE=$LYCHEE UV_PROJECT_ENVIRONMENT=<scratchpad>/env311 uv run --python 3.11 --no-group docs pytest -p no:cacheprovider)
+eab5b3c docs: describe the link check script, same-site remap and anchor checks
+Uninstalled 2 packages in 0.45ms
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 2 packages in 5ms
+Python 3.11.15
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.2.0, pluggy-1.7.0
+rootdir: <scratchpad>/wt
+configfile: pyproject.toml
+testpaths: tests, tinyml/tests
+collected 111 items
+
+tests/test_check_links.py ....                                           [  3%]
+tests/test_cli.py ...                                                    [  6%]
+tests/test_drift.py ......................................               [ 40%]
+tests/test_post_drift_report.py .........                                [ 48%]
+tests/test_snippets.py ..........................                        [ 72%]
+tinyml/tests/test_tinyml.py ...............................              [100%]
+
+============================= 111 passed in 7.17s ==============================
+[exit 0]

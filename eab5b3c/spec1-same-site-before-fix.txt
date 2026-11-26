@@ -1,0 +1,13 @@
+$ (cd wt-old && git log --oneline -1 && echo '# reviewer fixture: same-site-url.patch (a link to https://willyowl.github.io/docs-guardian/pr12-review-missing-page/)' && (cd tinyml && NO_MKDOCS_2_WARNING=1 uv run -q mkdocs build --strict) && echo 'strict build: passes' && <scratchpad>/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee tinyml/site)
+e7db35c docs: document the docs-lint Gate in README and architecture
+# reviewer fixture: same-site-url.patch (a link to https://willyowl.github.io/docs-guardian/pr12-review-missing-page/)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: <scratchpad>/wt-old/tinyml/site
+INFO    -  Converting notebook (execute=False): <scratchpad>/wt-old/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: <scratchpad>/wt-old/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: <scratchpad>/wt-old/tinyml/docs/notebooks/walkthrough.ipynb to <scratchpad>/wt-old/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.71 seconds
+strict build: passes
+🔍 286 Total (in 677ms) 🔗 177 Unique ✅ 132 OK 🚫 0 Errors 👻 12 Excluded ⛔ 142 Unsupported
+
+[exit 0]

@@ -1,0 +1,6 @@
+$ (cd wt && git log --oneline -1 && cd tinyml && NO_MKDOCS_2_WARNING=1 uv run mkdocs build --strict 2>&1 | grep -v "Cache hit\|Copied jupyter\|Converting notebook")
+eab5b3c docs: describe the link check script, same-site remap and anchor checks
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: <scratchpad>/wt/tinyml/site
+INFO    -  Documentation built in 0.42 seconds
+[exit 0]

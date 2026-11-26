@@ -1,0 +1,12 @@
+$ (cd wt && git log --oneline -1 && (cd tinyml && NO_MKDOCS_2_WARNING=1 uv run -q mkdocs build) && bash .github/scripts/check-links.sh tinyml/site)
+eab5b3c docs: describe the link check script, same-site remap and anchor checks
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: <scratchpad>/wt/tinyml/site
+INFO    -  Converting notebook (execute=False): <scratchpad>/wt/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: <scratchpad>/wt/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: <scratchpad>/wt/tinyml/docs/notebooks/walkthrough.ipynb to <scratchpad>/wt/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Evicted stale cache: .cache/mkdocs-jupyter/c4d47adfdddbceaa5f8193dd0f69c3c0ce660f01188562efc38e8c0990fb1e9b.json
+INFO    -  Documentation built in 0.60 seconds
+🔍 285 Total (in 317ms) 🔗 176 Unique ✅ 143 OK 🚫 0 Errors ⛔ 142 Unsupported
+
+[exit 0]

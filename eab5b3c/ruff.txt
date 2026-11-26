@@ -1,0 +1,5 @@
+$ (cd wt && git log --oneline -1 && uv run --no-group docs ruff check . && uv run --no-group docs ruff format --check .)
+eab5b3c docs: describe the link check script, same-site remap and anchor checks
+All checks passed!
+27 files already formatted
+[exit 0]

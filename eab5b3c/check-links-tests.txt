@@ -1,0 +1,16 @@
+$ (cd wt && git log --oneline -1 && LYCHEE=$LYCHEE uv run --no-group docs pytest -v -p no:cacheprovider tests/test_check_links.py)
+eab5b3c docs: describe the link check script, same-site remap and anchor checks
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- <scratchpad>/wt/.venv/bin/python
+rootdir: <scratchpad>/wt
+configfile: pyproject.toml
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collecting ... collected 4 items
+
+tests/test_check_links.py::test_a_relative_link_to_a_missing_page_fails_and_one_to_a_page_passes PASSED [ 25%]
+tests/test_check_links.py::test_a_link_to_the_sites_own_url_is_checked_against_the_local_build PASSED [ 50%]
+tests/test_check_links.py::test_a_link_to_a_missing_heading_fails_and_one_to_a_heading_passes PASSED [ 75%]
+tests/test_check_links.py::test_ci_checks_the_built_site_with_this_script_and_runs_these_tests PASSED [100%]
+
+============================== 4 passed in 0.12s ===============================
+[exit 0]

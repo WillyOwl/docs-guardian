@@ -1,0 +1,20 @@
+$ (cd wt && git log --oneline -1 && uv run --no-group docs python --version && LYCHEE=$LYCHEE uv run --no-group docs pytest -p no:cacheprovider)
+eab5b3c docs: describe the link check script, same-site remap and anchor checks
+Python 3.14.6
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: <scratchpad>/wt
+configfile: pyproject.toml
+testpaths: tests, tinyml/tests
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collected 111 items
+
+tests/test_check_links.py ....                                           [  3%]
+tests/test_cli.py ...                                                    [  6%]
+tests/test_drift.py ......................................               [ 40%]
+tests/test_post_drift_report.py .........                                [ 48%]
+tests/test_snippets.py ..........................                        [ 72%]
+tinyml/tests/test_tinyml.py ...............................              [100%]
+
+============================= 111 passed in 7.25s ==============================
+[exit 0]

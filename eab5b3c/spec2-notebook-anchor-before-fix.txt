@@ -1,0 +1,7 @@
+$ (cd wt-old && git log --oneline -1 && echo '# reviewer fixture: notebook-anchor-minimal.ipynb as the walkthrough (a link to #pr12-review-missing-heading)' && (cd tinyml && NO_MKDOCS_2_WARNING=1 uv run -q mkdocs build --strict 2>/dev/null) && echo 'strict build: passes' && <scratchpad>/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee tinyml/site)
+e7db35c docs: document the docs-lint Gate in README and architecture
+# reviewer fixture: notebook-anchor-minimal.ipynb as the walkthrough (a link to #pr12-review-missing-heading)
+strict build: passes
+🔍 283 Total (in 313ms) 🔗 176 Unique ✅ 131 OK 🚫 0 Errors 👻 10 Excluded ⛔ 142 Unsupported
+
+[exit 0]

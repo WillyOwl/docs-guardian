@@ -1,0 +1,4 @@
+$ (cd wt && git log --oneline -1 && <scratchpad>/tools/bin/vale tinyml/docs)
+eab5b3c docs: describe the link check script, same-site remap and anchor checks
+✔ 0 errors, 0 warnings and 0 suggestions in 4 files.
+[exit 0]

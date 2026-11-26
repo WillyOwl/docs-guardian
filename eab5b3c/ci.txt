@@ -1,0 +1,26 @@
+$ gh pr checks 12 && gh run view 45775104795 --log  (docs-lint at eab5b3c, key lines per job)
+drift	pass	7s	https://github.com/WillyOwl/docs-guardian/actions/runs/45775104791/job/139756757384	
+links	pass	16s	https://github.com/WillyOwl/docs-guardian/actions/runs/45775104795/job/139756757473	
+markdownlint	pass	7s	https://github.com/WillyOwl/docs-guardian/actions/runs/45775104795/job/139756757791	
+notebooks	pass	10s	https://github.com/WillyOwl/docs-guardian/actions/runs/45775104802/job/139756757699	
+ruff	pass	8s	https://github.com/WillyOwl/docs-guardian/actions/runs/45775104831/job/139756757484	
+snippets	pass	13s	https://github.com/WillyOwl/docs-guardian/actions/runs/45775104802/job/139756757357	
+strict-build	pass	12s	https://github.com/WillyOwl/docs-guardian/actions/runs/45775104795/job/139756758162	
+tests (Python 3.11)	pass	17s	https://github.com/WillyOwl/docs-guardian/actions/runs/45775104831/job/139756757662	
+tests (Python 3.14)	pass	16s	https://github.com/WillyOwl/docs-guardian/actions/runs/45775104831/job/139756757725	
+vale	pass	5s	https://github.com/WillyOwl/docs-guardian/actions/runs/45775104795/job/139756757857	
+
+drift-check	eab5b3c	success
+docs-tests	eab5b3c	success
+docs-lint	eab5b3c	success
+ci	eab5b3c	success
+
+links  | INFO    -  Documentation built in 0.81 seconds
+links  | /home/runner/work/_temp/lychee.tar.gz: OK
+links  | 🔍 285 Total (in 522ms) 🔗 176 Unique ✅ 143 OK 🚫 0 Errors ⛔ 142 Unsupported
+links  | ============================== 4 passed in 0.14s ===============================
+markdownlint  | Summary: 0 issues in 0 files
+vale  | /home/runner/work/_temp/vale.tar.gz: OK
+vale  | ✔ 0 errors, 0 warnings and 0 suggestions in 4 files.
+strict-build  | INFO    -  Documentation built in 0.89 seconds
+[exit 0]

@@ -1,0 +1,12 @@
+$ (cd wt && git log --oneline -1 && echo '# reviewer fixture: notebook-anchor-minimal.ipynb as the walkthrough' && (cd tinyml && NO_MKDOCS_2_WARNING=1 uv run -q mkdocs build --strict 2>/dev/null) && echo 'strict build: passes' && bash .github/scripts/check-links.sh tinyml/site)
+eab5b3c docs: describe the link check script, same-site remap and anchor checks
+# reviewer fixture: notebook-anchor-minimal.ipynb as the walkthrough
+strict build: passes
+Issues found in 1 input. Find details below.
+
+[tinyml/site/notebooks/walkthrough/index.html]:
+[ERROR] file://<scratchpad>/wt/tinyml/site/notebooks/walkthrough/index.html#pr12-review-missing-heading (at 623:13) | Cannot find fragment
+
+🔍 283 Total (in 318ms) 🔗 176 Unique ✅ 140 OK 🚫 1 Error ⛔ 142 Unsupported
+
+[exit 2]
