@@ -1,0 +1,7 @@
+$ (cd wt && git log --oneline -1 && cd tinyml && NO_MKDOCS_2_WARNING=1 uv run mkdocs build --strict 2>&1 | grep -v "^INFO.*Cache hit\|Copied jupyter\|Converting notebook")
+e7db35c docs: document the docs-lint Gate in README and architecture
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: <scratchpad>/wt/tinyml/site
+INFO    -  Cache miss, writing: <scratchpad>/wt/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Documentation built in 0.70 seconds
+[exit 0]

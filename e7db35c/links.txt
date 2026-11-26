@@ -1,0 +1,11 @@
+$ (cd wt && git log --oneline -1 && (cd tinyml && NO_MKDOCS_2_WARNING=1 uv run -q mkdocs build) && <scratchpad>/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --version && <scratchpad>/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee tinyml/site)
+e7db35c docs: document the docs-lint Gate in README and architecture
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: <scratchpad>/wt/tinyml/site
+INFO    -  Cache hit: <scratchpad>/wt/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: <scratchpad>/wt/tinyml/docs/notebooks/walkthrough.ipynb to <scratchpad>/wt/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.47 seconds
+lychee 0.24.2
+🔍 285 Total (in 644ms) 🔗 176 Unique ✅ 132 OK 🚫 0 Errors 👻 11 Excluded ⛔ 142 Unsupported
+
+[exit 0]

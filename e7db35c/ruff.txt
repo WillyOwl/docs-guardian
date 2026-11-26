@@ -1,0 +1,5 @@
+$ (cd wt && git log --oneline -1 && uv run --no-group docs ruff check . && uv run --no-group docs ruff format --check .)
+e7db35c docs: document the docs-lint Gate in README and architecture
+All checks passed!
+26 files already formatted
+[exit 0]

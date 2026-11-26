@@ -1,0 +1,5 @@
+$ (cd wt && git log --oneline -1 && <scratchpad>/tools/bin/vale --version && <scratchpad>/tools/bin/vale tinyml/docs)
+e7db35c docs: document the docs-lint Gate in README and architecture
+vale version 3.26.0
+✔ 0 errors, 0 warnings and 0 suggestions in 4 files.
+[exit 0]

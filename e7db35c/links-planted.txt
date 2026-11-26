@@ -1,0 +1,31 @@
+$ (cd wt-planted && git log --oneline -1 && echo '# planted: a dead external link in index.md, and a dead link in a notebook Markdown cell' && git diff --stat && (cd tinyml && NO_MKDOCS_2_WARNING=1 uv run -q mkdocs build --strict && echo 'strict build: passes, it does not read links inside the notebook') && <scratchpad>/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee tinyml/site)
+e7db35c docs: document the docs-lint Gate in README and architecture
+# planted: a dead external link in index.md, and a dead link in a notebook Markdown cell
+ tinyml/docs/index.md                    | 2 ++
+ tinyml/docs/notebooks/walkthrough.ipynb | 9 ++++++++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: <scratchpad>/wt-planted/tinyml/site
+INFO    -  MissingIDFieldWarning: Cell is missing an id field, this will become a hard error in future nbformat versions. You may want to use `normalize()` on your notebooks before validations (available since nbformat 5.1.4). Previous versions of nbformat are fixing this issue transparently, and will stop doing so in the future.
+  File "<scratchpad>/wt-planted/.venv/lib/python3.14/site-packages/nbformat/validator.py", line 469, in _validate
+    _normalize(
+  File "<scratchpad>/wt-planted/.venv/lib/python3.14/site-packages/nbformat/validator.py", line 345, in _normalize
+    warnings.warn(
+
+INFO    -  Converting notebook (execute=False): <scratchpad>/wt-planted/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: <scratchpad>/wt-planted/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: <scratchpad>/wt-planted/tinyml/docs/notebooks/walkthrough.ipynb to <scratchpad>/wt-planted/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Evicted stale cache: .cache/mkdocs-jupyter/382553b0891c70e8f6e2e6e13de03bc460f79f5ecd9b87f7c21a9099c2510d67.json
+INFO    -  Documentation built in 0.63 seconds
+strict build: passes, it does not read links inside the notebook
+Issues found in 2 inputs. Find details below.
+
+[tinyml/site/index.html]:
+[404] https://github.com/WillyOwl/docs-guardian/blob/main/tinyml/no-such-file.csv (at 414:21) | Rejected status code: 404 Not Found
+
+[tinyml/site/notebooks/walkthrough/index.html]:
+[ERROR] file://<scratchpad>/wt-planted/tinyml/site/no-such-page (at 630:21) | File not found. Check if file exists and path is correct
+
+🔍 287 Total (in 498ms) 🔗 178 Unique ✅ 132 OK 🚫 2 Errors 👻 11 Excluded ⛔ 142 Unsupported
+
+[exit 2]

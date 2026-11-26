@@ -1,0 +1,11 @@
+$ (cd wt-planted && git log --oneline -1 && echo '# planted: an h3 straight after the h1 (appended to quickstart.md)' && git diff --stat && npx --yes markdownlint-cli2@0.24.0)
+e7db35c docs: document the docs-lint Gate in README and architecture
+# planted: an h3 straight after the h1 (appended to quickstart.md)
+ tinyml/docs/quickstart.md | 2 ++
+ 1 file changed, 2 insertions(+)
+markdownlint-cli2 v0.24.0 (markdownlint v0.42.0)
+Finding: tinyml/docs/**/*.md
+Linting: 4 files
+Summary: 1 issue in 1 file
+tinyml/docs/quickstart.md:23 error MD001/heading-increment Heading levels should only increment by one level at a time [Expected: h2; Actual: h3]
+[exit 1]

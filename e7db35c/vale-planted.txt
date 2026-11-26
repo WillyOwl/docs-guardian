@@ -1,0 +1,11 @@
+$ (cd wt-planted && git log --oneline -1 && echo '# planted: "Github" in index.md prose' && git diff -U0 tinyml/docs | tail -2 && <scratchpad>/tools/bin/vale tinyml/docs)
+e7db35c docs: document the docs-lint Gate in README and architecture
+# planted: "Github" in index.md prose
+-# tinyml
++# tinyml (hosted on Github)
+
+ tinyml/docs/index.md
+ 1:21  error  Use 'GitHub' instead of 'Github'.  DocsGuardian.Terms 
+
+✖ 1 error, 0 warnings and 0 suggestions in 4 files.
+[exit 1]

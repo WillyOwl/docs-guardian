@@ -1,0 +1,19 @@
+$ (cd wt && git log --oneline -1 && uv run --no-group docs python --version && uv run --no-group docs pytest -p no:cacheprovider)
+e7db35c docs: document the docs-lint Gate in README and architecture
+Python 3.14.6
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: <scratchpad>/wt
+configfile: pyproject.toml
+testpaths: tests, tinyml/tests
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collected 107 items
+
+tests/test_cli.py ...                                                    [  2%]
+tests/test_drift.py ......................................               [ 38%]
+tests/test_post_drift_report.py .........                                [ 46%]
+tests/test_snippets.py ..........................                        [ 71%]
+tinyml/tests/test_tinyml.py ...............................              [100%]
+
+============================= 107 passed in 7.14s ==============================
+[exit 0]

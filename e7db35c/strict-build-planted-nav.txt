@@ -1,0 +1,7 @@
+$ (cd wt-planted && git log --oneline -1 && echo '# planted: orphan.md, a Page missing from the nav' && cd tinyml && set -o pipefail && NO_MKDOCS_2_WARNING=1 uv run mkdocs build --strict 2>&1 | grep -E 'WARNING|Aborted|orphan')
+e7db35c docs: document the docs-lint Gate in README and architecture
+# planted: orphan.md, a Page missing from the nav
+WARNING -  The following pages exist in the docs directory, but are not included in the "nav" configuration:
+  - orphan.md
+Aborted with 1 warnings in strict mode!
+[exit 1]
