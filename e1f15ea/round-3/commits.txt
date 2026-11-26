@@ -1,0 +1,6 @@
+e1f15ea ci(docs-lint): check 404.html's links too
+5be3646 fix(docs-lint): resolve root-relative site links against the build
+eab5b3c docs: describe the link check script, same-site remap and anchor checks
+5fb7dd1 fix(docs-lint): check same-site URLs locally and #heading links
+e7db35c docs: document the docs-lint Gate in README and architecture
+15c5864 ci(docs-lint): lint, link-check and strictly build tinyml's Pages

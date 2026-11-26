@@ -1,0 +1,15 @@
+PR #12 review round 3 — actual built notebook browser verification
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Captured UTC: 2026-11-26T21:30:44.288Z
+$ node /tmp/pr12-review-round3/render_screenshots.cjs
+Playwright replays actual built files at the configured publication origin.
+Requests inside /docs-guardian/ read only the generated build; other project-host paths return 404.
+This is a local publication replay, not a live deployment or a GitHub Pages response.
+Fixture: a notebook Markdown cell with [Review unpublished repository readme](../../../../README.md).
+Generated href: ../../../../README.md
+Browser resolved href: https://willyowl.github.io/README.md
+After click: https://willyowl.github.io/README.md
+Observed response: {"url":"https://willyowl.github.io/README.md","status":404,"reason":"outside published project path"}
+PASS: the link escapes the published /docs-guardian/ path; the target is not in the build.
+Screenshots: escape-notebook-rendered.png, escape-browser-destination.png
+[exit 0]

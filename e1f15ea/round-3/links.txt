@@ -1,0 +1,8 @@
+PR #12 review round 3 — links
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:27:33.777125+00:00
+$ (cd /tmp/pr12-review-round3/source && bash .github/scripts/check-links.sh tinyml/site)
+🔍 299 Total (in 689ms) 🔗 184 Unique ✅ 157 OK 🚫 0 Errors ⛔ 142 Unsupported
+[exit 0]
+HARNESS EXIT: 0

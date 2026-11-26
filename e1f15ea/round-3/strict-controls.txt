@@ -1,0 +1,27 @@
+PR #12 review round 3 — strict-controls
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:26:58.161741+00:00
+$ (cd /tmp/pr12-review-round3/strict-controls && /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review-round3/strict-controls/tinyml/site
+INFO    -  Converting notebook (execute=False): /tmp/pr12-review-round3/strict-controls/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr12-review-round3/strict-controls/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review-round3/strict-controls/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review-round3/strict-controls/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+WARNING -  Doc file 'index.md' contains a link 'quickstart.md#review-missing-heading', but the doc 'quickstart.md' does not contain an anchor '#review-missing-heading'.
+
+Aborted with 1 warnings in strict mode!
+[exit 1]
+PASS: a broken Markdown cross-reference/heading fails strict build.
+$ (cd /tmp/pr12-review-round3/strict-controls && /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review-round3/strict-controls/tinyml/site
+WARNING -  The following pages exist in the docs directory, but are not included in the "nav" configuration:
+  - review-unlisted.md
+INFO    -  Cache hit: /tmp/pr12-review-round3/strict-controls/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review-round3/strict-controls/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review-round3/strict-controls/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+
+Aborted with 1 warnings in strict mode!
+[exit 1]
+PASS: a Page missing from nav fails strict build.
+HARNESS EXIT: 0

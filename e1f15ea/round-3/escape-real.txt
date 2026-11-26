@@ -1,0 +1,20 @@
+PR #12 review round 3 — escape-real
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:28:12.574183+00:00
+$ (cd /tmp/pr12-review-round3/escape-real && /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review-round3/escape-real/tinyml/site
+INFO    -  Converting notebook (execute=False): /tmp/pr12-review-round3/escape-real/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr12-review-round3/escape-real/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review-round3/escape-real/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review-round3/escape-real/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.58 seconds
+[exit 0]
+Generated href: ../../../../README.md
+Local resolved target: /tmp/pr12-review-round3/escape-real/README.md
+Deployed browser URL resolves to https://willyowl.github.io/README.md, outside published /docs-guardian/.
+$ (cd /tmp/pr12-review-round3/escape-real && bash .github/scripts/check-links.sh tinyml/site)
+🔍 300 Total (in 322ms) 🔗 185 Unique ✅ 158 OK 🚫 0 Errors ⛔ 142 Unsupported
+[exit 0]
+FAIL: AssertionError: FALSE NEGATIVE: strict build and link Gate both accept a link outside the deployed site.
+HARNESS EXIT: 1

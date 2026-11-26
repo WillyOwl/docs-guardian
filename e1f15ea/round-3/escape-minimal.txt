@@ -1,0 +1,11 @@
+PR #12 review round 3 — escape-minimal
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:28:09.729113+00:00
+Published site has only index.html. The destination exists outside that site.
+Expected: reject ../unpublished.html, which is /unpublished.html on the deployed host.
+$ (cd /tmp/pr12-review-round3/source && bash /tmp/pr12-review-round3/source/.github/scripts/check-links.sh /tmp/pr12-review-round3/escape-minimal/site)
+🔍 1 Total (in 2ms) 🔗 1 Unique ✅ 1 OK 🚫 0 Errors
+[exit 0]
+FAIL: AssertionError: FALSE NEGATIVE: the Gate accepts a link to an unpublished checkout file.
+HARNESS EXIT: 1

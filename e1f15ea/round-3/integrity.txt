@@ -1,0 +1,18 @@
+PR #12 review round 3 — integrity
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:29:05.838893+00:00
+$ (cd /tmp/pr12-review-round3/source && git rev-parse HEAD)
+e1f15ea6789dc0d566c3c8d997a864419529fd83
+[exit 0]
+$ (cd /tmp/pr12-review-round3/source && git diff --exit-code HEAD)
+
+[exit 0]
+$ (cd /tmp/pr12-review-round3/source && git status --short --untracked-files=normal)
+
+[exit 0]
+$ (cd /tmp/pr12-review-round3/source && git diff --check d48615c3386b813d0fc6845a23e1588e3c57bf67...HEAD)
+
+[exit 0]
+PASS: tracked source is unchanged and worktree is clean.
+HARNESS EXIT: 0

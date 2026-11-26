@@ -1,0 +1,38 @@
+<!doctype html><meta charset="utf-8"><title>escape-controls-harness-attempt.txt</title>
+      <style>body{margin:0;background:#10151c;color:#e6edf3;font-family:monospace}header{padding:16px 22px;background:#1c2633;border-bottom:1px solid #445}h1{font-size:20px;margin:0 0 7px}.subtitle{font:13px sans-serif;color:#aab8c5}pre{margin:0;padding:20px 22px;font:14px/1.5 'DejaVu Sans Mono',monospace;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4}</style>
+      <header><h1>PR #12 · round 3 · escape-controls-harness-attempt</h1><div class="subtitle">Fresh captured command output · source e1f15ea · raw output and verification steps accompany this screenshot</div></header>
+      <pre>PR #12 review round 3 — escape-controls
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:28:41.848837+00:00
+Ranked predictions announced before controls:
+1. Host filesystem resolution: removing only the unpublished outside file changes acceptance to rejection.
+2. Same-site remap interference: removing only --remap changes acceptance to rejection.
+3. Ignored/excluded link: detailed output reports skipped/excluded instead of OK.
+Repeat 1: outside destination exists; bug must repeat.
+$ (cd /tmp/pr12-review-round3/source &amp;&amp; bash /tmp/pr12-review-round3/source/.github/scripts/check-links.sh /tmp/pr12-review-round3/escape-minimal/site)
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 1 OK 🚫 0 Errors
+[exit 0]
+Repeat 2: outside destination exists; bug must repeat.
+$ (cd /tmp/pr12-review-round3/source &amp;&amp; bash /tmp/pr12-review-round3/source/.github/scripts/check-links.sh /tmp/pr12-review-round3/escape-minimal/site)
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 1 OK 🚫 0 Errors
+[exit 0]
+Repeat 3: outside destination exists; bug must repeat.
+$ (cd /tmp/pr12-review-round3/source &amp;&amp; bash /tmp/pr12-review-round3/source/.github/scripts/check-links.sh /tmp/pr12-review-round3/escape-minimal/site)
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 1 OK 🚫 0 Errors
+[exit 0]
+$ (cd /tmp/pr12-review-round3/source &amp;&amp; bash /tmp/pr12-review-round3/source/.github/scripts/check-links.sh /tmp/pr12-review-round3/escape-minimal/site)
+Issues found in 1 input. Find details below.
+
+[/tmp/pr12-review-round3/escape-minimal/site/index.html]:
+[ERROR] file:///tmp/pr12-review-round3/escape-minimal/unpublished.html (at 1:10) | File not found. Check if file exists and path is correct
+
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 0 OK 🚫 1 Error
+[exit 2]
+PASS: changing only existence of the unpublished file changes accepted to rejected; relative traversal confirmed.
+$ (cd /tmp/pr12-review-round3/source &amp;&amp; /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --config /tmp/pr12-review-round3/source/lychee.toml --root-dir /tmp/pr12-review-round3/escape-web-root --verbose /tmp/pr12-review-round3/escape-minimal/site)
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 1 OK 🚫 0 Errors
+[exit 0]
+FAIL: AssertionError: 
+HARNESS EXIT: 1
+</pre>

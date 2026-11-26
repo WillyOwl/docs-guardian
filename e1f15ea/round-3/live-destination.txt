@@ -1,0 +1,12 @@
+PR #12 review round 3 — live-destination
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:31:23.845239+00:00
+$ (cd /tmp/pr12-review-round3/source && curl --silent --show-error --location --max-time 20 --output /dev/null --write-out 'HTTP %{http_code}
+Final URL: %{url_effective}
+' https://willyowl.github.io/README.md)
+HTTP 404
+Final URL: https://willyowl.github.io/README.md
+[exit 0]
+PASS: the current public target of the notebook link independently returns HTTP 404.
+HARNESS EXIT: 0

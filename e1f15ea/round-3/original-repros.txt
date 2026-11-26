@@ -1,0 +1,52 @@
+PR #12 review round 3 — original-repros
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:27:33.620132+00:00
+$ (cd /tmp/pr12-review-round3/original-repros && /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review-round3/original-repros/tinyml/site
+INFO    -  Doc file 'index.md' contains an absolute link '/docs-guardian/quickstart/#quickstart', it was left as is.
+INFO    -  Converting notebook (execute=False): /tmp/pr12-review-round3/original-repros/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr12-review-round3/original-repros/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review-round3/original-repros/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review-round3/original-repros/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.63 seconds
+[exit 0]
+$ (cd /tmp/pr12-review-round3/original-repros && bash .github/scripts/check-links.sh tinyml/site)
+🔍 300 Total (in 319ms) 🔗 185 Unique ✅ 158 OK 🚫 0 Errors ⛔ 142 Unsupported
+[exit 0]
+PASS: original round-2 valid root-relative link is accepted in the real build.
+$ (cd /tmp/pr12-review-round3/original-repros && /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review-round3/original-repros/tinyml/site
+INFO    -  Cache hit: /tmp/pr12-review-round3/original-repros/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review-round3/original-repros/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review-round3/original-repros/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.42 seconds
+[exit 0]
+$ (cd /tmp/pr12-review-round3/original-repros && bash .github/scripts/check-links.sh tinyml/site)
+Issues found in 1 input. Find details below.
+
+[tinyml/site/index.html]:
+[ERROR] file:///tmp/pr12-review-round3/original-repros/tinyml/site/pr12-review-missing-page/ (at 414:13) | File not found. Check if file exists and path is correct | Remaps: https://willyowl.github.io/docs-guardian/pr12-review-missing-page/ --> file:///tmp/pr12-review-round3/original-repros/tinyml/site/pr12-review-missing-page/
+
+🔍 300 Total (in 325ms) 🔗 185 Unique ✅ 157 OK 🚫 1 Error ⛔ 142 Unsupported
+[exit 2]
+PASS: original round-1 broken same-site URL is rejected in the real build.
+$ (cd /tmp/pr12-review-round3/original-repros && /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review-round3/original-repros/tinyml/site
+INFO    -  Converting notebook (execute=False): /tmp/pr12-review-round3/original-repros/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr12-review-round3/original-repros/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review-round3/original-repros/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review-round3/original-repros/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Evicted stale cache: .cache/mkdocs-jupyter/6d5e19136379cd17bf3391b8b308238d3119ec896e22124f17a70ab60ecefed4.json
+INFO    -  Documentation built in 0.58 seconds
+[exit 0]
+$ (cd /tmp/pr12-review-round3/original-repros && bash .github/scripts/check-links.sh tinyml/site)
+Issues found in 1 input. Find details below.
+
+[tinyml/site/notebooks/walkthrough/index.html]:
+[ERROR] file:///tmp/pr12-review-round3/original-repros/tinyml/site/notebooks/walkthrough/index.html#pr12-review-missing-heading (at 798:13) | Cannot find fragment
+
+🔍 300 Total (in 348ms) 🔗 185 Unique ✅ 157 OK 🚫 1 Error ⛔ 142 Unsupported
+[exit 2]
+PASS: original round-1 broken notebook heading link is rejected in the real build.
+HARNESS EXIT: 0

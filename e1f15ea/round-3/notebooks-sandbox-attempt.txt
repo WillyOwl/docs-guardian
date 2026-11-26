@@ -1,0 +1,133 @@
+PR #12 review round 3 — notebooks
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:26:58.089311+00:00
+$ (cd /tmp/pr12-review-round3/source && /home/yiyang/docs-guardian/.venv/bin/python -m pytest --nbmake tinyml/docs/notebooks -q -p no:cacheprovider)
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____ /tmp/pr12-review-round3/source/tinyml/docs/notebooks/walkthrough.ipynb ____
+NBMAKE INTERNAL ERROR
+[Errno 1] Operation not permitted
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/_pytest/runner.py", line 361, in from_call
+    result: TResult | None = func()
+                             ~~~~^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/_pytest/runner.py", line 250, in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/pluggy/_caller.py", line 197, in __call__
+    return self._hookexec(
+           ~~~~~~~~~~~~~~^
+        self.name, self._hookimpls.copy(), call_kwargs, firstresult
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/pluggy/_manager.py", line 183, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/pluggy/_execution.py", line 195, in _multicall
+    raise exception
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/pluggy/_execution.py", line 167, in _multicall
+    teardown.throw(exception)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/_pytest/logging.py", line 878, in pytest_runtest_call
+    yield
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/pluggy/_execution.py", line 167, in _multicall
+    teardown.throw(exception)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/_pytest/capture.py", line 906, in pytest_runtest_call
+    return (yield)
+            ^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/pluggy/_execution.py", line 167, in _multicall
+    teardown.throw(exception)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/_pytest/skipping.py", line 268, in pytest_runtest_call
+    return (yield)
+            ^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/pluggy/_execution.py", line 147, in _multicall
+    res = hook_impl.function(*args)
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/_pytest/runner.py", line 184, in pytest_runtest_call
+    item.runtest()
+    ~~~~~~~~~~~~^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/nbmake/pytest_items.py", line 54, in runtest
+    res: NotebookResult = run.execute()
+                          ~~~~~~~~~~~^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/nbmake/nb_run.py", line 131, in execute
+    raise err
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/nbmake/nb_run.py", line 113, in execute
+    c.execute(cwd=self.filename.parent)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/yiyang/ENTER/lib/python3.14/asyncio/base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/nbclient/client.py", line 693, in async_execute
+    async with self.async_setup_kernel(**kwargs):
+               ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/yiyang/ENTER/lib/python3.14/contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/nbclient/client.py", line 648, in async_setup_kernel
+    await self.async_start_new_kernel(**kwargs)
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/nbclient/client.py", line 550, in async_start_new_kernel
+    await ensure_async(self.km.start_kernel(extra_arguments=self.extra_arguments, **kwargs))
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_core/utils/__init__.py", line 214, in ensure_async
+    result = await obj
+             ^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_client/manager.py", line 116, in wrapper
+    raise e
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_client/manager.py", line 107, in wrapper
+    out = await method(self, *args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_client/manager.py", line 528, in _async_start_kernel
+    kernel_cmd, kw = await self._async_pre_start_kernel(**kw)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_client/manager.py", line 493, in _async_pre_start_kernel
+    kw = await self.provisioner.pre_launch(**kw)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_client/provisioning/local_provisioner.py", line 216, in pre_launch
+    km.shell_port = lpc.find_available_port(km.ip)
+                    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_client/connect.py", line 753, in find_available_port
+    tmp_sock = socket.socket()
+  File "/home/yiyang/ENTER/lib/python3.14/socket.py", line 236, in __init__
+    _socket.socket.__init__(self, family, type, proto, fileno)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+------------------------------ Captured log call -------------------------------
+ERROR    traitlets:manager.py:115 [Errno 1] Operation not permitted
+Traceback (most recent call last):
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_client/manager.py", line 107, in wrapper
+    out = await method(self, *args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_client/manager.py", line 528, in _async_start_kernel
+    kernel_cmd, kw = await self._async_pre_start_kernel(**kw)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_client/manager.py", line 493, in _async_pre_start_kernel
+    kw = await self.provisioner.pre_launch(**kw)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_client/provisioning/local_provisioner.py", line 216, in pre_launch
+    km.shell_port = lpc.find_available_port(km.ip)
+                    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_client/connect.py", line 753, in find_available_port
+    tmp_sock = socket.socket()
+  File "/home/yiyang/ENTER/lib/python3.14/socket.py", line 236, in __init__
+    _socket.socket.__init__(self, family, type, proto, fileno)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 1] Operation not permitted
+=============================== warnings summary ===============================
+tinyml/docs/notebooks/walkthrough.ipynb::walkthrough.ipynb
+  /home/yiyang/docs-guardian/.venv/lib/python3.14/site-packages/jupyter_client/localinterfaces.py:58: UserWarning: Unexpected error discovering local network interfaces: [Errno 1] Operation not permitted
+    ret = f(**kwargs)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+Learn more about nbmake at https://github.com/treebeardtech/nbmake
+
+=========================== short test summary info ============================
+FAILED tinyml/docs/notebooks/walkthrough.ipynb::walkthrough.ipynb - NBMAKE IN...
+1 failed, 1 warning in 0.33s
+[exit 1]
+FAIL: AssertionError: 
+HARNESS EXIT: 1

@@ -1,0 +1,19 @@
+<!doctype html><meta charset="utf-8"><title>browser-dom.txt</title>
+      <style>body{margin:0;background:#10151c;color:#e6edf3;font-family:monospace}header{padding:16px 22px;background:#1c2633;border-bottom:1px solid #445}h1{font-size:20px;margin:0 0 7px}.subtitle{font:13px sans-serif;color:#aab8c5}pre{margin:0;padding:20px 22px;font:14px/1.5 'DejaVu Sans Mono',monospace;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4}</style>
+      <header><h1>PR #12 · round 3 · browser-dom</h1><div class="subtitle">Fresh captured command output · source e1f15ea · raw output and verification steps accompany this screenshot</div></header>
+      <pre>PR #12 review round 3 — actual built notebook browser verification
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Captured UTC: 2026-11-26T21:30:44.288Z
+$ node /tmp/pr12-review-round3/render_screenshots.cjs
+Playwright replays actual built files at the configured publication origin.
+Requests inside /docs-guardian/ read only the generated build; other project-host paths return 404.
+This is a local publication replay, not a live deployment or a GitHub Pages response.
+Fixture: a notebook Markdown cell with [Review unpublished repository readme](../../../../README.md).
+Generated href: ../../../../README.md
+Browser resolved href: https://willyowl.github.io/README.md
+After click: https://willyowl.github.io/README.md
+Observed response: {"url":"https://willyowl.github.io/README.md","status":404,"reason":"outside published project path"}
+PASS: the link escapes the published /docs-guardian/ path; the target is not in the build.
+Screenshots: escape-notebook-rendered.png, escape-browser-destination.png
+[exit 0]
+</pre>

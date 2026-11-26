@@ -1,0 +1,393 @@
+diff --git a/.github/scripts/check-links.sh b/.github/scripts/check-links.sh
+new file mode 100644
+index 0000000..0c1deec
+--- /dev/null
++++ b/.github/scripts/check-links.sh
+@@ -0,0 +1,23 @@
++#!/usr/bin/env bash
++# The docs-lint `links` check: lychee on a built site, with the rules in lychee.toml.
++# Usage: check-links.sh <site>   (build first: cd tinyml && uv run mkdocs build)
++# Uses $LYCHEE if set, else `lychee` on PATH.
++set -euo pipefail
++site=$1
++repo=$(cd "$(dirname "$0")/../.." && pwd)
++site_url="https://willyowl.github.io/docs-guardian/" # site_url in tinyml/mkdocs.yml
++site_dir=$(cd "$site" && pwd)
++
++# Root-relative links (/docs-guardian/...) resolve as on the deployed site: in a
++# web root that serves this build under the site URL's path.
++web_root=$(mktemp -d)
++trap 'rm -rf "$web_root"' EXIT
++mount="$web_root/${site_url#https://*/}"
++mkdir -p "$(dirname "$mount")"
++ln -s "$site_dir" "${mount%/}"
++
++# Links to the site's own URL are checked against this build, not the live site.
++"${LYCHEE:-lychee}" --config "$repo/lychee.toml" \
++  --remap "^${site_url//./\\.} file://$site_dir/" \
++  --root-dir "$web_root" \
++  "$site"
+diff --git a/.github/workflows/docs-lint.yml b/.github/workflows/docs-lint.yml
+new file mode 100644
+index 0000000..a9d6455
+--- /dev/null
++++ b/.github/workflows/docs-lint.yml
+@@ -0,0 +1,77 @@
++# Gate: tinyml's Pages must pass the house style, build strictly, and have no
++# broken links. Each tool is pinned to one version, and each downloaded binary
++# to its SHA-256, so a run is the same on every pull request.
++name: docs-lint
++
++on:
++  pull_request:
++  push:
++    branches: [main]
++
++permissions:
++  contents: read
++
++env:
++  NO_MKDOCS_2_WARNING: "1"
++  VALE_VERSION: 3.26.0
++  VALE_SHA256: 22aa69a556558e4a9dfc63c17030777383d8d3c48dcdfad655fa98e839d666ed
++  LYCHEE_VERSION: 0.24.2
++  LYCHEE_SHA256: 1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a
++
++jobs:
++  markdownlint:
++    name: markdownlint
++    runs-on: ubuntu-latest
++    steps:
++      - uses: actions/checkout@v4
++      - run: npx --yes markdownlint-cli2@0.24.0 # globs and rules: .markdownlint-cli2.jsonc
++
++  vale:
++    name: vale
++    runs-on: ubuntu-latest
++    steps:
++      - uses: actions/checkout@v4
++      - name: Install Vale
++        run: |
++          curl -sSfL -o "$RUNNER_TEMP/vale.tar.gz" \
++            "https://github.com/errata-ai/vale/releases/download/v${VALE_VERSION}/vale_${VALE_VERSION}_Linux_64-bit.tar.gz"
++          echo "${VALE_SHA256}  $RUNNER_TEMP/vale.tar.gz" | sha256sum -c -
++          tar -xzf "$RUNNER_TEMP/vale.tar.gz" -C "$RUNNER_TEMP" vale
++      - run: '"$RUNNER_TEMP/vale" tinyml/docs' # house style: .vale.ini
++
++  strict-build:
++    name: strict-build
++    runs-on: ubuntu-latest
++    steps:
++      - uses: actions/checkout@v4
++      - uses: astral-sh/setup-uv@v6
++        with:
++          python-version: "3.14"
++      - run: uv sync --locked
++      - run: uv run mkdocs build --strict # the same build deploy.yml publishes
++        working-directory: tinyml
++
++  links:
++    name: links
++    runs-on: ubuntu-latest
++    steps:
++      - uses: actions/checkout@v4
++      - uses: astral-sh/setup-uv@v6
++        with:
++          python-version: "3.14"
++      - run: uv sync --locked
++      # Links are checked on the built site, so the notebook and the nav count.
++      - run: uv run mkdocs build
++        working-directory: tinyml
++      - name: Install lychee
++        run: |
++          curl -sSfL -o "$RUNNER_TEMP/lychee.tar.gz" \
++            "https://github.com/lycheeverse/lychee/releases/download/lychee-v${LYCHEE_VERSION}/lychee-x86_64-unknown-linux-gnu.tar.gz"
++          echo "${LYCHEE_SHA256}  $RUNNER_TEMP/lychee.tar.gz" | sha256sum -c -
++          tar -xzf "$RUNNER_TEMP/lychee.tar.gz" -C "$RUNNER_TEMP"
++          echo "LYCHEE=$RUNNER_TEMP/lychee-x86_64-unknown-linux-gnu/lychee" >> "$GITHUB_ENV"
++      - run: bash .github/scripts/check-links.sh tinyml/site # rules: lychee.toml
++        env:
++          GITHUB_TOKEN: ${{ github.token }} # avoids GitHub's rate limit for github.com links
++      # The link-checking rules themselves: same-site URLs and #headings are checked.
++      - run: uv run pytest tests/test_check_links.py
+diff --git a/.markdownlint-cli2.jsonc b/.markdownlint-cli2.jsonc
+new file mode 100644
+index 0000000..5b36c29
+--- /dev/null
++++ b/.markdownlint-cli2.jsonc
+@@ -0,0 +1,10 @@
++// markdownlint-cli2 lints tinyml's Pages (the Guarded Project's docs).
++// Run it from the repo root as `npx markdownlint-cli2@0.24.0`.
++{
++  "config": {
++    "default": true,
++    // The Pages keep each paragraph on one line; line wrapping is not house style.
++    "MD013": false
++  },
++  "globs": ["tinyml/docs/**/*.md"]
++}
+diff --git a/.vale.ini b/.vale.ini
+new file mode 100644
+index 0000000..259c192
+--- /dev/null
++++ b/.vale.ini
+@@ -0,0 +1,7 @@
++# Vale lints tinyml's Pages (the Guarded Project's docs) against the house style
++# in .vale/styles/DocsGuardian. Run it as `vale tinyml/docs`.
++StylesPath = .vale/styles
++MinAlertLevel = suggestion
++
++[*.md]
++BasedOnStyles = DocsGuardian
+diff --git a/.vale/styles/DocsGuardian/Terms.yml b/.vale/styles/DocsGuardian/Terms.yml
+new file mode 100644
+index 0000000..8e4938a
+--- /dev/null
++++ b/.vale/styles/DocsGuardian/Terms.yml
+@@ -0,0 +1,18 @@
++# Product and project names, spelled the way their owners spell them.
++# Code spans and code blocks are not prose, so `import numpy` is never flagged.
++extends: substitution
++message: "Use '%s' instead of '%s'."
++level: error
++ignorecase: false
++swap:
++  Github: GitHub
++  github: GitHub
++  Mkdocs: MkDocs
++  mkdocs: MkDocs
++  Numpy: NumPy
++  numpy: NumPy
++  jupyter: Jupyter
++  Pytest: pytest
++  python: Python
++  markdown: Markdown
++  '[Dd]ocs[ -]?[Gg]uardian|[Dd]oc-[Gg]uardian': docs-guardian
+diff --git a/README.md b/README.md
+index 959fbcb..2fc57bb 100644
+--- a/README.md
++++ b/README.md
+@@ -2,7 +2,7 @@
+ 
+ docs-guardian is tooling that catches documentation that has fallen out of step with the code it describes, before readers do. It guards a separate **Guarded Project**, [tinyml](tinyml/): a tiny linear-regression library with a docs site, kept deliberately small so it can be broken on purpose.
+ 
+-Two checks are built: the **snippet runner**, a Gate that fails a pull request when a Snippet breaks, and the **drift check**, an Advisory check that comments on a pull request with the Pages its API Changes affect. The health bot comes next; see [docs/architecture.md](docs/architecture.md).
++Three components are built: the **snippet runner**, a Gate that fails a pull request when a Snippet breaks; the **drift check**, an Advisory check that comments on a pull request with the Pages its API Changes affect; and **lint · links · strict build**, a Gate on tinyml's Pages' style, links and site build. The health bot comes next; see [docs/architecture.md](docs/architecture.md).
+ 
+ ## What runs today
+ 
+@@ -13,6 +13,7 @@ Two checks are built: the **snippet runner**, a Gate that fails a pull request w
+ - **CI** (`.github/workflows/ci.yml`): pytest on Python 3.11 and 3.14, plus a ruff lint and format check, on every pull request and push to `main`.
+ - **Docs tests** (`.github/workflows/docs-tests.yml`): the snippet runner on `tinyml/docs`, and the notebook via nbmake, on every pull request and push to `main`.
+ - **Drift check** (`.github/workflows/drift-check.yml`): posts the Drift Report as one pull request comment and rewrites it on every push. A fork's pull request, whose token cannot comment, gets the report in the job summary instead.
++- **Docs lint** (`.github/workflows/docs-lint.yml`): four checks on tinyml's Pages on every pull request and push to `main`: `markdownlint` (markdownlint-cli2), `vale` (the house style in `.vale/styles/DocsGuardian`), `strict-build` (`mkdocs build --strict`, which also fails on Pages missing from the nav and links to missing headings) and `links` (lychee on the built site via `.github/scripts/check-links.sh`: external links, links to the site's own URL and `#heading` links included).
+ - **Deploy** (`.github/workflows/deploy.yml`): builds the site with `mkdocs build --strict` and publishes it to GitHub Pages on every push to `main`.
+ 
+ ## Quickstart
+@@ -44,6 +45,15 @@ See the Drift Report your branch would get, as the drift-check workflow builds i
+ uv run docs-guardian drift --base main --source tinyml/src --docs tinyml/docs
+ ```
+ 
++Lint tinyml's Pages and check the built site's links, as the docs-lint workflow does. markdownlint runs through `npx` (Node.js); [Vale](https://vale.sh/docs/install) and [lychee](https://lychee.cli.rs/installation/) are single binaries (CI uses Vale 3.26.0 and lychee 0.24.2):
++
++```bash
++npx markdownlint-cli2@0.24.0
++vale tinyml/docs
++(cd tinyml && uv run mkdocs build --strict)
++bash .github/scripts/check-links.sh tinyml/site
++```
++
+ Preview the docs site at <http://127.0.0.1:8000/docs-guardian/>:
+ 
+ ```bash
+@@ -59,8 +69,9 @@ uv run mkdocs serve
+ | `tinyml/` | The Guarded Project: library, tests, Pages and `mkdocs.yml` |
+ | `tests/` | docs-guardian's own tests |
+ | `docs/` | Design docs: [architecture](docs/architecture.md), [ADRs](docs/adr/), agent guides |
+-| `.github/workflows/` | CI, docs tests, the drift check and docs-site deploy |
+-| `.github/scripts/` | The drift check's comment-posting script, tested in `tests/` |
++| `.github/workflows/` | CI, docs tests, docs lint, the drift check and docs-site deploy |
++| `.github/scripts/` | The drift check's comment-posting script and the docs-lint link check, both tested in `tests/` |
++| `.vale/`, `.vale.ini`, `.markdownlint-cli2.jsonc`, `lychee.toml` | The docs-lint configuration: house style, Markdown rules and link-check rules |
+ 
+ ## Further reading
+ 
+diff --git a/docs/architecture.md b/docs/architecture.md
+index 985a59e..1430752 100644
+--- a/docs/architecture.md
++++ b/docs/architecture.md
+@@ -137,14 +137,18 @@ To measure the bot, `docs-guardian eval` runs it three times on a test Page hold
+ 
+ ### Lint · links · strict build (Gate)
+ 
+-Mostly configuration; each runs as its own PR check.
++Mostly configuration. `.github/workflows/docs-lint.yml` runs each tool as its own PR check, on tinyml's Pages only (docs-guardian's own `docs/` are never published, so never linted). Every tool is pinned to one version, and each downloaded binary to its SHA-256.
+ 
+-| Tool | Catches |
+-| --- | --- |
+-| markdownlint-cli2 | Inconsistent headings, lists, whitespace |
+-| Vale + a `DocsGuardian` style | House-style violations, e.g. "Github" instead of "GitHub" |
+-| lychee | Broken internal and external links |
+-| `mkdocs build --strict` | Broken cross-references, Pages missing from the nav |
++| Check | Tool | Catches |
++| --- | --- | --- |
++| `markdownlint` | markdownlint-cli2 (`.markdownlint-cli2.jsonc`) | Inconsistent headings, lists, whitespace. Line length is off: a paragraph stays on one line |
++| `vale` | Vale + the `DocsGuardian` style (`.vale.ini`, `.vale/styles/`) | House-style violations: product names spelled their owners' way, e.g. "Github" instead of "GitHub". Code spans, code blocks and URLs are not prose |
++| `strict-build` | `mkdocs build --strict` | Broken cross-references, links to missing headings, Pages missing from the nav (`validation` in `tinyml/mkdocs.yml` raises the last two to warnings, which strict mode fails on) |
++| `links` | lychee (`lychee.toml`), run by `.github/scripts/check-links.sh` | Broken internal and external links and `#heading` links, checked on the **built site**, so links in the rendered notebook count too |
++
++External links are checked on every pull request. To keep a slow or rate-limiting site from failing one, lychee retries three times and treats `429 Too Many Requests` as alive. Links to the site's own URL (`https://willyowl.github.io/docs-guardian/...`) are remapped onto the local build, so a dead one fails while a Page the pull request adds passes before it is deployed. Root-relative links (`/docs-guardian/...`) resolve the same way: the script serves the build under `/docs-guardian/` in a temporary web root, so a link without that prefix fails, as it would on GitHub Pages. lychee only accepts an absolute `file://` path for that remap, which is why the check is a script rather than lychee plus its config file; `tests/test_check_links.py` runs that script on small built sites, in the `links` job. This also covers `404.html`, which MkDocs writes with root-relative links so it works at any depth.
++
++Markdownlint and Vale read Markdown only, so the notebook is covered by `strict-build` and `links`.
+ 
+ ## 4. One change, every check
+ 
+@@ -172,6 +176,7 @@ docs-guardian/                  ← the repo
+ │   ├── architecture.md         ← this page
+ │   └── adr/
+ ├── .github/workflows/          ← one workflow per trigger
++├── .vale/styles/DocsGuardian/  ← the house style (with .vale.ini, .markdownlint-cli2.jsonc, lychee.toml)
+ ├── .github/scripts/            ← the drift check's comment poster
+ └── GLOSSARY.md
+ ```
+diff --git a/lychee.toml b/lychee.toml
+new file mode 100644
+index 0000000..6a2d14c
+--- /dev/null
++++ b/lychee.toml
+@@ -0,0 +1,23 @@
++# lychee checks the links of tinyml's *built* site, so links in the rendered
++# notebook and the nav are covered too. Build first, then run from the repo root:
++#   (cd tinyml && uv run mkdocs build --strict) && lychee tinyml/site
++
++# Pages are folders (`quickstart/`); a link to one means its index.html.
++index_files = ["index.html"]
++
++# `#heading` links must point at a heading that exists. The strict build checks
++# this in Markdown Pages only; the rendered notebook is lychee's to check.
++include_fragments = "anchor-only"
++
++# External sites can be slow or rate-limit CI: retry, and treat 429 as alive.
++max_retries = 3
++retry_wait_time = 2
++timeout = 20
++accept = ["200..=299", "429"]
++
++# Links to this site's own URL (https://willyowl.github.io/docs-guardian/...) are
++# remapped onto the local build by .github/scripts/check-links.sh, so a Page this
++# pull request adds is checked before it is deployed. lychee only accepts an
++# absolute file:// path there, so the remap can't live in this file.
++
++no_progress = true
+diff --git a/tests/test_check_links.py b/tests/test_check_links.py
+new file mode 100644
+index 0000000..9063aef
+--- /dev/null
++++ b/tests/test_check_links.py
+@@ -0,0 +1,87 @@
++"""The docs-lint `links` check (.github/scripts/check-links.sh), run on small built sites.
++
++The sites are hand-written HTML shaped like MkDocs output, so these tests guard the
++link-checking rules; the real tinyml build is checked by the `links` job itself.
++They need the lychee binary: `$LYCHEE`, or `lychee` on PATH. CI's `links` job runs them.
++"""
++
++import os
++import shutil
++import subprocess
++import tempfile
++from pathlib import Path
++
++import pytest
++
++REPO = Path(__file__).resolve().parents[1]
++SCRIPT = REPO / ".github/scripts/check-links.sh"
++LYCHEE = os.environ.get("LYCHEE") or shutil.which("lychee")
++
++needs_lychee = pytest.mark.skipif(not LYCHEE, reason="needs lychee ($LYCHEE or on PATH)")
++
++
++def check(tmp_path: Path, links: str) -> subprocess.CompletedProcess:
++    """Build a two-Page site whose home Page holds `links`, and check it."""
++    site = Path(tempfile.mkdtemp(dir=tmp_path)) / "site"  # one fresh site per call
++    (site / "quickstart").mkdir(parents=True)
++    (site / "index.html").write_text(f"<html><body><h1>Home</h1>{links}</body></html>")
++    (site / "quickstart/index.html").write_text(
++        '<html><body><h1 id="quickstart">Quickstart</h1><h2 id="install">Install</h2></body></html>'
++    )
++    return subprocess.run(
++        ["bash", str(SCRIPT), str(site)],
++        env={**os.environ, "LYCHEE": LYCHEE},
++        capture_output=True,
++        text=True,
++        timeout=120,
++    )
++
++
++@needs_lychee
++def test_a_relative_link_to_a_missing_page_fails_and_one_to_a_page_passes(tmp_path):
++    assert check(tmp_path, '<a href="quickstart/">ok</a>').returncode == 0
++    broken = check(tmp_path, '<a href="missing/">gone</a>')
++    assert broken.returncode != 0
++    assert "missing" in broken.stdout + broken.stderr
++
++
++SITE_URL = "https://willyowl.github.io/docs-guardian/"
++
++
++@needs_lychee
++def test_a_link_to_the_sites_own_url_is_checked_against_the_local_build(tmp_path):
++    # Review round 1, Spec 1. Checked locally, so a Page this PR adds passes before deploy.
++    assert check(tmp_path, f'<a href="{SITE_URL}quickstart/">ok</a>').returncode == 0
++    broken = check(tmp_path, f'<a href="{SITE_URL}missing-page/">gone</a>')
++    assert broken.returncode != 0
++    assert "missing-page" in broken.stdout + broken.stderr
++
++
++@needs_lychee
++def test_a_root_relative_link_resolves_as_on_the_deployed_site(tmp_path):
++    # Review round 2, Spec 1. The site is served under /docs-guardian/, so a link
++    # without that prefix is broken there even though the build has the Page.
++    for link in ("/docs-guardian/quickstart/", "/docs-guardian/quickstart/#install"):
++        assert check(tmp_path, f'<a href="{link}">ok</a>').returncode == 0, link
++    missing = ("/docs-guardian/missing-page/", "/docs-guardian/quickstart/#no-such-heading")
++    for link in (*missing, "/quickstart/"):
++        broken = check(tmp_path, f'<a href="{link}">gone</a>')
++        assert broken.returncode != 0, link
++
++
++@needs_lychee
++def test_a_link_to_a_missing_heading_fails_and_one_to_a_heading_passes(tmp_path):
++    # Review round 1, Spec 2: the strict build checks anchors in Markdown Pages
++    # only, so a notebook's `#heading` links are lychee's to check.
++    ok = '<h2 id="fit">Fit</h2><a href="#fit">here</a> <a href="quickstart/#install">there</a>'
++    assert check(tmp_path, ok).returncode == 0
++    for link in ("#no-such-heading", "quickstart/#no-such-heading"):
++        broken = check(tmp_path, f'<a href="{link}">gone</a>')
++        assert broken.returncode != 0, link
++        assert "no-such-heading" in broken.stdout + broken.stderr
++
++
++def test_ci_checks_the_built_site_with_this_script_and_runs_these_tests():
++    links_job = (REPO / ".github/workflows/docs-lint.yml").read_text().split("\n  links:")[1]
++    assert "bash .github/scripts/check-links.sh tinyml/site" in links_job
++    assert "pytest tests/test_check_links.py" in links_job
+diff --git a/tinyml/mkdocs.yml b/tinyml/mkdocs.yml
+index 6db4044..f088678 100644
+--- a/tinyml/mkdocs.yml
++++ b/tinyml/mkdocs.yml
+@@ -32,6 +32,14 @@ plugins:
+             show_source: false
+             members_order: source
+ 
++# With `mkdocs build --strict`, every warning fails the build (the Gate). MkDocs
++# only reports these two at info level by default; here they fail it too.
++validation:
++  nav:
++    omitted_files: warn # a Page that is not in the nav
++  links:
++    anchors: warn # a link to a heading that does not exist
++
+ markdown_extensions:
+   - admonition
+   - pymdownx.highlight

@@ -1,0 +1,87 @@
+# Independent Spec probe: relative links escaping publication root
+
+Reviewed commit: `e1f15ea6789dc0d566c3c8d997a864419529fd83`.
+
+Source: `.github/scripts/check-links.sh:20–23`. The script invokes lychee on the real build directory; `--root-dir` at line 22 applies to root-relative URLs. It does not constrain ordinary relative links to the mounted `/docs-guardian/` publication root. Those links can walk up from `site/notebooks/walkthrough/index.html` into unpublished checkout files. No secrets occur in these commands or outputs.
+
+## Entirely local fixture using the unmodified script
+
+Executed from `/tmp/pr12-review-round3/source`:
+
+```bash
+/home/yiyang/docs-guardian/.venv/bin/python - <<'PY'
+from pathlib import Path
+import tempfile, subprocess, os
+root=Path('/tmp/pr12-review-round3/source')
+lychee='/tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee'
+with tempfile.TemporaryDirectory(prefix='pr12-spec-escape-') as td:
+    work=Path(td)
+    (work/'outside.html').write_text('<h1>Not published</h1>')
+    (work/'site'/'nested').mkdir(parents=True)
+    (work/'site'/'index.html').write_text('<h1>Home</h1>')
+    (work/'site'/'nested'/'index.html').write_text('<a href="../../outside.html">Not on this site</a>')
+    p=subprocess.run(['bash',str(root/'.github/scripts/check-links.sh'),str(work/'site')],env={**os.environ,'LYCHEE':lychee},capture_output=True,text=True)
+    print('Relative link escapes site to existing unpublished file:',p.returncode)
+    print(p.stdout+p.stderr)
+PY
+```
+
+Exact output:
+
+```text
+Relative link escapes site to existing unpublished file: 0
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 1 OK 🚫 0 Errors
+```
+
+`../../outside.html` from a deployed `/docs-guardian/nested/` Page resolves to `/outside.html`, outside the project's published root. The sibling filesystem file is not published there. The script nevertheless accepts that sibling file.
+
+## Real notebook, strict build, and local-link verification
+
+Executed from `/tmp/pr12-review-round3/source`. This copies tinyml to a temporary project, adds one Markdown notebook cell, and copies the repository README to the checkout-relative target. The source checkout is not edited. The temporary wrapper adds lychee's `--offline` flag to isolate filesystem link behavior; it disables HTTP checks only.
+
+```bash
+PYTHONPATH=/tmp/pr12-review-round3/source/src:/tmp/pr12-review-round3/source/tinyml/src /home/yiyang/docs-guardian/.venv/bin/python - <<'PY'
+from pathlib import Path
+import tempfile, shutil, subprocess, os, json
+root=Path('/tmp/pr12-review-round3/source')
+lychee='/tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee'
+with tempfile.TemporaryDirectory(prefix='pr12-spec-notebook-') as td:
+    work=Path(td)
+    shutil.copy(root/'README.md',work/'README.md')
+    project=work/'tinyml'
+    shutil.copytree(root/'tinyml',project,ignore=shutil.ignore_patterns('.cache','site','__pycache__'))
+    notebook=project/'docs/notebooks/walkthrough.ipynb'
+    data=json.loads(notebook.read_text())
+    data['cells'].append({'cell_type':'markdown','metadata':{},'source':['[Repository readme](../../../../README.md)']})
+    notebook.write_text(json.dumps(data))
+    p=subprocess.run(['/home/yiyang/docs-guardian/.venv/bin/python','-m','mkdocs','build','--strict'],cwd=project,env={**os.environ,'NO_MKDOCS_2_WARNING':'1'},capture_output=True,text=True)
+    print('Strict build with escaping notebook link:',p.returncode)
+    print(p.stdout+p.stderr)
+    html=project/'site/notebooks/walkthrough/index.html'
+    print('Escaping href emitted:', 'href="../../../../README.md"' in html.read_text())
+    wrapper=work/'lychee-offline'
+    wrapper.write_text('#!/usr/bin/env bash\nexec '+lychee+' --offline "$@"\n')
+    wrapper.chmod(0o755)
+    p=subprocess.run(['bash',str(root/'.github/scripts/check-links.sh'),str(project/'site')],env={**os.environ,'LYCHEE':str(wrapper)},capture_output=True,text=True)
+    print('Real link script, only HTTP disabled:',p.returncode)
+    print(p.stdout+p.stderr)
+PY
+```
+
+Exact output:
+
+```text
+Strict build with escaping notebook link: 0
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-spec-notebook-tr_xo7f0/tinyml/site
+INFO    -  Converting notebook (execute=False): /tmp/pr12-spec-notebook-tr_xo7f0/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr12-spec-notebook-tr_xo7f0/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-spec-notebook-tr_xo7f0/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-spec-notebook-tr_xo7f0/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.61 seconds
+
+Escaping href emitted: True
+Real link script, only HTTP disabled: 0
+🔍 300 Total (in 20ms) 🔗 185 Unique ✅ 133 OK 🚫 0 Errors 👻 167 Excluded
+```
+
+For the deployed notebook URL `https://willyowl.github.io/docs-guardian/notebooks/walkthrough/`, `../../../../README.md` normalizes to `https://willyowl.github.io/README.md`. Locally, lychee instead sees the sibling checkout README created above. The real notebook strict build does not validate that Markdown cell's links, so it does not compensate for the incorrect local acceptance.

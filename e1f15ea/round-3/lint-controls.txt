@@ -1,0 +1,21 @@
+PR #12 review round 3 — lint-controls
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:26:58.097775+00:00
+$ (cd /tmp/pr12-review-round3/lint-controls && /home/yiyang/.npm/_npx/97a1abd67b237388/node_modules/.bin/markdownlint-cli2)
+markdownlint-cli2 v0.24.0 (markdownlint v0.42.0)
+Finding: tinyml/docs/**/*.md
+Linting: 4 files
+Summary: 1 issue in 1 file
+tinyml/docs/index.md:17 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: "Duplicate h1"]
+[exit 1]
+PASS: Markdown structure mutation is caught by markdownlint (MD025).
+$ (cd /tmp/pr12-review-round3/lint-controls && /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/vale tinyml/docs)
+
+ tinyml/docs/index.md
+ 17:1  error  Use 'GitHub' instead of 'Github'.  DocsGuardian.Terms 
+
+✖ 1 error, 0 warnings and 0 suggestions in 4 files.
+[exit 1]
+PASS: product name mutation is caught by the Vale house style.
+HARNESS EXIT: 0

@@ -1,0 +1,49 @@
+PR #12 review round 3 — 404-coverage
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:27:29.431851+00:00
+$ (cd /tmp/pr12-review-round3/source && bash /tmp/pr12-review-round3/source/.github/scripts/check-links.sh /tmp/pr12-review-round3/404-fixture)
+Issues found in 6 inputs. Find details below.
+
+[/tmp/pr12-review-round3/404-fixture/404.html]:
+[ERROR] file:///tmp/tmp.rPeN4rfcbb/docs-guardian/review-missing-404 (at 422:17) | File not found. Check if file exists and path is correct
+[ERROR] https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback (at 42:38) | Connection failed. Check network connectivity and firewall settings
+[ERROR] https://github.com/WillyOwl/docs-guardian (at 152:18) | Connection failed. Check network connectivity and firewall settings
+[ERROR] https://github.com/WillyOwl/docs-guardian (at 198:16) | Connection failed. Check network connectivity and firewall settings
+[ERROR] https://squidfunk.github.io/mkdocs-material/ (at 396:14) | Connection failed. Check network connectivity and firewall settings
+
+[/tmp/pr12-review-round3/404-fixture/api/index.html]:
+[ERROR] https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback (at 46:38) | Error (cached)
+[ERROR] https://github.com/WillyOwl/docs-guardian (at 161:18) | Error (cached)
+[ERROR] https://github.com/WillyOwl/docs-guardian (at 207:16) | Error (cached)
+[ERROR] https://squidfunk.github.io/mkdocs-material/ (at 1664:14) | Error (cached)
+
+[/tmp/pr12-review-round3/404-fixture/index.html]:
+[ERROR] https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback (at 46:38) | Error (cached)
+[ERROR] https://github.com/WillyOwl/docs-guardian (at 161:18) | Error (cached)
+[ERROR] https://github.com/WillyOwl/docs-guardian (at 207:16) | Error (cached)
+[ERROR] https://github.com/WillyOwl/docs-guardian/blob/main/tinyml/src/tinyml/_data/housing.csv (at 413:200) | Connection failed. Check network connectivity and firewall settings
+[ERROR] https://squidfunk.github.io/mkdocs-material/ (at 468:14) | Error (cached)
+
+[/tmp/pr12-review-round3/404-fixture/notebooks/walkthrough/index.html]:
+[ERROR] https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback (at 48:38) | Error (cached)
+[ERROR] https://github.com/WillyOwl/docs-guardian (at 163:18) | Error (cached)
+[ERROR] https://github.com/WillyOwl/docs-guardian (at 209:16) | Error (cached)
+[ERROR] https://squidfunk.github.io/mkdocs-material/ (at 869:14) | Error (cached)
+
+[/tmp/pr12-review-round3/404-fixture/quickstart/index.html]:
+[ERROR] https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback (at 48:38) | Error (cached)
+[ERROR] https://github.com/WillyOwl/docs-guardian (at 163:18) | Error (cached)
+[ERROR] https://github.com/WillyOwl/docs-guardian (at 209:16) | Error (cached)
+[ERROR] https://squidfunk.github.io/mkdocs-material/ (at 490:14) | Error (cached)
+
+[/tmp/pr12-review-round3/404-fixture/tutorial/index.html]:
+[ERROR] https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback (at 48:38) | Error (cached)
+[ERROR] https://github.com/WillyOwl/docs-guardian (at 163:18) | Error (cached)
+[ERROR] https://github.com/WillyOwl/docs-guardian (at 209:16) | Error (cached)
+[ERROR] https://squidfunk.github.io/mkdocs-material/ (at 673:14) | Error (cached)
+
+🔍 300 Total (in 115ms) 🔗 185 Unique ✅ 132 OK 🚫 26 Errors ⛔ 142 Unsupported
+[exit 2]
+PASS: a broken link added only to the built 404.html is rejected (exit 2).
+HARNESS EXIT: 0

@@ -1,0 +1,122 @@
+{
+  "source": "e1f15ea6789dc0d566c3c8d997a864419529fd83",
+  "capturedUTC": "2026-11-26T21:32:34.307Z",
+  "commandOutput": [
+    {
+      "log": "404-coverage-sandbox-attempt.txt",
+      "screenshot": "404-coverage-sandbox-attempt.png"
+    },
+    {
+      "log": "404-coverage.txt",
+      "screenshot": "404-coverage.png"
+    },
+    {
+      "log": "boundary-probes.txt",
+      "screenshot": "boundary-probes.png"
+    },
+    {
+      "log": "browser-dom.txt",
+      "screenshot": "browser-dom.png"
+    },
+    {
+      "log": "ci.txt",
+      "screenshot": "ci.png"
+    },
+    {
+      "log": "commits.txt",
+      "screenshot": "commits.png"
+    },
+    {
+      "log": "escape-controls-harness-attempt.txt",
+      "screenshot": "escape-controls-harness-attempt.png"
+    },
+    {
+      "log": "escape-controls.txt",
+      "screenshot": "escape-controls.png"
+    },
+    {
+      "log": "escape-minimal.txt",
+      "screenshot": "escape-minimal.png"
+    },
+    {
+      "log": "escape-real.txt",
+      "screenshot": "escape-real.png"
+    },
+    {
+      "log": "integrity.txt",
+      "screenshot": "integrity.png"
+    },
+    {
+      "log": "link-regressions.txt",
+      "screenshot": "link-regressions.png"
+    },
+    {
+      "log": "links.txt",
+      "screenshot": "links.png"
+    },
+    {
+      "log": "lint-controls.txt",
+      "screenshot": "lint-controls.png"
+    },
+    {
+      "log": "live-destination.txt",
+      "screenshot": "live-destination.png"
+    },
+    {
+      "log": "markdownlint.txt",
+      "screenshot": "markdownlint.png"
+    },
+    {
+      "log": "notebooks-sandbox-attempt.txt",
+      "screenshot": "notebooks-sandbox-attempt.png"
+    },
+    {
+      "log": "notebooks.txt",
+      "screenshot": "notebooks.png"
+    },
+    {
+      "log": "original-repros.txt",
+      "screenshot": "original-repros.png"
+    },
+    {
+      "log": "pytest-311.txt",
+      "screenshot": "pytest-311.png"
+    },
+    {
+      "log": "pytest-314.txt",
+      "screenshot": "pytest-314.png"
+    },
+    {
+      "log": "ruff.txt",
+      "screenshot": "ruff.png"
+    },
+    {
+      "log": "snippets.txt",
+      "screenshot": "snippets.png"
+    },
+    {
+      "log": "spec-probe.txt",
+      "screenshot": "spec-probe.png"
+    },
+    {
+      "log": "strict-build.txt",
+      "screenshot": "strict-build.png"
+    },
+    {
+      "log": "strict-controls.txt",
+      "screenshot": "strict-controls.png"
+    },
+    {
+      "log": "tool-versions.txt",
+      "screenshot": "tool-versions.png"
+    },
+    {
+      "log": "vale.txt",
+      "screenshot": "vale.png"
+    }
+  ],
+  "builtPage": [
+    "escape-notebook-rendered.png",
+    "escape-browser-destination.png"
+  ]
+}

@@ -1,0 +1,25 @@
+<!doctype html><meta charset="utf-8"><title>lint-controls.txt</title>
+      <style>body{margin:0;background:#10151c;color:#e6edf3;font-family:monospace}header{padding:16px 22px;background:#1c2633;border-bottom:1px solid #445}h1{font-size:20px;margin:0 0 7px}.subtitle{font:13px sans-serif;color:#aab8c5}pre{margin:0;padding:20px 22px;font:14px/1.5 'DejaVu Sans Mono',monospace;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4}</style>
+      <header><h1>PR #12 · round 3 · lint-controls</h1><div class="subtitle">Fresh captured command output · source e1f15ea · raw output and verification steps accompany this screenshot</div></header>
+      <pre>PR #12 review round 3 — lint-controls
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:26:58.097775+00:00
+$ (cd /tmp/pr12-review-round3/lint-controls &amp;&amp; /home/yiyang/.npm/_npx/97a1abd67b237388/node_modules/.bin/markdownlint-cli2)
+markdownlint-cli2 v0.24.0 (markdownlint v0.42.0)
+Finding: tinyml/docs/**/*.md
+Linting: 4 files
+Summary: 1 issue in 1 file
+tinyml/docs/index.md:17 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: "Duplicate h1"]
+[exit 1]
+PASS: Markdown structure mutation is caught by markdownlint (MD025).
+$ (cd /tmp/pr12-review-round3/lint-controls &amp;&amp; /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/vale tinyml/docs)
+
+ tinyml/docs/index.md
+ 17:1  error  Use 'GitHub' instead of 'Github'.  DocsGuardian.Terms 
+
+✖ 1 error, 0 warnings and 0 suggestions in 4 files.
+[exit 1]
+PASS: product name mutation is caught by the Vale house style.
+HARNESS EXIT: 0
+</pre>

@@ -1,0 +1,25 @@
+<!doctype html><meta charset="utf-8"><title>ci.txt</title>
+      <style>body{margin:0;background:#10151c;color:#e6edf3;font-family:monospace}header{padding:16px 22px;background:#1c2633;border-bottom:1px solid #445}h1{font-size:20px;margin:0 0 7px}.subtitle{font:13px sans-serif;color:#aab8c5}pre{margin:0;padding:20px 22px;font:14px/1.5 'DejaVu Sans Mono',monospace;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4}</style>
+      <header><h1>PR #12 · round 3 · ci</h1><div class="subtitle">Fresh captured command output · source e1f15ea · raw output and verification steps accompany this screenshot</div></header>
+      <pre>PR #12 review round 3 — ci
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:27:38.040899+00:00
+$ (cd /tmp/pr12-review-round3/source &amp;&amp; gh pr view 12 --repo WillyOwl/docs-guardian --json headRefOid,statusCheckRollup)
+{"headRefOid":"e1f15ea6789dc0d566c3c8d997a864419529fd83","statusCheckRollup":[{"__typename":"CheckRun","completedAt":"2026-11-26T21:18:28Z","conclusion":"SUCCESS","detailsUrl":"https://github.com/WillyOwl/docs-guardian/actions/runs/45897178966/job/140173861005","name":"tests (Python 3.11)","startedAt":"2026-11-26T21:18:11Z","status":"COMPLETED","workflowName":"ci"},{"__typename":"CheckRun","completedAt":"2026-11-26T21:18:17Z","conclusion":"SUCCESS","detailsUrl":"https://github.com/WillyOwl/docs-guardian/actions/runs/45897179039/job/140173861347","name":"markdownlint","startedAt":"2026-11-26T21:18:11Z","status":"COMPLETED","workflowName":"docs-lint"},{"__typename":"CheckRun","completedAt":"2026-11-26T21:18:19Z","conclusion":"SUCCESS","detailsUrl":"https://github.com/WillyOwl/docs-guardian/actions/runs/45897179067/job/140173861592","name":"snippets","startedAt":"2026-11-26T21:18:11Z","status":"COMPLETED","workflowName":"docs-tests"},{"__typename":"CheckRun","completedAt":"2026-11-26T21:18:20Z","conclusion":"SUCCESS","detailsUrl":"https://github.com/WillyOwl/docs-guardian/actions/runs/45897178991/job/140173861172","name":"drift","startedAt":"2026-11-26T21:18:11Z","status":"COMPLETED","workflowName":"drift-check"},{"__typename":"CheckRun","completedAt":"2026-11-26T21:18:27Z","conclusion":"SUCCESS","detailsUrl":"https://github.com/WillyOwl/docs-guardian/actions/runs/45897178966/job/140173861280","name":"tests (Python 3.14)","startedAt":"2026-11-26T21:18:11Z","status":"COMPLETED","workflowName":"ci"},{"__typename":"CheckRun","completedAt":"2026-11-26T21:18:20Z","conclusion":"SUCCESS","detailsUrl":"https://github.com/WillyOwl/docs-guardian/actions/runs/45897178966/job/140173861293","name":"ruff","startedAt":"2026-11-26T21:18:11Z","status":"COMPLETED","workflowName":"ci"},{"__typename":"CheckRun","completedAt":"2026-11-26T21:18:17Z","conclusion":"SUCCESS","detailsUrl":"https://github.com/WillyOwl/docs-guardian/actions/runs/45897179039/job/140173861506","name":"vale","startedAt":"2026-11-26T21:18:11Z","status":"COMPLETED","workflowName":"docs-lint"},{"__typename":"CheckRun","completedAt":"2026-11-26T21:18:21Z","conclusion":"SUCCESS","detailsUrl":"https://github.com/WillyOwl/docs-guardian/actions/runs/45897179067/job/140173861256","name":"notebooks","startedAt":"2026-11-26T21:18:11Z","status":"COMPLETED","workflowName":"docs-tests"},{"__typename":"CheckRun","completedAt":"2026-11-26T21:18:22Z","conclusion":"SUCCESS","detailsUrl":"https://github.com/WillyOwl/docs-guardian/actions/runs/45897179039/job/140173861075","name":"strict-build","startedAt":"2026-11-26T21:18:11Z","status":"COMPLETED","workflowName":"docs-lint"},{"__typename":"CheckRun","completedAt":"2026-11-26T21:18:22Z","conclusion":"SUCCESS","detailsUrl":"https://github.com/WillyOwl/docs-guardian/actions/runs/45897179039/job/140173861391","name":"links","startedAt":"2026-11-26T21:18:11Z","status":"COMPLETED","workflowName":"docs-lint"}]}
+[exit 0]
+$ (cd /tmp/pr12-review-round3/source &amp;&amp; gh pr checks 12 --repo WillyOwl/docs-guardian)
+drift	pass	9s	https://github.com/WillyOwl/docs-guardian/actions/runs/45897178991/job/140173861172	
+links	pass	11s	https://github.com/WillyOwl/docs-guardian/actions/runs/45897179039/job/140173861391	
+markdownlint	pass	6s	https://github.com/WillyOwl/docs-guardian/actions/runs/45897179039/job/140173861347	
+notebooks	pass	10s	https://github.com/WillyOwl/docs-guardian/actions/runs/45897179067/job/140173861256	
+ruff	pass	9s	https://github.com/WillyOwl/docs-guardian/actions/runs/45897178966/job/140173861293	
+snippets	pass	8s	https://github.com/WillyOwl/docs-guardian/actions/runs/45897179067/job/140173861592	
+strict-build	pass	11s	https://github.com/WillyOwl/docs-guardian/actions/runs/45897179039/job/140173861075	
+tests (Python 3.11)	pass	17s	https://github.com/WillyOwl/docs-guardian/actions/runs/45897178966/job/140173861005	
+tests (Python 3.14)	pass	16s	https://github.com/WillyOwl/docs-guardian/actions/runs/45897178966/job/140173861280	
+vale	pass	6s	https://github.com/WillyOwl/docs-guardian/actions/runs/45897179039/job/140173861506
+[exit 0]
+PASS: all 10 CI checks succeed on the pinned latest head.
+HARNESS EXIT: 0
+</pre>

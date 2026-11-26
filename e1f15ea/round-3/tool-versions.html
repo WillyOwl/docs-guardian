@@ -1,0 +1,30 @@
+<!doctype html><meta charset="utf-8"><title>tool-versions.txt</title>
+      <style>body{margin:0;background:#10151c;color:#e6edf3;font-family:monospace}header{padding:16px 22px;background:#1c2633;border-bottom:1px solid #445}h1{font-size:20px;margin:0 0 7px}.subtitle{font:13px sans-serif;color:#aab8c5}pre{margin:0;padding:20px 22px;font:14px/1.5 'DejaVu Sans Mono',monospace;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4}</style>
+      <header><h1>PR #12 · round 3 · tool-versions</h1><div class="subtitle">Fresh captured command output · source e1f15ea · raw output and verification steps accompany this screenshot</div></header>
+      <pre>PR #12 review round 3 — tool-versions
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:26:50.780406+00:00
+$ (cd /tmp/pr12-review-round3/source &amp;&amp; /home/yiyang/docs-guardian/.venv/bin/python --version)
+Python 3.14.6
+[exit 0]
+$ (cd /tmp/pr12-review-round3/source &amp;&amp; /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/env311/bin/python --version)
+Python 3.11.15
+[exit 0]
+$ (cd /tmp/pr12-review-round3/source &amp;&amp; /home/yiyang/.npm/_npx/97a1abd67b237388/node_modules/.bin/markdownlint-cli2 --version)
+markdownlint-cli2 v0.24.0 (markdownlint v0.42.0)
+Finding: --version tinyml/docs/**/*.md
+Linting: 4 files
+Summary: 0 issues in 0 files
+[exit 0]
+$ (cd /tmp/pr12-review-round3/source &amp;&amp; /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/vale --version)
+vale version 3.26.0
+[exit 0]
+$ (cd /tmp/pr12-review-round3/source &amp;&amp; /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --version)
+lychee 0.24.2
+[exit 0]
+vale_3.26.0_Linux_64-bit.tar.gz SHA-256: 22aa69a556558e4a9dfc63c17030777383d8d3c48dcdfad655fa98e839d666ed
+lychee-x86_64-unknown-linux-gnu.tar.gz SHA-256: 1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a
+PASS: cached release archives match workflow SHA-256 pins.
+HARNESS EXIT: 0
+</pre>

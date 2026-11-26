@@ -1,0 +1,13 @@
+PR #12 review round 3 — strict-build
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:26:57.948824+00:00
+$ (cd /tmp/pr12-review-round3/source && /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review-round3/source/tinyml/site
+INFO    -  Converting notebook (execute=False): /tmp/pr12-review-round3/source/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr12-review-round3/source/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review-round3/source/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review-round3/source/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.81 seconds
+[exit 0]
+HARNESS EXIT: 0

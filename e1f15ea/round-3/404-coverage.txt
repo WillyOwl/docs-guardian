@@ -1,0 +1,14 @@
+PR #12 review round 3 — 404-coverage
+Source commit: e1f15ea6789dc0d566c3c8d997a864419529fd83
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T21:28:44.690451+00:00
+$ (cd /tmp/pr12-review-round3/source && bash /tmp/pr12-review-round3/source/.github/scripts/check-links.sh /tmp/pr12-review-round3/404-fixture)
+Issues found in 1 input. Find details below.
+
+[/tmp/pr12-review-round3/404-fixture/404.html]:
+[ERROR] file:///tmp/tmp.dpPGLX7yIW/docs-guardian/review-missing-404 (at 422:17) | File not found. Check if file exists and path is correct
+
+🔍 300 Total (in 636ms) 🔗 185 Unique ✅ 157 OK 🚫 1 Error ⛔ 142 Unsupported
+[exit 2]
+PASS: a broken link added only to the built 404.html is rejected (exit 2).
+HARNESS EXIT: 0
