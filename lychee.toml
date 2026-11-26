@@ -20,8 +20,4 @@ accept = ["200..=299", "429"]
 # pull request adds is checked before it is deployed. lychee only accepts an
 # absolute file:// path there, so the remap can't live in this file.
 
-# 404.html links with absolute `/docs-guardian/...` paths that only resolve on
-# GitHub Pages; every other Page carries the same nav as relative links.
-exclude_path = ['404\.html$']
-
 no_progress = true
