@@ -137,14 +137,21 @@ To measure the bot, `docs-guardian eval` runs it three times on a test Page hold
 
 ### Lint · links · strict build (Gate)
 
-Mostly configuration; each runs as its own PR check.
+Mostly configuration. `.github/workflows/docs-lint.yml` runs each tool as its own PR check, on tinyml's Pages only (docs-guardian's own `docs/` are never published, so never linted). Every tool is pinned to one version, and each downloaded binary to its SHA-256.
 
-| Tool | Catches |
-| --- | --- |
-| markdownlint-cli2 | Inconsistent headings, lists, whitespace |
-| Vale + a `DocsGuardian` style | House-style violations, e.g. "Github" instead of "GitHub" |
-| lychee | Broken internal and external links |
-| `mkdocs build --strict` | Broken cross-references, Pages missing from the nav |
+| Check | Tool | Catches |
+| --- | --- | --- |
+| `markdownlint` | markdownlint-cli2 (`.markdownlint-cli2.jsonc`) | Inconsistent headings, lists, whitespace. Line length is off: a paragraph stays on one line |
+| `vale` | Vale + the `DocsGuardian` style (`.vale.ini`, `.vale/styles/`) | House-style violations: product names spelled their owners' way, e.g. "Github" instead of "GitHub". Code spans, code blocks and URLs are not prose |
+| `strict-build` | `mkdocs build --strict` | Broken cross-references, links to missing headings, Pages missing from the nav (`validation` in `tinyml/mkdocs.yml` raises the last two to warnings, which strict mode fails on) |
+| `links` | lychee (`lychee.toml`) | Broken internal and external links, checked on the **built site**, so links in the rendered notebook count too |
+
+External links are checked on every pull request. To keep a slow or rate-limiting site from failing one, lychee retries three times and treats `429 Too Many Requests` as alive. Two things are excluded:
+
+- links to the live copy of this site, since its Pages are checked as files and a Page the pull request adds isn't deployed yet;
+- `404.html`, whose absolute `/docs-guardian/` paths only resolve on GitHub Pages.
+
+Markdownlint and Vale read Markdown only, so the notebook is covered by `strict-build` and `links`.
 
 ## 4. One change, every check
 
@@ -172,6 +179,7 @@ docs-guardian/                  ← the repo
 │   ├── architecture.md         ← this page
 │   └── adr/
 ├── .github/workflows/          ← one workflow per trigger
+├── .vale/styles/DocsGuardian/  ← the house style (with .vale.ini, .markdownlint-cli2.jsonc, lychee.toml)
 ├── .github/scripts/            ← the drift check's comment poster
 └── GLOSSARY.md
 ```
