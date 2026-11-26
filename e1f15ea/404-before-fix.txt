@@ -1,0 +1,30 @@
+$ (cd mut-old && git log --oneline -1 && sed -i '/^exclude_path/d' lychee.toml && git diff && (cd tinyml && uv run -q mkdocs build 2>/dev/null) && bash .github/scripts/check-links.sh tinyml/site)
+eab5b3c docs: describe the link check script, same-site remap and anchor checks
+diff --git a/lychee.toml b/lychee.toml
+index f1516da..8c47044 100644
+--- a/lychee.toml
++++ b/lychee.toml
+@@ -22,6 +22,5 @@ accept = ["200..=299", "429"]
+ 
+ # 404.html links with absolute `/docs-guardian/...` paths that only resolve on
+ # GitHub Pages; every other Page carries the same nav as relative links.
+-exclude_path = ['404\.html$']
+ 
+ no_progress = true
+Issues found in 1 input. Find details below.
+
+[tinyml/site/404.html]:
+[ERROR] error: (at 188:14) | Cannot resolve root-relative link '/docs-guardian/.': To resolve root-relative links in local files, provide a root dir
+[ERROR] error: (at 19:30) | Cannot resolve root-relative link '/docs-guardian/assets/images/favicon.png': To resolve root-relative links in local files, provide a root dir
+[ERROR] error: (at 218:16) | Cannot resolve root-relative link '/docs-guardian/.': To resolve root-relative links in local files, provide a root dir
+[ERROR] error: (at 245:16) | Cannot resolve root-relative link '/docs-guardian/quickstart/': To resolve root-relative links in local files, provide a root dir
+[ERROR] error: (at 272:16) | Cannot resolve root-relative link '/docs-guardian/tutorial/': To resolve root-relative links in local files, provide a root dir
+[ERROR] error: (at 28:36) | Cannot resolve root-relative link '/docs-guardian/assets/stylesheets/main.57a0d79d.min.css': To resolve root-relative links in local files, provide a root dir
+[ERROR] error: (at 299:16) | Cannot resolve root-relative link '/docs-guardian/notebooks/walkthrough/': To resolve root-relative links in local files, provide a root dir
+[ERROR] error: (at 326:16) | Cannot resolve root-relative link '/docs-guardian/api/': To resolve root-relative links in local files, provide a root dir
+[ERROR] error: (at 47:36) | Cannot resolve root-relative link '/docs-guardian/assets/_mkdocstrings.css': To resolve root-relative links in local files, provide a root dir
+[ERROR] error: (at 78:14) | Cannot resolve root-relative link '/docs-guardian/.': To resolve root-relative links in local files, provide a root dir
+
+🔍 299 Total (in 314ms) 🔗 177 Unique ✅ 147 OK 🚫 10 Errors ⛔ 142 Unsupported
+
+[exit 2]

@@ -1,0 +1,17 @@
+$ (cd mut-old && git log --oneline -1 && git apply <scratchpad>/ev/e1f15ea/fixtures/root-relative-actual.patch.git && git diff --stat && (cd tinyml && uv run -q mkdocs build --strict 2>&1 | grep -v "Cache hit\|Copied jupyter\|Converting notebook") && bash .github/scripts/check-links.sh tinyml/site)
+eab5b3c docs: describe the link check script, same-site remap and anchor checks
+ tinyml/docs/index.md | 2 ++
+ 1 file changed, 2 insertions(+)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: <scratchpad>/mut-old/tinyml/site
+INFO    -  Doc file 'index.md' contains an absolute link '/docs-guardian/quickstart/#quickstart', it was left as is.
+INFO    -  Cache miss, writing: <scratchpad>/mut-old/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Documentation built in 0.61 seconds
+Issues found in 1 input. Find details below.
+
+[tinyml/site/index.html]:
+[ERROR] error: (at 414:13) | Cannot resolve root-relative link '/docs-guardian/quickstart/#quickstart': To resolve root-relative links in local files, provide a root dir
+
+🔍 286 Total (in 707ms) 🔗 177 Unique ✅ 143 OK 🚫 1 Error ⛔ 142 Unsupported
+
+[exit 2]

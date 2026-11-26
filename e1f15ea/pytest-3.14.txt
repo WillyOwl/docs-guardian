@@ -1,0 +1,20 @@
+$ (cd wt && git log --oneline -1 && uv run --no-group docs python --version && uv run --no-group docs pytest -p no:cacheprovider)
+e1f15ea ci(docs-lint): check 404.html's links too
+Python 3.14.10
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0
+rootdir: <scratchpad>/wt
+configfile: pyproject.toml
+testpaths: tests, tinyml/tests
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collected 112 items
+
+tests/test_check_links.py .....                                          [  4%]
+tests/test_cli.py ...                                                    [  7%]
+tests/test_drift.py ......................................               [ 41%]
+tests/test_post_drift_report.py .........                                [ 49%]
+tests/test_snippets.py ..........................                        [ 72%]
+tinyml/tests/test_tinyml.py ...............................              [100%]
+
+============================= 112 passed in 7.38s ==============================
+[exit 0]

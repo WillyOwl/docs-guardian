@@ -1,0 +1,23 @@
+$ (cd wt && git log --oneline -1 && uv run --no-group docs pytest -v -p no:cacheprovider tests/test_check_links.py)
+e1f15ea ci(docs-lint): check 404.html's links too
+   Building docs-guardian @ file://<scratchpad>/wt
+   Building tinyml @ file://<scratchpad>/wt/tinyml
+      Built docs-guardian @ file://<scratchpad>/wt
+      Built tinyml @ file://<scratchpad>/wt/tinyml
+Uninstalled 2 packages in 0.59ms
+Installed 2 packages in 0.59ms
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0 -- ~/ENTER/envs/docs-guardian/bin/python3
+rootdir: <scratchpad>/wt
+configfile: pyproject.toml
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collecting ... collected 5 items
+
+tests/test_check_links.py::test_a_relative_link_to_a_missing_page_fails_and_one_to_a_page_passes PASSED [ 20%]
+tests/test_check_links.py::test_a_link_to_the_sites_own_url_is_checked_against_the_local_build PASSED [ 40%]
+tests/test_check_links.py::test_a_root_relative_link_resolves_as_on_the_deployed_site PASSED [ 60%]
+tests/test_check_links.py::test_a_link_to_a_missing_heading_fails_and_one_to_a_heading_passes PASSED [ 80%]
+tests/test_check_links.py::test_ci_checks_the_built_site_with_this_script_and_runs_these_tests PASSED [100%]
+
+============================== 5 passed in 0.30s ===============================
+[exit 0]

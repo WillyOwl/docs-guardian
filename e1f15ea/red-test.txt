@@ -1,0 +1,37 @@
+$ (cd mut-old && git checkout -q -- . && git log --oneline -1 && git checkout e1f15ea -- tests/test_check_links.py && git status --short && uv run --no-group docs pytest -p no:cacheprovider tests/test_check_links.py -k root_relative)
+eab5b3c docs: describe the link check script, same-site remap and anchor checks
+M  tests/test_check_links.py
+   Building docs-guardian @ file://<scratchpad>/mut-old
+      Built docs-guardian @ file://<scratchpad>/mut-old
+Uninstalled 2 packages in 1ms
+Installed 2 packages in 0.64ms
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.7.0
+rootdir: <scratchpad>/mut-old
+configfile: pyproject.toml
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collected 5 items / 4 deselected / 1 selected
+
+tests/test_check_links.py F                                              [100%]
+
+=================================== FAILURES ===================================
+__________ test_a_root_relative_link_resolves_as_on_the_deployed_site __________
+
+tmp_path = PosixPath('/tmp/pytest-of-yiyang/pytest-118/test_a_root_relative_link_reso0')
+
+    @needs_lychee
+    def test_a_root_relative_link_resolves_as_on_the_deployed_site(tmp_path):
+        # Review round 2, Spec 1. The site is served under /docs-guardian/, so a link
+        # without that prefix is broken there even though the build has the Page.
+        for link in ("/docs-guardian/quickstart/", "/docs-guardian/quickstart/#install"):
+>           assert check(tmp_path, f'<a href="{link}">ok</a>').returncode == 0, link
+E           AssertionError: /docs-guardian/quickstart/
+E           assert 2 == 0
+E            +  where 2 = CompletedProcess(args=['bash', '/tmp/claude-1000/-home-yiyang-docs-guardian/f7ad4f17-2d3f-44ab-87cc-baa53a4c3e9b/scrat...ot-relative links in local files, provide a root dir\n\n🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 0 OK 🚫 1 Error\n\n", stderr='').returncode
+E            +    where CompletedProcess(args=['bash', '/tmp/claude-1000/-home-yiyang-docs-guardian/f7ad4f17-2d3f-44ab-87cc-baa53a4c3e9b/scrat...ot-relative links in local files, provide a root dir\n\n🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 0 OK 🚫 1 Error\n\n", stderr='') = check(PosixPath('/tmp/pytest-of-yiyang/pytest-118/test_a_root_relative_link_reso0'), '<a href="/docs-guardian/quickstart/">ok</a>')
+
+tests/test_check_links.py:65: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_check_links.py::test_a_root_relative_link_resolves_as_on_the_deployed_site
+======================= 1 failed, 4 deselected in 0.05s ========================
+[exit 1]

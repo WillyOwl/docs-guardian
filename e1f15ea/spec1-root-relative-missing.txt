@@ -1,0 +1,11 @@
+$ (cd mut && git log --oneline -1 && sed -i 's|(/docs-guardian/quickstart/#quickstart)|(/docs-guardian/missing-page/)|' tinyml/docs/index.md && tail -1 tinyml/docs/index.md && (cd tinyml && uv run -q mkdocs build 2>/dev/null) && bash .github/scripts/check-links.sh tinyml/site)
+e1f15ea ci(docs-lint): check 404.html's links too
+[Review valid root-relative quickstart](/docs-guardian/missing-page/)
+Issues found in 1 input. Find details below.
+
+[tinyml/site/index.html]:
+[ERROR] file:///tmp/tmp.vVopBYwcCz/docs-guardian/missing-page (at 414:13) | File not found. Check if file exists and path is correct
+
+🔍 300 Total (in 317ms) 🔗 185 Unique ✅ 157 OK 🚫 1 Error ⛔ 142 Unsupported
+
+[exit 2]

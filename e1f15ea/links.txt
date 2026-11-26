@@ -1,0 +1,7 @@
+$ (cd wt && git log --oneline -1 && grep -c 404 lychee.toml; (cd tinyml && uv run -q mkdocs build 2>/dev/null) && ls tinyml/site/404.html && bash .github/scripts/check-links.sh tinyml/site)
+e1f15ea ci(docs-lint): check 404.html's links too
+0
+tinyml/site/404.html
+🔍 299 Total (in 340ms) 🔗 184 Unique ✅ 157 OK 🚫 0 Errors ⛔ 142 Unsupported
+
+[exit 0]

@@ -1,0 +1,4 @@
+$ (cd wt && git log --oneline -1 && <scratchpad>/vale/vale tinyml/docs)
+e1f15ea ci(docs-lint): check 404.html's links too
+✔ 0 errors, 0 warnings and 0 suggestions in 4 files.
+[exit 0]

@@ -1,0 +1,12 @@
+$ (cd mut && git log --oneline -1 && git apply <scratchpad>/ev/e1f15ea/fixtures/root-relative-actual.patch.git && git diff --stat && (cd tinyml && uv run -q mkdocs build --strict 2>&1 | grep -v "Cache hit\|Copied jupyter\|Converting notebook") && bash .github/scripts/check-links.sh tinyml/site)
+e1f15ea ci(docs-lint): check 404.html's links too
+ tinyml/docs/index.md | 2 ++
+ 1 file changed, 2 insertions(+)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: <scratchpad>/mut/tinyml/site
+INFO    -  Doc file 'index.md' contains an absolute link '/docs-guardian/quickstart/#quickstart', it was left as is.
+INFO    -  Cache miss, writing: <scratchpad>/mut/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Documentation built in 0.59 seconds
+🔍 300 Total (in 321ms) 🔗 185 Unique ✅ 158 OK 🚫 0 Errors ⛔ 142 Unsupported
+
+[exit 0]

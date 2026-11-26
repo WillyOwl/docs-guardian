@@ -1,0 +1,6 @@
+$ (cd wt && git log --oneline -1 && (cd tinyml && uv run -q mkdocs build --strict 2>&1 | grep -v "Cache hit\|Copied jupyter\|Converting notebook"))
+e1f15ea ci(docs-lint): check 404.html's links too
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: <scratchpad>/wt/tinyml/site
+INFO    -  Documentation built in 0.44 seconds
+[exit 0]

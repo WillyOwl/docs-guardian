@@ -1,0 +1,5 @@
+$ (cd wt && git log --oneline -1 && uv run --no-group docs ruff check . && uv run --no-group docs ruff format --check .)
+e1f15ea ci(docs-lint): check 404.html's links too
+All checks passed!
+27 files already formatted
+[exit 0]
