@@ -69,6 +69,9 @@ jobs:
             "https://github.com/lycheeverse/lychee/releases/download/lychee-v${LYCHEE_VERSION}/lychee-x86_64-unknown-linux-gnu.tar.gz"
           echo "${LYCHEE_SHA256}  $RUNNER_TEMP/lychee.tar.gz" | sha256sum -c -
           tar -xzf "$RUNNER_TEMP/lychee.tar.gz" -C "$RUNNER_TEMP"
-      - run: '"$RUNNER_TEMP/lychee-x86_64-unknown-linux-gnu/lychee" tinyml/site' # rules: lychee.toml
+          echo "LYCHEE=$RUNNER_TEMP/lychee-x86_64-unknown-linux-gnu/lychee" >> "$GITHUB_ENV"
+      - run: bash .github/scripts/check-links.sh tinyml/site # rules: lychee.toml
         env:
           GITHUB_TOKEN: ${{ github.token }} # avoids GitHub's rate limit for github.com links
+      # The link-checking rules themselves: same-site URLs and #headings are checked.
+      - run: uv run pytest tests/test_check_links.py

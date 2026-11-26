@@ -5,15 +5,20 @@
 # Pages are folders (`quickstart/`); a link to one means its index.html.
 index_files = ["index.html"]
 
+# `#heading` links must point at a heading that exists. The strict build checks
+# this in Markdown Pages only; the rendered notebook is lychee's to check.
+include_fragments = "anchor-only"
+
 # External sites can be slow or rate-limit CI: retry, and treat 429 as alive.
 max_retries = 3
 retry_wait_time = 2
 timeout = 20
 accept = ["200..=299", "429"]
 
-# The live copy of this same site. Its Pages are checked as files above, and a
-# Page this pull request adds would 404 here until it is deployed.
-exclude = ['^https://willyowl\.github\.io/docs-guardian/']
+# Links to this site's own URL (https://willyowl.github.io/docs-guardian/...) are
+# remapped onto the local build by .github/scripts/check-links.sh, so a Page this
+# pull request adds is checked before it is deployed. lychee only accepts an
+# absolute file:// path there, so the remap can't live in this file.
 
 # 404.html links with absolute `/docs-guardian/...` paths that only resolve on
 # GitHub Pages; every other Page carries the same nav as relative links.
