@@ -1,0 +1,31 @@
+<!doctype html><meta charset="utf-8"><title>root-relative-minimal.txt</title>
+      <style>body{margin:0;background:#10151c;color:#e6edf3;font-family:monospace}header{padding:16px 22px;background:#1c2633;border-bottom:1px solid #445}h1{font-size:20px;margin:0 0 7px}.subtitle{font:13px sans-serif;color:#aab8c5}pre{margin:0;padding:20px 22px;font:14px/1.5 'DejaVu Sans Mono',monospace;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4}</style>
+      <header><h1>PR #12 · round 2 · root-relative-minimal</h1><div class="subtitle">Fresh captured command output · source eab5b3c · raw logs and verification steps accompany this screenshot</div></header>
+      <pre>PR #12 review round 2 — minimal valid root-relative link
+Source commit: eab5b3ca743838c270066d5c3f72f9a13582832a
+Captured UTC: 2026-11-26T07:33:21.940317+00:00
+$ python3 reproduce_root_relative.py
+Site fixture: index.html with one &lt;a href="/docs-guardian/quickstart/"&gt;Quickstart&lt;/a&gt;
+Destination: quickstart/index.html exists (served under /docs-guardian/ on GitHub Pages).
+Expected: exit 0, because the deployed link is valid.
+Attempt 1: bash /tmp/pr12-review-round2/source/.github/scripts/check-links.sh /tmp/pr12-review-round2/minimal-root-relative
+Issues found in 1 input. Find details below.
+
+[/tmp/pr12-review-round2/minimal-root-relative/index.html]:
+[ERROR] error: (at 1:10) | Cannot resolve root-relative link '/docs-guardian/quickstart/': To resolve root-relative links in local files, provide a root dir
+
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 0 OK 🚫 1 Error
+
+[exit 2]
+Attempt 2: bash /tmp/pr12-review-round2/source/.github/scripts/check-links.sh /tmp/pr12-review-round2/minimal-root-relative
+Issues found in 1 input. Find details below.
+
+[/tmp/pr12-review-round2/minimal-root-relative/index.html]:
+[ERROR] error: (at 1:10) | Cannot resolve root-relative link '/docs-guardian/quickstart/': To resolve root-relative links in local files, provide a root dir
+
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 0 OK 🚫 1 Error
+
+[exit 2]
+FAIL: 2/2 attempts reject the valid root-relative link.
+HARNESS EXIT: 1
+</pre>

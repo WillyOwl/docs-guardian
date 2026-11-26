@@ -15,3 +15,7 @@ Each `.png` is its `.txt` rendered by `tools/render.cjs` in headless Chromium. S
 | `markdownlint`, `vale`, `strict-build` | Unchanged by these fixes; fresh runs at eab5b3c |
 | `pytest-3.14`, `pytest-3.11`, `ruff` | Full suite (111 passed) and lint |
 | `ci` | All ten PR checks pass on eab5b3c; the `links` job ran the 4 new tests |
+
+## Independent review round 2
+
+[Review, fresh test output, screenshots, and verification steps](round-2/README.md). The prior two findings are verified fixed; one new P2 root-relative link false positive remains open on this source commit.

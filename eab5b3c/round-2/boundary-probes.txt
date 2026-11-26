@@ -1,0 +1,55 @@
+PR #12 review round 2 — boundary-probes
+Source commit: eab5b3ca743838c270066d5c3f72f9a13582832a
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T07:32:02.906823+00:00
+CASE valid-relative; expected exit 0; HTML <a href="quickstart/#install">Install</a>
+$ (cd /tmp/pr12-review-round2/source && bash /tmp/pr12-review-round2/source/.github/scripts/check-links.sh /tmp/pr12-review-round2/fixtures/valid-relative)
+🔍 1 Total (in 2ms) 🔗 1 Unique ✅ 1 OK 🚫 0 Errors
+[exit 0]
+CASE missing-relative; expected exit 2; HTML <a href="missing/">Missing</a>
+$ (cd /tmp/pr12-review-round2/source && bash /tmp/pr12-review-round2/source/.github/scripts/check-links.sh /tmp/pr12-review-round2/fixtures/missing-relative)
+Issues found in 1 input. Find details below.
+
+[/tmp/pr12-review-round2/fixtures/missing-relative/index.html]:
+[ERROR] file:///tmp/pr12-review-round2/fixtures/missing-relative/missing (at 1:45) | File not found. Check if file exists and path is correct
+
+🔍 1 Total (in 2ms) 🔗 1 Unique ✅ 0 OK 🚫 1 Error
+[exit 2]
+CASE valid-same-site; expected exit 0; HTML <a href="https://willyowl.github.io/docs-guardian/quickstart/#install">Install</a>
+$ (cd /tmp/pr12-review-round2/source && bash /tmp/pr12-review-round2/source/.github/scripts/check-links.sh /tmp/pr12-review-round2/fixtures/valid-same-site)
+🔍 1 Total (in 2ms) 🔗 1 Unique ✅ 1 OK 🚫 0 Errors
+[exit 0]
+CASE missing-same-site; expected exit 2; HTML <a href="https://willyowl.github.io/docs-guardian/missing/">Missing</a>
+$ (cd /tmp/pr12-review-round2/source && bash /tmp/pr12-review-round2/source/.github/scripts/check-links.sh /tmp/pr12-review-round2/fixtures/missing-same-site)
+Issues found in 1 input. Find details below.
+
+[/tmp/pr12-review-round2/fixtures/missing-same-site/index.html]:
+[ERROR] file:///tmp/pr12-review-round2/fixtures/missing-same-site/missing/ (at 1:45) | File not found. Check if file exists and path is correct | Remaps: https://willyowl.github.io/docs-guardian/missing/ --> file:///tmp/pr12-review-round2/fixtures/missing-same-site/missing/
+
+🔍 1 Total (in 2ms) 🔗 1 Unique ✅ 0 OK 🚫 1 Error
+[exit 2]
+CASE valid-heading; expected exit 0; HTML <a href="#home">Home</a>
+$ (cd /tmp/pr12-review-round2/source && bash /tmp/pr12-review-round2/source/.github/scripts/check-links.sh /tmp/pr12-review-round2/fixtures/valid-heading)
+🔍 1 Total (in 2ms) 🔗 1 Unique ✅ 1 OK 🚫 0 Errors
+[exit 0]
+CASE missing-heading; expected exit 2; HTML <a href="#missing">Missing</a>
+$ (cd /tmp/pr12-review-round2/source && bash /tmp/pr12-review-round2/source/.github/scripts/check-links.sh /tmp/pr12-review-round2/fixtures/missing-heading)
+Issues found in 1 input. Find details below.
+
+[/tmp/pr12-review-round2/fixtures/missing-heading/index.html]:
+[ERROR] file:///tmp/pr12-review-round2/fixtures/missing-heading/index.html#missing (at 1:45) | Cannot find fragment
+
+🔍 1 Total (in 2ms) 🔗 1 Unique ✅ 0 OK 🚫 1 Error
+[exit 2]
+CASE valid-root-relative; expected exit 0; HTML <a href="/docs-guardian/quickstart/#install">Install</a>
+$ (cd /tmp/pr12-review-round2/source && bash /tmp/pr12-review-round2/source/.github/scripts/check-links.sh /tmp/pr12-review-round2/fixtures/valid-root-relative)
+Issues found in 1 input. Find details below.
+
+[/tmp/pr12-review-round2/fixtures/valid-root-relative/index.html]:
+[ERROR] error: (at 1:45) | Cannot resolve root-relative link '/docs-guardian/quickstart/#install': To resolve root-relative links in local files, provide a root dir
+
+🔍 1 Total (in 2ms) 🔗 1 Unique ✅ 0 OK 🚫 1 Error
+[exit 2]
+Contract failures: ["valid-root-relative"]
+FAIL: AssertionError: 
+HARNESS EXIT: 1

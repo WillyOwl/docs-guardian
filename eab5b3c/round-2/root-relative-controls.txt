@@ -1,0 +1,31 @@
+PR #12 review round 2 — root-relative-controls
+Source commit: eab5b3ca743838c270066d5c3f72f9a13582832a
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T07:33:58.436125+00:00
+Ranked predictions recorded before controls:
+1. Missing site-root context: adding --root-dir with the deployed /docs-guardian/ mount makes the same valid link pass.
+2. Directory index resolution: a root context alone will still fail unless the href explicitly names index.html.
+3. HTTPS remap interference: root context alone will still fail unless the remap is removed.
+$ (cd /tmp/pr12-review-round2/source && /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --config /tmp/pr12-review-round2/source/lychee.toml --remap '^https://willyowl\.github\.io/docs-guardian/ file:///tmp/pr12-review-round2/minimal-root-relative/' /tmp/pr12-review-round2/minimal-root-relative)
+Issues found in 1 input. Find details below.
+
+[/tmp/pr12-review-round2/minimal-root-relative/index.html]:
+[ERROR] error: (at 1:10) | Cannot resolve root-relative link '/docs-guardian/quickstart/': To resolve root-relative links in local files, provide a root dir
+
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 0 OK 🚫 1 Error
+[exit 2]
+$ (cd /tmp/pr12-review-round2/source && /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --config /tmp/pr12-review-round2/source/lychee.toml --remap '^https://willyowl\.github\.io/docs-guardian/ file:///tmp/pr12-review-round2/minimal-root-relative/' --root-dir /tmp/pr12-review-round2/control-web-root /tmp/pr12-review-round2/minimal-root-relative)
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 1 OK 🚫 0 Errors
+[exit 0]
+PASS: changing only --root-dir turns red to green, without changing the remap, href or index_files.
+Supported cause: missing site-root context. Hypotheses 2 and 3 falsified.
+$ (cd /tmp/pr12-review-round2/source && /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --config /tmp/pr12-review-round2/source/lychee.toml --remap '^https://willyowl\.github\.io/docs-guardian/ file:///tmp/pr12-review-round2/minimal-root-relative/' --root-dir /tmp/pr12-review-round2/control-web-root /tmp/pr12-review-round2/minimal-root-relative)
+Issues found in 1 input. Find details below.
+
+[/tmp/pr12-review-round2/minimal-root-relative/index.html]:
+[ERROR] file:///tmp/pr12-review-round2/control-web-root/docs-guardian/missing (at 1:10) | File not found. Check if file exists and path is correct
+
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 0 OK 🚫 1 Error
+[exit 2]
+PASS: a missing destination still fails with the same root context. This is a diagnosis control, not a committed fix.
+HARNESS EXIT: 0

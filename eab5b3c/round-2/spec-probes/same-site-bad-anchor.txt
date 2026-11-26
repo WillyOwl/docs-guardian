@@ -1,0 +1,10 @@
+Case: same-site-bad-anchor
+Markup: <a href="https://willyowl.github.io/docs-guardian/quickstart/#missing">bad</a>
+Exit: 2
+Issues found in 1 input. Find details below.
+
+[/tmp/pr12-review-round2/spec-probes/same-site-bad-anchor/site/index.html]:
+[ERROR] file:///tmp/pr12-review-round2/spec-probes/same-site-bad-anchor/site/quickstart/#missing (at 1:22) | Cannot find fragment | Remaps: https://willyowl.github.io/docs-guardian/quickstart/#missing --> file:///tmp/pr12-review-round2/spec-probes/same-site-bad-anchor/site/quickstart/#missing
+
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 0 OK 🚫 1 Error
+

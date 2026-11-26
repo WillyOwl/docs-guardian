@@ -1,0 +1,15 @@
+PR #12 review round 2 — integrity
+Source commit: eab5b3ca743838c270066d5c3f72f9a13582832a
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T07:35:04.088619+00:00
+$ (cd /tmp/pr12-review-round2/source && git rev-parse HEAD)
+eab5b3ca743838c270066d5c3f72f9a13582832a
+[exit 0]
+$ (cd /tmp/pr12-review-round2/source && git diff --exit-code HEAD)
+
+[exit 0]
+$ (cd /tmp/pr12-review-round2/source && git status --short --untracked-files=normal)
+?? .cache/
+[exit 0]
+FAIL: AssertionError: 
+HARNESS EXIT: 1

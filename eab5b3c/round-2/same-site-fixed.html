@@ -1,0 +1,36 @@
+<!doctype html><meta charset="utf-8"><title>same-site-fixed.txt</title>
+      <style>body{margin:0;background:#10151c;color:#e6edf3;font-family:monospace}header{padding:16px 22px;background:#1c2633;border-bottom:1px solid #445}h1{font-size:20px;margin:0 0 7px}.subtitle{font:13px sans-serif;color:#aab8c5}pre{margin:0;padding:20px 22px;font:14px/1.5 'DejaVu Sans Mono',monospace;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4}</style>
+      <header><h1>PR #12 · round 2 · same-site-fixed</h1><div class="subtitle">Fresh captured command output · source eab5b3c · raw logs and verification steps accompany this screenshot</div></header>
+      <pre>PR #12 review round 2 — same-site-fixed
+Source commit: eab5b3ca743838c270066d5c3f72f9a13582832a
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T07:33:24.322630+00:00
+$ (cd /tmp/pr12-review-round2/same-site-fixed &amp;&amp; diff -u /tmp/pr12-review-round2/source/tinyml/docs/index.md /tmp/pr12-review-round2/same-site-fixed/tinyml/docs/index.md)
+--- /tmp/pr12-review-round2/source/tinyml/docs/index.md	2026-11-26 01:29:59.697269431 -0600
++++ /tmp/pr12-review-round2/same-site-fixed/tinyml/docs/index.md	2026-11-26 01:33:24.326788881 -0600
+@@ -13,3 +13,5 @@
+ - Looking for a specific function? See the [API reference](api.md).
+ 
+ The examples use a small sample dataset that ships with tinyml: 40 houses with their size, number of bedrooms, age and sale price. Load it with `tinyml.datasets.housing()`, or [view the CSV](https://github.com/WillyOwl/docs-guardian/blob/main/tinyml/src/tinyml/_data/housing.csv).
++
++[Review missing page](https://willyowl.github.io/docs-guardian/pr12-review-missing-page/)
+[exit 1]
+$ (cd /tmp/pr12-review-round2/same-site-fixed &amp;&amp; /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review-round2/same-site-fixed/tinyml/site
+INFO    -  Converting notebook (execute=False): /tmp/pr12-review-round2/same-site-fixed/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr12-review-round2/same-site-fixed/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review-round2/same-site-fixed/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review-round2/same-site-fixed/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.63 seconds
+[exit 0]
+$ (cd /tmp/pr12-review-round2/same-site-fixed &amp;&amp; bash .github/scripts/check-links.sh tinyml/site)
+Issues found in 1 input. Find details below.
+
+[tinyml/site/index.html]:
+[ERROR] file:///tmp/pr12-review-round2/same-site-fixed/tinyml/site/pr12-review-missing-page/ (at 414:13) | File not found. Check if file exists and path is correct | Remaps: https://willyowl.github.io/docs-guardian/pr12-review-missing-page/ --&gt; file:///tmp/pr12-review-round2/same-site-fixed/tinyml/site/pr12-review-missing-page/
+
+🔍 286 Total (in 311ms) 🔗 177 Unique ✅ 143 OK 🚫 1 Error ⛔ 142 Unsupported
+[exit 2]
+PASS: strict-build succeeds; real link Gate rejects the original round-1 symptom (exit 2).
+HARNESS EXIT: 0
+</pre>

@@ -1,0 +1,10 @@
+Case: same-site-missing
+Markup: <a href="https://willyowl.github.io/docs-guardian/missing/">bad</a>
+Exit: 2
+Issues found in 1 input. Find details below.
+
+[/tmp/pr12-review-round2/spec-probes/same-site-missing/site/index.html]:
+[ERROR] file:///tmp/pr12-review-round2/spec-probes/same-site-missing/site/missing/ (at 1:22) | File not found. Check if file exists and path is correct | Remaps: https://willyowl.github.io/docs-guardian/missing/ --> file:///tmp/pr12-review-round2/spec-probes/same-site-missing/site/missing/
+
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 0 OK 🚫 1 Error
+

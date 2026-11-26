@@ -1,0 +1,5 @@
+Case: relative-valid
+Markup: <a href="quickstart/#install">good</a>
+Exit: 0
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 1 OK 🚫 0 Errors
+

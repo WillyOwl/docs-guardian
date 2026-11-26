@@ -1,0 +1,130 @@
+{
+  "source": "eab5b3ca743838c270066d5c3f72f9a13582832a",
+  "capturedUTC": "2026-11-26T07:55:20.854Z",
+  "commandOutput": [
+    {
+      "log": "boundary-probes.txt",
+      "screenshot": "boundary-probes.png"
+    },
+    {
+      "log": "browser-dom.txt",
+      "screenshot": "browser-dom.png"
+    },
+    {
+      "log": "ci.txt",
+      "screenshot": "ci.png"
+    },
+    {
+      "log": "integrity-initial.txt",
+      "screenshot": "integrity-initial.png"
+    },
+    {
+      "log": "integrity.txt",
+      "screenshot": "integrity.png"
+    },
+    {
+      "log": "link-regressions.txt",
+      "screenshot": "link-regressions.png"
+    },
+    {
+      "log": "links-sandbox.txt",
+      "screenshot": "links-sandbox.png"
+    },
+    {
+      "log": "links.txt",
+      "screenshot": "links.png"
+    },
+    {
+      "log": "markdownlint.txt",
+      "screenshot": "markdownlint.png"
+    },
+    {
+      "log": "notebook-anchor-fixed.txt",
+      "screenshot": "notebook-anchor-fixed.png"
+    },
+    {
+      "log": "pytest-311.txt",
+      "screenshot": "pytest-311.png"
+    },
+    {
+      "log": "pytest-314.txt",
+      "screenshot": "pytest-314.png"
+    },
+    {
+      "log": "root-relative-actual.txt",
+      "screenshot": "root-relative-actual.png"
+    },
+    {
+      "log": "root-relative-controls.txt",
+      "screenshot": "root-relative-controls.png"
+    },
+    {
+      "log": "root-relative-minimal.txt",
+      "screenshot": "root-relative-minimal.png"
+    },
+    {
+      "log": "ruff.txt",
+      "screenshot": "ruff.png"
+    },
+    {
+      "log": "same-site-fixed.txt",
+      "screenshot": "same-site-fixed.png"
+    },
+    {
+      "log": "spec-probes/anchor-bad.txt",
+      "screenshot": "spec-probes/anchor-bad.png"
+    },
+    {
+      "log": "spec-probes/anchor-valid.txt",
+      "screenshot": "spec-probes/anchor-valid.png"
+    },
+    {
+      "log": "spec-probes/relative-bad-anchor.txt",
+      "screenshot": "spec-probes/relative-bad-anchor.png"
+    },
+    {
+      "log": "spec-probes/relative-valid.txt",
+      "screenshot": "spec-probes/relative-valid.png"
+    },
+    {
+      "log": "spec-probes/root-relative-mkdocs/links.txt",
+      "screenshot": "spec-probes/root-relative-mkdocs/links.png"
+    },
+    {
+      "log": "spec-probes/root-relative-mkdocs/strict-build.txt",
+      "screenshot": "spec-probes/root-relative-mkdocs/strict-build.png"
+    },
+    {
+      "log": "spec-probes/root-relative-valid.txt",
+      "screenshot": "spec-probes/root-relative-valid.png"
+    },
+    {
+      "log": "spec-probes/same-site-bad-anchor.txt",
+      "screenshot": "spec-probes/same-site-bad-anchor.png"
+    },
+    {
+      "log": "spec-probes/same-site-missing.txt",
+      "screenshot": "spec-probes/same-site-missing.png"
+    },
+    {
+      "log": "spec-probes/same-site-valid.txt",
+      "screenshot": "spec-probes/same-site-valid.png"
+    },
+    {
+      "log": "strict-build.txt",
+      "screenshot": "strict-build.png"
+    },
+    {
+      "log": "tool-versions.txt",
+      "screenshot": "tool-versions.png"
+    },
+    {
+      "log": "vale.txt",
+      "screenshot": "vale.png"
+    }
+  ],
+  "builtPage": [
+    "root-relative-rendered.png",
+    "root-relative-destination.png"
+  ]
+}

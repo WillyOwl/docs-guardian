@@ -1,0 +1,13 @@
+PR #12 review round 2 — browser verification of root-relative link
+Source commit: eab5b3ca743838c270066d5c3f72f9a13582832a
+Captured UTC: 2026-11-26T07:55:19.050Z
+$ node render_screenshots.cjs
+Playwright replays the actual mutation build at its configured site_url through request routing.
+All requests are fulfilled from local built files or aborted; this is not a live deployment screenshot.
+Link href: /docs-guardian/quickstart/#quickstart
+After clicking: https://willyowl.github.io/docs-guardian/quickstart/#quickstart
+Destination h1#quickstart is visible: true
+PASS: the deployed-path link resolves to the existing Quickstart heading in a real browser.
+Browser page errors: []
+Screenshots: root-relative-rendered.png, root-relative-destination.png
+[exit 0]

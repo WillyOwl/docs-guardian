@@ -1,0 +1,5 @@
+Case: anchor-valid
+Markup: <h2 id="install">Install</h2><a href="#install">good</a>
+Exit: 0
+🔍 1 Total (in 1ms) 🔗 1 Unique ✅ 1 OK 🚫 0 Errors
+

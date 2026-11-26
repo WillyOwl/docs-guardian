@@ -1,0 +1,24 @@
+<!doctype html><meta charset="utf-8"><title>link-regressions.txt</title>
+      <style>body{margin:0;background:#10151c;color:#e6edf3;font-family:monospace}header{padding:16px 22px;background:#1c2633;border-bottom:1px solid #445}h1{font-size:20px;margin:0 0 7px}.subtitle{font:13px sans-serif;color:#aab8c5}pre{margin:0;padding:20px 22px;font:14px/1.5 'DejaVu Sans Mono',monospace;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4}</style>
+      <header><h1>PR #12 · round 2 · link-regressions</h1><div class="subtitle">Fresh captured command output · source eab5b3c · raw logs and verification steps accompany this screenshot</div></header>
+      <pre>PR #12 review round 2 — link-regressions
+Source commit: eab5b3ca743838c270066d5c3f72f9a13582832a
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T07:33:22.072160+00:00
+$ (cd /tmp/pr12-review-round2/source &amp;&amp; /home/yiyang/docs-guardian/.venv/bin/python -m pytest -v -p no:cacheprovider tests/test_check_links.py)
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- /home/yiyang/docs-guardian/.venv/bin/python
+rootdir: /tmp/pr12-review-round2/source
+configfile: pyproject.toml
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collecting ... collected 4 items
+
+tests/test_check_links.py::test_a_relative_link_to_a_missing_page_fails_and_one_to_a_page_passes PASSED [ 25%]
+tests/test_check_links.py::test_a_link_to_the_sites_own_url_is_checked_against_the_local_build PASSED [ 50%]
+tests/test_check_links.py::test_a_link_to_a_missing_heading_fails_and_one_to_a_heading_passes PASSED [ 75%]
+tests/test_check_links.py::test_ci_checks_the_built_site_with_this_script_and_runs_these_tests PASSED [100%]
+
+============================== 4 passed in 0.14s ===============================
+[exit 0]
+HARNESS EXIT: 0
+</pre>

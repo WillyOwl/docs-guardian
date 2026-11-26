@@ -1,0 +1,8 @@
+--- /tmp/pr12-review-round2/source/tinyml/docs/index.md	2026-11-26 01:29:59.697269431 -0600
++++ /tmp/pr12-review-round2/root-relative-actual/tinyml/docs/index.md	2026-11-26 01:34:18.700126587 -0600
+@@ -13,3 +13,5 @@
+ - Looking for a specific function? See the [API reference](api.md).
+ 
+ The examples use a small sample dataset that ships with tinyml: 40 houses with their size, number of bedrooms, age and sale price. Load it with `tinyml.datasets.housing()`, or [view the CSV](https://github.com/WillyOwl/docs-guardian/blob/main/tinyml/src/tinyml/_data/housing.csv).
++
++[Review valid root-relative quickstart](/docs-guardian/quickstart/#quickstart)
