@@ -58,6 +58,18 @@ def test_a_link_to_the_sites_own_url_is_checked_against_the_local_build(tmp_path
 
 
 @needs_lychee
+def test_a_root_relative_link_resolves_as_on_the_deployed_site(tmp_path):
+    # Review round 2, Spec 1. The site is served under /docs-guardian/, so a link
+    # without that prefix is broken there even though the build has the Page.
+    for link in ("/docs-guardian/quickstart/", "/docs-guardian/quickstart/#install"):
+        assert check(tmp_path, f'<a href="{link}">ok</a>').returncode == 0, link
+    missing = ("/docs-guardian/missing-page/", "/docs-guardian/quickstart/#no-such-heading")
+    for link in (*missing, "/quickstart/"):
+        broken = check(tmp_path, f'<a href="{link}">gone</a>')
+        assert broken.returncode != 0, link
+
+
+@needs_lychee
 def test_a_link_to_a_missing_heading_fails_and_one_to_a_heading_passes(tmp_path):
     # Review round 1, Spec 2: the strict build checks anchors in Markdown Pages
     # only, so a notebook's `#heading` links are lychee's to check.
