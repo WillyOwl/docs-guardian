@@ -1,0 +1,18 @@
+# Product and project names, spelled the way their owners spell them.
+# Code spans and code blocks are not prose, so `import numpy` is never flagged.
+extends: substitution
+message: "Use '%s' instead of '%s'."
+level: error
+ignorecase: false
+swap:
+  Github: GitHub
+  github: GitHub
+  Mkdocs: MkDocs
+  mkdocs: MkDocs
+  Numpy: NumPy
+  numpy: NumPy
+  jupyter: Jupyter
+  Pytest: pytest
+  python: Python
+  markdown: Markdown
+  '[Dd]ocs[ -]?[Gg]uardian|[Dd]oc-[Gg]uardian': docs-guardian

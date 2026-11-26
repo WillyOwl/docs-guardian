@@ -32,6 +32,14 @@ plugins:
             show_source: false
             members_order: source
 
+# With `mkdocs build --strict`, every warning fails the build (the Gate). MkDocs
+# only reports these two at info level by default; here they fail it too.
+validation:
+  nav:
+    omitted_files: warn # a Page that is not in the nav
+  links:
+    anchors: warn # a link to a heading that does not exist
+
 markdown_extensions:
   - admonition
   - pymdownx.highlight
