@@ -1,0 +1,22 @@
+PR #12 independent review — tool-versions
+Source commit: e7db35cdf9cd8c70e63dc592d821f9243875dc76
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T06:31:17.455633+00:00
+$ (cd /tmp/pr12-review/source && /home/yiyang/docs-guardian/.venv/bin/python --version)
+Python 3.14.6
+[exit 0]
+$ (cd /tmp/pr12-review/source && /home/yiyang/.npm/_npx/97a1abd67b237388/node_modules/.bin/markdownlint-cli2 --version)
+markdownlint-cli2 v0.24.0 (markdownlint v0.42.0)
+Finding: --version tinyml/docs/**/*.md
+Linting: 4 files
+Summary: 0 issues in 0 files
+[exit 0]
+$ (cd /tmp/pr12-review/source && /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/vale --version)
+vale version 3.26.0
+[exit 0]
+$ (cd /tmp/pr12-review/source && /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --version)
+lychee 0.24.2
+[exit 0]
+Binary SHA-256 vale: 5b9c11248539c96e416cf348f7d63fca87ebe369de1cf124e3bed9b5d3863378
+Binary SHA-256 lychee: 87e6e75195df5753f08c53b5c0a13694b8328edd8df009914ae9e29b5000162d
+HARNESS EXIT: 0

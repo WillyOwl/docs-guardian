@@ -1,0 +1,13 @@
+PR #12 independent review — browser DOM verification
+Source commit: e7db35cdf9cd8c70e63dc592d821f9243875dc76
+Captured UTC: 2026-11-26T06:36:56.451Z
+Mutation: notebook reduced to one Markdown cell containing one missing-heading link.
+$ node render_screenshots.cjs
+Playwright opens the built notebook HTML, locates the visible link, and queries its target id.
+{
+  "href": "#pr12-review-missing-heading",
+  "targetExists": false
+}
+PASS: the link is rendered and visible; the target heading does not exist.
+Screenshot: notebook-rendered.png (actual rendered mutation site).
+[exit 0]

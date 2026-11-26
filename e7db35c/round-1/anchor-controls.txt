@@ -1,0 +1,40 @@
+PR #12 independent review — anchor-controls
+Source commit: e7db35cdf9cd8c70e63dc592d821f9243875dc76
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T06:32:28.849592+00:00
+PASS: generated notebook HTML contains the planted href and lacks its target id.
+$ (cd /tmp/pr12-review/notebook-anchor && /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --offline tinyml/site)
+🔍 286 Total (in 8ms) 🔗 177 Unique ✅ 112 OK 🚫 0 Errors 👻 174 Excluded
+[exit 0]
+$ (cd /tmp/pr12-review/notebook-anchor && /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --offline --include-fragments=anchor-only tinyml/site)
+Issues found in 1 input. Find details below.
+
+[tinyml/site/notebooks/walkthrough/index.html]:
+[ERROR] file:///tmp/pr12-review/notebook-anchor/tinyml/site/notebooks/walkthrough/index.html#pr12-review-missing-heading (at 798:13) | Cannot find fragment
+
+🔍 286 Total (in 16ms) 🔗 177 Unique ✅ 111 OK 🚫 1 Error 👻 174 Excluded
+[exit 2]
+PASS: changing only fragment validation makes the identical generated site fail.
+$ (cd /tmp/pr12-review/anchor-controls && /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review/anchor-controls/tinyml/site
+INFO    -  Converting notebook (execute=False): /tmp/pr12-review/anchor-controls/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr12-review/anchor-controls/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review/anchor-controls/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review/anchor-controls/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.73 seconds
+[exit 0]
+$ (cd /tmp/pr12-review/anchor-controls && /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --offline --include-fragments=anchor-only tinyml/site)
+🔍 289 Total (in 13ms) 🔗 177 Unique ✅ 115 OK 🚫 0 Errors 👻 174 Excluded
+[exit 0]
+PASS: valid notebook anchor passes the same fragment-enabled check.
+$ (cd /tmp/pr12-review/anchor-controls && /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review/anchor-controls/tinyml/site
+INFO    -  Cache hit: /tmp/pr12-review/anchor-controls/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review/anchor-controls/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review/anchor-controls/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+WARNING -  Doc file 'index.md' contains a link '#pr12-review-missing-heading', but there is no such anchor on this page.
+
+Aborted with 1 warnings in strict mode!
+[exit 1]
+PASS: same invalid fragment in Markdown is rejected by strict-build.
+HARNESS EXIT: 0

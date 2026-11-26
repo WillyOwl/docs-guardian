@@ -1,0 +1,18 @@
+PR #12 independent review — source-integrity
+Source commit: e7db35cdf9cd8c70e63dc592d821f9243875dc76
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T06:34:41.660973+00:00
+$ (cd /tmp/pr12-review/source && git rev-parse HEAD)
+e7db35cdf9cd8c70e63dc592d821f9243875dc76
+[exit 0]
+$ (cd /tmp/pr12-review/source && git diff --exit-code HEAD)
+
+[exit 0]
+$ (cd /tmp/pr12-review/source && git status --short --untracked-files=normal)
+
+[exit 0]
+$ (cd /tmp/pr12-review/source && git diff --check d48615c3386b813d0fc6845a23e1588e3c57bf67...HEAD)
+
+[exit 0]
+PASS: baseline worktree remains clean at the reviewed source commit.
+HARNESS EXIT: 0

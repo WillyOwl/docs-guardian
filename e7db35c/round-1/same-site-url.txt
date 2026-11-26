@@ -1,0 +1,31 @@
+PR #12 independent review — same-site-url
+Source commit: e7db35cdf9cd8c70e63dc592d821f9243875dc76
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T06:31:17.492164+00:00
+Mutation: append one Markdown link: [Review missing page](https://willyowl.github.io/docs-guardian/pr12-review-missing-page/)
+Original SHA-256: f4151e537100e77adfcfce8e4db51c309fb9748b4a18fa52a5e44e0aedc0caac
+Mutated SHA-256:  6c18e10947bfffc75a50d7a650a4fc54653231f7119052e0500d2e531f02ec38
+$ (cd /tmp/pr12-review/same-site-url && diff -u /tmp/pr12-review/source/tinyml/docs/index.md /tmp/pr12-review/same-site-url/tinyml/docs/index.md)
+--- /tmp/pr12-review/source/tinyml/docs/index.md	2026-11-26 00:30:11.633760867 -0600
++++ /tmp/pr12-review/same-site-url/tinyml/docs/index.md	2026-11-26 00:31:17.497452307 -0600
+@@ -13,3 +13,5 @@
+ - Looking for a specific function? See the [API reference](api.md).
+ 
+ The examples use a small sample dataset that ships with tinyml: 40 houses with their size, number of bedrooms, age and sale price. Load it with `tinyml.datasets.housing()`, or [view the CSV](https://github.com/WillyOwl/docs-guardian/blob/main/tinyml/src/tinyml/_data/housing.csv).
++
++[Review missing page](https://willyowl.github.io/docs-guardian/pr12-review-missing-page/)
+[exit 1]
+$ (cd /tmp/pr12-review/same-site-url && /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review/same-site-url/tinyml/site
+INFO    -  Converting notebook (execute=False): /tmp/pr12-review/same-site-url/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr12-review/same-site-url/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review/same-site-url/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review/same-site-url/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.76 seconds
+[exit 0]
+$ (cd /tmp/pr12-review/same-site-url && /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --offline tinyml/site)
+🔍 286 Total (in 8ms) 🔗 177 Unique ✅ 111 OK 🚫 0 Errors 👻 175 Excluded
+[exit 0]
+ASSERT: at least one Gate rejects the broken internal destination.
+FAIL: strict-build and links both accept the planted error.
+HARNESS EXIT: 1

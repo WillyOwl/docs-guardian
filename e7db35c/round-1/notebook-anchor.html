@@ -1,0 +1,44 @@
+<!doctype html><meta charset="utf-8"><title>notebook-anchor.txt</title>
+      <style>body{margin:0;background:#10151c;color:#e6edf3;font-family:monospace}header{padding:16px 22px;background:#1c2633;border-bottom:1px solid #445}h1{font-size:20px;margin:0 0 7px}.subtitle{font:13px sans-serif;color:#aab8c5}pre{margin:0;padding:20px 22px;font:14px/1.5 'DejaVu Sans Mono',monospace;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4}</style>
+      <header><h1>PR #12 · notebook-anchor</h1><div class="subtitle">Captured command output · source e7db35c · logs and reproduction steps accompany this screenshot</div></header>
+      <pre>PR #12 independent review — notebook-anchor
+Source commit: e7db35cdf9cd8c70e63dc592d821f9243875dc76
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T06:31:17.522324+00:00
+Mutation: append one Markdown cell: [Review missing heading](#pr12-review-missing-heading)
+Original SHA-256: 953caf35ac9977856d86e9b7c1a2116c2b724372ad3dabea3c3258e0abf5f294
+Mutated SHA-256:  9c1843c97c01c5648f891c1a6c0403921c71f4a9bb9951182c1f06a44268ddf2
+$ (cd /tmp/pr12-review/notebook-anchor &amp;&amp; diff -u /tmp/pr12-review/source/tinyml/docs/notebooks/walkthrough.ipynb /tmp/pr12-review/notebook-anchor/tinyml/docs/notebooks/walkthrough.ipynb)
+--- /tmp/pr12-review/source/tinyml/docs/notebooks/walkthrough.ipynb	2026-11-26 00:30:11.633760867 -0600
++++ /tmp/pr12-review/notebook-anchor/tinyml/docs/notebooks/walkthrough.ipynb	2026-11-26 00:31:17.526190375 -0600
+@@ -79,6 +79,14 @@
+    "source": [
+     "evaluate(y_test, model.predict(X_test))"
+    ]
++  },
++  {
++   "cell_type": "markdown",
++   "id": "pr12-missing-anchor",
++   "metadata": {},
++   "source": [
++    "[Review missing heading](#pr12-review-missing-heading)\n"
++   ]
+   }
+  ],
+  "metadata": {
+[exit 1]
+$ (cd /tmp/pr12-review/notebook-anchor &amp;&amp; /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review/notebook-anchor/tinyml/site
+INFO    -  Converting notebook (execute=False): /tmp/pr12-review/notebook-anchor/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr12-review/notebook-anchor/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review/notebook-anchor/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review/notebook-anchor/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.76 seconds
+[exit 0]
+$ (cd /tmp/pr12-review/notebook-anchor &amp;&amp; /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --offline tinyml/site)
+🔍 286 Total (in 7ms) 🔗 177 Unique ✅ 112 OK 🚫 0 Errors 👻 174 Excluded
+[exit 0]
+ASSERT: at least one Gate rejects the broken internal destination.
+FAIL: strict-build and links both accept the planted error.
+HARNESS EXIT: 1
+</pre>

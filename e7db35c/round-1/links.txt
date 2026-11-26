@@ -1,0 +1,8 @@
+PR #12 independent review — links
+Source commit: e7db35cdf9cd8c70e63dc592d821f9243875dc76
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T06:32:31.820553+00:00
+$ (cd /tmp/pr12-review/source && /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee tinyml/site)
+🔍 285 Total (in 750ms) 🔗 176 Unique ✅ 132 OK 🚫 0 Errors 👻 11 Excluded ⛔ 142 Unsupported
+[exit 0]
+HARNESS EXIT: 0

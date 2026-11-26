@@ -1,0 +1,114 @@
+<!doctype html><meta charset="utf-8"><title>notebook-anchor-minimal.txt</title>
+      <style>body{margin:0;background:#10151c;color:#e6edf3;font-family:monospace}header{padding:16px 22px;background:#1c2633;border-bottom:1px solid #445}h1{font-size:20px;margin:0 0 7px}.subtitle{font:13px sans-serif;color:#aab8c5}pre{margin:0;padding:20px 22px;font:14px/1.5 'DejaVu Sans Mono',monospace;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4}</style>
+      <header><h1>PR #12 · notebook-anchor-minimal</h1><div class="subtitle">Captured command output · source e7db35c · logs and reproduction steps accompany this screenshot</div></header>
+      <pre>PR #12 independent review — notebook-anchor-minimal
+Source commit: e7db35cdf9cd8c70e63dc592d821f9243875dc76
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T06:32:28.819226+00:00
+Mutation: append one Markdown cell: [Review missing heading](#pr12-review-missing-heading)
+Original SHA-256: 953caf35ac9977856d86e9b7c1a2116c2b724372ad3dabea3c3258e0abf5f294
+Mutated SHA-256:  1f35496c5e3b68ecaf2ae50038ff61464640827ffd22df6773ceb43021b172aa
+$ (cd /tmp/pr12-review/notebook-anchor-minimal &amp;&amp; diff -u /tmp/pr12-review/source/tinyml/docs/notebooks/walkthrough.ipynb /tmp/pr12-review/notebook-anchor-minimal/tinyml/docs/notebooks/walkthrough.ipynb)
+--- /tmp/pr12-review/source/tinyml/docs/notebooks/walkthrough.ipynb	2026-11-26 00:30:11.633760867 -0600
++++ /tmp/pr12-review/notebook-anchor-minimal/tinyml/docs/notebooks/walkthrough.ipynb	2026-11-26 00:32:28.822951429 -0600
+@@ -2,82 +2,10 @@
+  "cells": [
+   {
+    "cell_type": "markdown",
+-   "id": "f909cf55",
++   "id": "pr12-missing-anchor",
+    "metadata": {},
+    "source": [
+-    "# Walkthrough\n",
+-    "\n",
+-    "The same flow as the [Tutorial](https://willyowl.github.io/docs-guardian/tutorial/), as a notebook: load, split, fit, score."
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": null,
+-   "id": "8556f5cc",
+-   "metadata": {},
+-   "outputs": [],
+-   "source": [
+-    "from tinyml import evaluate, fit_linear, train_test_split\n",
+-    "from tinyml.datasets import housing\n",
+-    "\n",
+-    "X, y = housing()\n",
+-    "X.shape"
+-   ]
+-  },
+-  {
+-   "cell_type": "markdown",
+-   "id": "4b52e14e",
+-   "metadata": {},
+-   "source": [
+-    "Hold out 20% of the houses to score the model on data it has not seen."
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": null,
+-   "id": "42ae800c",
+-   "metadata": {},
+-   "outputs": [],
+-   "source": [
+-    "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, seed=0)\n",
+-    "len(y_train), len(y_test)"
+-   ]
+-  },
+-  {
+-   "cell_type": "markdown",
+-   "id": "6f8586ab",
+-   "metadata": {},
+-   "source": [
+-    "Fit ordinary least squares. `coef` has one entry per feature: `size_sqft`, `bedrooms`, `age_years`."
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": null,
+-   "id": "11c5cd3f",
+-   "metadata": {},
+-   "outputs": [],
+-   "source": [
+-    "model = fit_linear(X_train, y_train)\n",
+-    "model.coef, model.intercept"
+-   ]
+-  },
+-  {
+-   "cell_type": "markdown",
+-   "id": "73ade403",
+-   "metadata": {},
+-   "source": [
+-    "`evaluate` returns the root mean squared error, in dollars. Lower is better."
+-   ]
+-  },
+-  {
+-   "cell_type": "code",
+-   "execution_count": null,
+-   "id": "f347b224",
+-   "metadata": {},
+-   "outputs": [],
+-   "source": [
+-    "evaluate(y_test, model.predict(X_test))"
++    "[Review missing heading](#pr12-review-missing-heading)\n"
+    ]
+   }
+  ],
+[exit 1]
+$ (cd /tmp/pr12-review/notebook-anchor-minimal &amp;&amp; /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review/notebook-anchor-minimal/tinyml/site
+INFO    -  Converting notebook (execute=False): /tmp/pr12-review/notebook-anchor-minimal/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr12-review/notebook-anchor-minimal/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review/notebook-anchor-minimal/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review/notebook-anchor-minimal/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.70 seconds
+[exit 0]
+$ (cd /tmp/pr12-review/notebook-anchor-minimal &amp;&amp; /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --offline tinyml/site)
+🔍 283 Total (in 9ms) 🔗 176 Unique ✅ 110 OK 🚫 0 Errors 👻 173 Excluded
+[exit 0]
+ASSERT: at least one Gate rejects the broken internal destination.
+FAIL: strict-build and links both accept the planted error.
+HARNESS EXIT: 1
+</pre>

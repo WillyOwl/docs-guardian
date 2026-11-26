@@ -1,0 +1,11 @@
+PR #12 independent review — markdownlint
+Source commit: e7db35cdf9cd8c70e63dc592d821f9243875dc76
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T06:31:17.455632+00:00
+$ (cd /tmp/pr12-review/source && /home/yiyang/.npm/_npx/97a1abd67b237388/node_modules/.bin/markdownlint-cli2)
+markdownlint-cli2 v0.24.0 (markdownlint v0.42.0)
+Finding: tinyml/docs/**/*.md
+Linting: 4 files
+Summary: 0 issues in 0 files
+[exit 0]
+HARNESS EXIT: 0

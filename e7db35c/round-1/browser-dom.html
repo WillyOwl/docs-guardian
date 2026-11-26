@@ -1,0 +1,17 @@
+<!doctype html><meta charset="utf-8"><title>browser-dom.txt</title>
+      <style>body{margin:0;background:#10151c;color:#e6edf3;font-family:monospace}header{padding:16px 22px;background:#1c2633;border-bottom:1px solid #445}h1{font-size:20px;margin:0 0 7px}.subtitle{font:13px sans-serif;color:#aab8c5}pre{margin:0;padding:20px 22px;font:14px/1.5 'DejaVu Sans Mono',monospace;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4}</style>
+      <header><h1>PR #12 · browser-dom</h1><div class="subtitle">Captured command output · source e7db35c · logs and reproduction steps accompany this screenshot</div></header>
+      <pre>PR #12 independent review — browser DOM verification
+Source commit: e7db35cdf9cd8c70e63dc592d821f9243875dc76
+Captured UTC: 2026-11-26T06:36:56.451Z
+Mutation: notebook reduced to one Markdown cell containing one missing-heading link.
+$ node render_screenshots.cjs
+Playwright opens the built notebook HTML, locates the visible link, and queries its target id.
+{
+  "href": "#pr12-review-missing-heading",
+  "targetExists": false
+}
+PASS: the link is rendered and visible; the target heading does not exist.
+Screenshot: notebook-rendered.png (actual rendered mutation site).
+[exit 0]
+</pre>

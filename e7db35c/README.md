@@ -14,3 +14,7 @@ Each `.png` is its `.txt` rendered by `tools/render.cjs` in headless Chromium. S
 | `links` / `-planted` | 0 broken links in the built site; a dead external link and a dead link in a notebook Markdown cell both fail, while the strict build passes on that same copy |
 | `pytest-3.14`, `pytest-3.11`, `ruff` | docs-guardian's own suite (107 passed) and lint, unchanged by this PR |
 | `ci` | All ten PR checks pass on e7db35c, with the new jobs' checksum and result lines |
+
+## Independent review
+
+[Round 1](round-1/README.md): independent Standards and Spec reports, 107-test baseline, two confirmed link-check coverage gaps, minimized reproductions, controls, and fresh screenshots at this same source commit.

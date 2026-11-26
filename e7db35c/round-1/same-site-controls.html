@@ -1,0 +1,37 @@
+<!doctype html><meta charset="utf-8"><title>same-site-controls.txt</title>
+      <style>body{margin:0;background:#10151c;color:#e6edf3;font-family:monospace}header{padding:16px 22px;background:#1c2633;border-bottom:1px solid #445}h1{font-size:20px;margin:0 0 7px}.subtitle{font:13px sans-serif;color:#aab8c5}pre{margin:0;padding:20px 22px;font:14px/1.5 'DejaVu Sans Mono',monospace;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4}</style>
+      <header><h1>PR #12 · same-site-controls</h1><div class="subtitle">Captured command output · source e7db35c · logs and reproduction steps accompany this screenshot</div></header>
+      <pre>PR #12 independent review — same-site-controls
+Source commit: e7db35cdf9cd8c70e63dc592d821f9243875dc76
+Base commit: d48615c3386b813d0fc6845a23e1588e3c57bf67
+Captured UTC: 2026-11-26T06:32:28.834276+00:00
+PASS: generated HTML contains the planted URL; its local destination is absent.
+$ (cd /tmp/pr12-review/same-site-url &amp;&amp; /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --offline --remap 'https://willyowl.github.io/docs-guardian/(.*) file:///tmp/pr12-review/same-site-url/tinyml/site/$1' tinyml/site)
+Issues found in 1 input. Find details below.
+
+[tinyml/site/index.html]:
+[ERROR] file:///tmp/pr12-review/same-site-url/tinyml/site/pr12-review-missing-page/ (at 414:13) | File not found. Check if file exists and path is correct | Remaps: https://willyowl.github.io/docs-guardian/pr12-review-missing-page/ --&gt; file:///tmp/pr12-review/same-site-url/tinyml/site/pr12-review-missing-page/
+
+🔍 286 Total (in 10ms) 🔗 177 Unique ✅ 122 OK 🚫 1 Error 👻 163 Excluded
+[exit 2]
+PASS: remapping the same URL to the local build makes lychee reject it.
+$ (cd /tmp/pr12-review/same-site-controls &amp;&amp; /home/yiyang/docs-guardian/.venv/bin/python -m mkdocs build --strict -f tinyml/mkdocs.yml)
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /tmp/pr12-review/same-site-controls/tinyml/site
+INFO    -  Doc file 'index.md' contains an unrecognized relative link 'pr12-review-missing-page/', it was left as is.
+INFO    -  Converting notebook (execute=False): /tmp/pr12-review/same-site-controls/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Cache miss, writing: /tmp/pr12-review/same-site-controls/tinyml/docs/notebooks/walkthrough.ipynb
+INFO    -  Copied jupyter file: /tmp/pr12-review/same-site-controls/tinyml/docs/notebooks/walkthrough.ipynb to /tmp/pr12-review/same-site-controls/tinyml/site/notebooks/walkthrough/walkthrough.ipynb
+INFO    -  Documentation built in 0.71 seconds
+[exit 0]
+$ (cd /tmp/pr12-review/same-site-controls &amp;&amp; /tmp/claude-1000/-home-yiyang-docs-guardian/ec08bf2d-2775-45e6-b9d0-9763870cb168/scratchpad/tools/bin/lychee-x86_64-unknown-linux-gnu/lychee --offline tinyml/site)
+Issues found in 1 input. Find details below.
+
+[tinyml/site/index.html]:
+[ERROR] file:///tmp/pr12-review/same-site-controls/tinyml/site/pr12-review-missing-page (at 414:13) | File not found. Check if file exists and path is correct
+
+🔍 286 Total (in 8ms) 🔗 177 Unique ✅ 111 OK 🚫 1 Error 👻 174 Excluded
+[exit 2]
+PASS: relative form of the same nonexistent destination fails lychee.
+HARNESS EXIT: 0
+</pre>
