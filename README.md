@@ -13,7 +13,7 @@ Three components are built: the **snippet runner**, a Gate that fails a pull req
 - **CI** (`.github/workflows/ci.yml`): pytest on Python 3.11 and 3.14, plus a ruff lint and format check, on every pull request and push to `main`.
 - **Docs tests** (`.github/workflows/docs-tests.yml`): the snippet runner on `tinyml/docs`, and the notebook via nbmake, on every pull request and push to `main`.
 - **Drift check** (`.github/workflows/drift-check.yml`): posts the Drift Report as one pull request comment and rewrites it on every push. A fork's pull request, whose token cannot comment, gets the report in the job summary instead.
-- **Docs lint** (`.github/workflows/docs-lint.yml`): four checks on tinyml's Pages on every pull request and push to `main`: `markdownlint` (markdownlint-cli2), `vale` (the house style in `.vale/styles/DocsGuardian`), `strict-build` (`mkdocs build --strict`, which also fails on Pages missing from the nav and links to missing headings) and `links` (lychee on the built site, external links included).
+- **Docs lint** (`.github/workflows/docs-lint.yml`): four checks on tinyml's Pages on every pull request and push to `main`: `markdownlint` (markdownlint-cli2), `vale` (the house style in `.vale/styles/DocsGuardian`), `strict-build` (`mkdocs build --strict`, which also fails on Pages missing from the nav and links to missing headings) and `links` (lychee on the built site via `.github/scripts/check-links.sh`: external links, links to the site's own URL and `#heading` links included).
 - **Deploy** (`.github/workflows/deploy.yml`): builds the site with `mkdocs build --strict` and publishes it to GitHub Pages on every push to `main`.
 
 ## Quickstart
@@ -51,7 +51,7 @@ Lint tinyml's Pages and check the built site's links, as the docs-lint workflow 
 npx markdownlint-cli2@0.24.0
 vale tinyml/docs
 (cd tinyml && uv run mkdocs build --strict)
-lychee tinyml/site
+bash .github/scripts/check-links.sh tinyml/site
 ```
 
 Preview the docs site at <http://127.0.0.1:8000/docs-guardian/>:
@@ -70,7 +70,7 @@ uv run mkdocs serve
 | `tests/` | docs-guardian's own tests |
 | `docs/` | Design docs: [architecture](docs/architecture.md), [ADRs](docs/adr/), agent guides |
 | `.github/workflows/` | CI, docs tests, docs lint, the drift check and docs-site deploy |
-| `.github/scripts/` | The drift check's comment-posting script, tested in `tests/` |
+| `.github/scripts/` | The drift check's comment-posting script and the docs-lint link check, both tested in `tests/` |
 | `.vale/`, `.vale.ini`, `.markdownlint-cli2.jsonc`, `lychee.toml` | The docs-lint configuration: house style, Markdown rules and link-check rules |
 
 ## Further reading

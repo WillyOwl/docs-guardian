@@ -144,12 +144,9 @@ Mostly configuration. `.github/workflows/docs-lint.yml` runs each tool as its ow
 | `markdownlint` | markdownlint-cli2 (`.markdownlint-cli2.jsonc`) | Inconsistent headings, lists, whitespace. Line length is off: a paragraph stays on one line |
 | `vale` | Vale + the `DocsGuardian` style (`.vale.ini`, `.vale/styles/`) | House-style violations: product names spelled their owners' way, e.g. "Github" instead of "GitHub". Code spans, code blocks and URLs are not prose |
 | `strict-build` | `mkdocs build --strict` | Broken cross-references, links to missing headings, Pages missing from the nav (`validation` in `tinyml/mkdocs.yml` raises the last two to warnings, which strict mode fails on) |
-| `links` | lychee (`lychee.toml`) | Broken internal and external links, checked on the **built site**, so links in the rendered notebook count too |
+| `links` | lychee (`lychee.toml`), run by `.github/scripts/check-links.sh` | Broken internal and external links and `#heading` links, checked on the **built site**, so links in the rendered notebook count too |
 
-External links are checked on every pull request. To keep a slow or rate-limiting site from failing one, lychee retries three times and treats `429 Too Many Requests` as alive. Two things are excluded:
-
-- links to the live copy of this site, since its Pages are checked as files and a Page the pull request adds isn't deployed yet;
-- `404.html`, whose absolute `/docs-guardian/` paths only resolve on GitHub Pages.
+External links are checked on every pull request. To keep a slow or rate-limiting site from failing one, lychee retries three times and treats `429 Too Many Requests` as alive. Links to the site's own URL (`https://willyowl.github.io/docs-guardian/...`) are remapped onto the local build, so a dead one fails while a Page the pull request adds passes before it is deployed. lychee only accepts an absolute `file://` path for that remap, which is why the check is a script rather than lychee plus its config file; `tests/test_check_links.py` runs that script on small built sites, in the `links` job. One thing is excluded: `404.html`, whose absolute `/docs-guardian/` paths only resolve on GitHub Pages.
 
 Markdownlint and Vale read Markdown only, so the notebook is covered by `strict-build` and `links`.
 
