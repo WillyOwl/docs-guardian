@@ -8,7 +8,7 @@ from tinyml._validation import as_features, as_samples
 class LinearModel:
     """A fitted linear model: `prediction = X @ coef + intercept`.
 
-    Create one with `fit_linear` rather than directly.
+    Create one with `fit` rather than directly.
     """
 
     def __init__(self, coef: np.ndarray, intercept: float) -> None:
@@ -44,7 +44,7 @@ class LinearModel:
         return X @ self.coef + self.intercept
 
 
-def fit_linear(X: np.ndarray, y: np.ndarray) -> LinearModel:
+def fit(X: np.ndarray, y: np.ndarray) -> LinearModel:
     """Fit ordinary least squares with an intercept.
 
     Args:
