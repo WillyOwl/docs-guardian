@@ -4,6 +4,6 @@
 from tinyml import datasets as datasets
 from tinyml.data import load_csv, train_test_split
 from tinyml.metrics import evaluate
-from tinyml.models import LinearModel, fit_linear
+from tinyml.models import LinearModel, fit
 
-__all__ = ["LinearModel", "evaluate", "fit_linear", "load_csv", "train_test_split"]
+__all__ = ["LinearModel", "evaluate", "fit", "load_csv", "train_test_split"]

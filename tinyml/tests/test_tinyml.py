@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import pytest
 
-from tinyml import LinearModel, evaluate, fit_linear, load_csv, train_test_split
+from tinyml import LinearModel, evaluate, fit, load_csv, train_test_split
 from tinyml.datasets import housing, housing_path
 
 
@@ -83,7 +83,7 @@ BAD_SAMPLES = [
 ]
 
 
-@pytest.mark.parametrize("fn", [fit_linear, train_test_split], ids=lambda f: f.__name__)
+@pytest.mark.parametrize("fn", [fit, train_test_split], ids=lambda f: f.__name__)
 @pytest.mark.parametrize(("X", "y", "reason"), BAD_SAMPLES)
 def test_functions_taking_samples_reject_bad_input(fn, X, y, reason):
     with pytest.raises(ValueError, match=reason):
@@ -100,7 +100,7 @@ def test_train_test_split_returns_a_column_target_as_1d():
 def test_fit_linear_recovers_exact_relation():
     X = np.array([[1.0, 0.0], [0.0, 1.0], [1.0, 1.0], [2.0, 3.0]])
     y = 3 * X[:, 0] - 2 * X[:, 1] + 5
-    model = fit_linear(X, y)
+    model = fit(X, y)
     assert isinstance(model, LinearModel)
     assert np.allclose(model.coef, [3, -2])
     assert model.intercept == pytest.approx(5)
@@ -109,7 +109,7 @@ def test_fit_linear_recovers_exact_relation():
 
 def test_fit_linear_accepts_target_as_a_single_column():
     X = np.array([[1.0], [2.0], [3.0]])
-    model = fit_linear(X, np.array([[7.0], [9.0], [11.0]]))  # y = 2x + 5
+    model = fit(X, np.array([[7.0], [9.0], [11.0]]))  # y = 2x + 5
     assert np.allclose(model.coef, [2])
     assert model.intercept == pytest.approx(5)
     assert model.predict(X).shape == (3,)
