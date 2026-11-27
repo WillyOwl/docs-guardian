@@ -33,12 +33,12 @@ With `test_size=0.2`, 8 of the 40 houses go to the test set. The split is shuffl
 
 ## 3. Fit a model
 
-`fit_linear` fits ordinary least squares with an intercept and returns a `LinearModel`.
+`fit` fits ordinary least squares with an intercept and returns a `LinearModel`.
 
 ```python
-from tinyml import fit_linear
+from tinyml import fit
 
-model = fit_linear(X_train, y_train)
+model = fit(X_train, y_train)
 print(model.coef, model.intercept)
 ```
 
