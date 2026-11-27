@@ -24,6 +24,10 @@ _Avoid_: blocker, required check (that is a GitHub setting, not the concept)
 A docs-guardian check that only publishes a report and never fails anything.
 _Avoid_: warning check, soft check, non-blocking
 
+**Demo PR**:
+A pull request that breaks the Guarded Project on purpose to show how docs-guardian's checks respond; never merged.
+_Avoid_: test PR, fake PR, e2e PR
+
 ### Documentation units
 
 **Page**:

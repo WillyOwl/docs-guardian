@@ -152,14 +152,36 @@ Markdownlint and Vale read Markdown only, so the notebook is covered by `strict-
 
 ## 4. One change, every check
 
-Say a pull request renames `fit_linear` to `fit` and doesn't touch the docs:
+Say a pull request renames `fit_linear` to `fit` in the code and tinyml's tests, and doesn't touch the docs. The e2e suite (below) opens exactly this pull request as a Demo PR, so this table is what the checks really print:
 
 | Check | What you see |
 | --- | --- |
-| Snippet runner | Red: `quickstart.md:14  NameError: name 'fit_linear' is not defined`, plus how many Snippets did not run |
-| Drift check | Drift Report: `fit_linear` removed, Mentioned in `quickstart.md:14` and `tutorial.md:31`; `fit` not yet documented |
+| Snippet runner | Red: `quickstart.md:8  ImportError: cannot import name 'fit_linear' from 'tinyml'`, and the same at `tutorial.md:39` plus `(2 Snippets not run)`. The notebook fails too, under nbmake |
+| Drift check | Drift Report: `fit_linear` removed, Mentioned in the notebook (cells 2 and 6), `quickstart.md:8` and `:14`, and `tutorial.md:36`, `:39` and `:41`; `fit` not yet documented. Once the Pages catch up, the same comment is rewritten to say there is no Drift |
 | Lint · links · strict build | Green: the API pages are generated from docstrings, so nothing in the nav breaks |
 | Health bot | Nothing yet. It runs on the next schedule, after merge, and the Gate stops this PR merging first |
+
+### The e2e suite: real Demo PRs
+
+`tests/e2e/test_demo_prs.py` checks the whole chain, workflows included, by opening real **Demo PRs** on the repo (ADR 0004). Run it by hand with `uv run pytest -m e2e`; plain `pytest` and CI skip it.
+
+```mermaid
+flowchart TD
+    BASE["Branch under test<br/>--e2e-base, default main, already pushed"] --> CL["Temporary clone per scenario<br/>apply one breakage"]
+    CL --> PUSH["Push demo/&lt;scenario&gt;-&lt;run-id&gt;<br/>open a draft Demo PR, label e2e"]
+    PUSH --> WAIT["Wait for every check on the head commit<br/>all Demo PRs in parallel · 20 min cap"]
+    WAIT --> ASSERT["Assert each check's result by name,<br/>the key log line of each red check,<br/>and the Drift Report comment"]
+    ASSERT --> CLOSE["Close unmerged, delete the branch<br/>pass or fail"]
+```
+
+| Scenario | Change | Red | Drift Report |
+| --- | --- | --- | --- |
+| Rename | `fit_linear` → `fit` in code and tests, Pages untouched | `snippets`, `notebooks` | Posted, with every Mention |
+| …then the docs fix | A second push: the Pages catch up | none | The same comment, rewritten: no Drift |
+| Docs breakage | "Github" and a dead link to `https://willyowl.github.io/docs-guardian/missing/` in a Page | `vale`, `links` | None |
+| Control | A comment added to the source; no API Change | none | None |
+
+The Demo PRs are based on the branch under test because each workflow installs docs-guardian from the pull request's own checkout: basing them on `main` would test `main`'s docs-guardian, not a feature branch's. Every check is compared by name, so a check that is added, renamed or dropped fails the suite until the scenarios are updated.
 
 ## 5. Where things live
 
@@ -167,6 +189,7 @@ Say a pull request renames `fit_linear` to `fit` and doesn't touch the docs:
 docs-guardian/                  ← the repo
 ├── src/docs_guardian/          ← the tooling, one CLI: snippets · drift · health · eval
 ├── tests/
+│   ├── e2e/                    ← the e2e suite: real Demo PRs (opt-in, -m e2e)
 │   └── fixtures/planted/       ← the Planted Error test Page + expected Quotes
 ├── tinyml/                     ← the Guarded Project, self-contained
 │   ├── src/tinyml/

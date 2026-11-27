@@ -45,6 +45,9 @@ default-groups = ["dev", "docs"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "tinyml/tests"]
+# The e2e suite opens real Demo PRs on GitHub, so it only runs when asked: `-m e2e`.
+addopts = "-m 'not e2e'"
+markers = ["e2e: opens real Demo PRs on GitHub (slow, outward-facing); run with -m e2e"]
 
 [tool.ruff]
 line-length = 100
