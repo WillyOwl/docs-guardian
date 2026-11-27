@@ -13,3 +13,5 @@ tinyml is not published on PyPI; it installs straight from this repository.
 - Looking for a specific function? See the [API reference](api.md).
 
 The examples use a small sample dataset that ships with tinyml: 40 houses with their size, number of bedrooms, age and sale price. Load it with `tinyml.datasets.housing()`, or [view the CSV](https://github.com/WillyOwl/docs-guardian/blob/main/tinyml/src/tinyml/_data/housing.csv).
+
+Found a problem? Report it on Github, or read the [roadmap](https://willyowl.github.io/docs-guardian/missing/).
