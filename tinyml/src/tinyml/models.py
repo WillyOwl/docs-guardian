@@ -62,3 +62,6 @@ def fit_linear(X: np.ndarray, y: np.ndarray) -> LinearModel:
     design = np.column_stack([X, np.ones(len(X))])
     solution, *_ = np.linalg.lstsq(design, y, rcond=None)
     return LinearModel(coef=solution[:-1], intercept=float(solution[-1]))
+
+
+# A change that alters no API.
