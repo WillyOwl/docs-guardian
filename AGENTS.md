@@ -26,6 +26,13 @@
 - When you run a code review with agents (yourself or your subagents), post one comment per review round on the PR with `gh pr comment`, once that round's fixes are pushed. The comment names the reviewed commit, lists every point each subagent raised, gives each a verdict (`fixed in <sha>` or `declined: <reason>`), and links the raw review reports stored on the PR's evidence branch.
 - Exempt PRs: a PR whose diff touches only `AGENTS.md` and/or `README.md` has no evidence branch, no screenshots and no review comments. Its test output and verification steps go in the PR body.
 
+## Demo PRs
+
+- A Demo PR (see `GLOSSARY.md`) breaks tinyml on purpose. The e2e suite (`tests/e2e/`) opens and closes them, and one may be opened by hand to show the checks; a real change is never a Demo PR. None of the Branching or Pull request evidence rules apply to it: no evidence branch, no screenshots, no review comments, no "README updated" line, and its title need not be a Conventional Commit.
+- Its branch is named `demo/<scenario>-<run-id>`, e.g. `demo/rename-3f9a1c`. Like evidence branches, it skips the `<type>/` pattern; the run id keeps two runs apart.
+- Never merge a Demo PR. The suite closes its own and deletes their branches. If a run is interrupted, close any open PR labelled `e2e` and delete its `demo/` branch by hand.
+- The branch cleanup step under Branching does not cover `demo/` branches: they live only on the remote, and the suite deletes them.
+
 ## Agent skills
 
 ### Issue tracker

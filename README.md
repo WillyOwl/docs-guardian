@@ -14,6 +14,7 @@ Three components are built: the **snippet runner**, a Gate that fails a pull req
 - **Docs tests** (`.github/workflows/docs-tests.yml`): the snippet runner on `tinyml/docs`, and the notebook via nbmake, on every pull request and push to `main`.
 - **Drift check** (`.github/workflows/drift-check.yml`): posts the Drift Report as one pull request comment and rewrites it on every push. A fork's pull request, whose token cannot comment, gets the report in the job summary instead.
 - **Docs lint** (`.github/workflows/docs-lint.yml`): four checks on tinyml's Pages on every pull request and push to `main`: `markdownlint` (markdownlint-cli2), `vale` (the house style in `.vale/styles/DocsGuardian`), `strict-build` (`mkdocs build --strict`, which also fails on Pages missing from the nav and links to missing headings) and `links` (lychee on the built site via `.github/scripts/check-links.sh`: external links, links to the site's own URL and `#heading` links included).
+- **e2e suite** (`tests/e2e/`, opt-in): opens real draft Demo PRs that break tinyml on purpose (a rename, a docs breakage, a harmless control) and asserts every check's result, the red checks' log lines and the Drift Report comment, then closes them. See [ADR 0004](docs/adr/0004-e2e-tests-open-real-demo-prs.md).
 - **Deploy** (`.github/workflows/deploy.yml`): builds the site with `mkdocs build --strict` and publishes it to GitHub Pages on every push to `main`.
 
 ## Quickstart
@@ -37,6 +38,12 @@ Run every Snippet and notebook in tinyml's Pages, as the docs-tests workflow doe
 ```bash
 uv run docs-guardian snippets tinyml/docs
 uv run pytest --nbmake tinyml/docs/notebooks
+```
+
+Run the e2e suite, which opens real draft Demo PRs on this repo, waits for every workflow, asserts what each check did, and then closes them. It is slow (minutes), needs a `gh` login that can push, and never runs in CI. `--e2e-base` picks the pushed branch under test (default `main`):
+
+```bash
+uv run pytest -m e2e [--e2e-base <branch>]
 ```
 
 See the Drift Report your branch would get, as the drift-check workflow builds it:
@@ -67,7 +74,7 @@ uv run mkdocs serve
 | --- | --- |
 | `src/docs_guardian/` | docs-guardian, the tooling: the `docs-guardian` CLI, the snippet runner and the drift check |
 | `tinyml/` | The Guarded Project: library, tests, Pages and `mkdocs.yml` |
-| `tests/` | docs-guardian's own tests |
+| `tests/` | docs-guardian's own tests; `tests/e2e/` holds the opt-in e2e suite |
 | `docs/` | Design docs: [architecture](docs/architecture.md), [ADRs](docs/adr/), agent guides |
 | `.github/workflows/` | CI, docs tests, docs lint, the drift check and docs-site deploy |
 | `.github/scripts/` | The drift check's comment-posting script and the docs-lint link check, both tested in `tests/` |
