@@ -140,7 +140,12 @@ def commit_and_push(pr: DemoPR, message: str) -> None:
 
 
 def wait_for_checks(slug: str, sha: str) -> dict:
-    """Every check run on `sha`, by name, once all of them have completed."""
+    """Every check run on `sha`, by name, once all of them have a conclusion.
+
+    A conclusion, not `status == "completed"`: GitHub can leave a finished job's status
+    at `in_progress` after setting its conclusion (seen on Demo PR #22), and a run
+    stuck that way cannot be cancelled or re-run.
+    """
     deadline = time.monotonic() + TIMEOUT
     while True:
         latest = {}
@@ -150,7 +155,7 @@ def wait_for_checks(slug: str, sha: str) -> dict:
         ):
             latest[check["name"]] = check
         pending = sorted(set(CHECKS) - latest.keys()) + sorted(
-            name for name, check in latest.items() if check["status"] != "completed"
+            name for name, check in latest.items() if check["conclusion"] is None
         )
         if not pending:
             return latest
