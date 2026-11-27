@@ -1,0 +1,11 @@
+$ gh api repos/WillyOwl/docs-guardian/commits/f2809375e45e87a6101e11df65f80166f07da705/check-runs   # PR #19's checks on its head
+drift	completed	success	https://github.com/WillyOwl/docs-guardian/actions/runs/45929175960/job/140277544701
+links	completed	success	https://github.com/WillyOwl/docs-guardian/actions/runs/45929175947/job/140277545050
+markdownlint	completed	success	https://github.com/WillyOwl/docs-guardian/actions/runs/45929175947/job/140277544514
+notebooks	completed	success	https://github.com/WillyOwl/docs-guardian/actions/runs/45929175956/job/140277544468
+ruff	completed	success	https://github.com/WillyOwl/docs-guardian/actions/runs/45929175983/job/140277544928
+snippets	completed	success	https://github.com/WillyOwl/docs-guardian/actions/runs/45929175956/job/140277544812
+strict-build	completed	success	https://github.com/WillyOwl/docs-guardian/actions/runs/45929175947/job/140277544983
+tests (Python 3.11)	completed	success	https://github.com/WillyOwl/docs-guardian/actions/runs/45929175983/job/140277544487
+tests (Python 3.14)	completed	success	https://github.com/WillyOwl/docs-guardian/actions/runs/45929175983/job/140277544815
+vale	completed	success	https://github.com/WillyOwl/docs-guardian/actions/runs/45929175947/job/140277545123

@@ -1,0 +1,19 @@
+<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#1e1e1e;color:#e6e6e6}pre{font:13px/17px "DejaVu Sans Mono",monospace;margin:20px;white-space:pre-wrap;word-break:break-all}</style><pre>$ uv run pytest   # at f280937
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: /home/yiyang/docs-guardian
+configfile: pyproject.toml
+testpaths: tests, tinyml/tests
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collected 116 items / 4 deselected / 112 selected
+
+tests/test_check_links.py ssss.                                          [  4%]
+tests/test_cli.py ...                                                    [  7%]
+tests/test_drift.py ......................................               [ 41%]
+tests/test_post_drift_report.py .........                                [ 49%]
+tests/test_snippets.py ..........................                        [ 72%]
+tinyml/tests/test_tinyml.py ...............................              [100%]
+
+================= 108 passed, 4 skipped, 4 deselected in 7.17s =================
+exit 0
+</pre>

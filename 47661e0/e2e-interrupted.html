@@ -1,0 +1,17 @@
+<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#1e1e1e;color:#e6e6e6}pre{font:13px/17px "DejaVu Sans Mono",monospace;margin:20px;white-space:pre-wrap;word-break:break-all}</style><pre>$ uv run pytest -m e2e -v -rA --e2e-base test/e2e-demo-prs   # at 47661e0, 2026-11-27T02:24:46Z
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0 -- /home/yiyang/docs-guardian/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/yiyang/docs-guardian
+configfile: pyproject.toml
+testpaths: tests, tinyml/tests
+plugins: platformdirs-4.14.8, nbmake-1.5.5
+collecting ... collected 116 items / 112 deselected / 4 selected
+
+tests/e2e/test_demo_prs.py::test_a_rename_turns_the_snippet_gates_red_and_posts_a_drift_report 
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/home/yiyang/ENTER/lib/python3.14/selectors.py:398: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+===================== 112 deselected in 561.30s (0:09:21) ======================
+</pre>

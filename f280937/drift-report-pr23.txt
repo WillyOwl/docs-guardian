@@ -1,0 +1,14 @@
+$ gh api repos/WillyOwl/docs-guardian/issues/23/comments   # the Drift Report on Demo PR #23 (rename), after both pushes
+comment 7208261413 by github-actions[bot], created 2026-11-27T02:35:17Z, updated 2026-11-27T02:36:13Z
+<!-- docs-guardian:drift-report changes=2 drift-pages=0 -->
+### Drift Report
+
+Public API in this checkout, compared with its merge base with `origin/test/e2e-demo-prs` (`f280937`). Advisory: this check never fails the build.
+
+2 API Changes; no Drift.
+
+| API | Change | Pages that Mention it |
+| --- | --- | --- |
+| `fit_linear` | removed | none |
+
+
