@@ -1,0 +1,10 @@
+// markdownlint-cli2 lints tinyml's Pages (the Guarded Project's docs).
+// Run it from the repo root as `npx markdownlint-cli2@0.24.0`.
+{
+  "config": {
+    "default": true,
+    // The Pages keep each paragraph on one line; line wrapping is not house style.
+    "MD013": false
+  },
+  "globs": ["tinyml/docs/**/*.md"]
+}

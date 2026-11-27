@@ -1,0 +1,77 @@
+# Gate: tinyml's Pages must pass the house style, build strictly, and have no
+# broken links. Each tool is pinned to one version, and each downloaded binary
+# to its SHA-256, so a run is the same on every pull request.
+name: docs-lint
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  NO_MKDOCS_2_WARNING: "1"
+  VALE_VERSION: 3.26.0
+  VALE_SHA256: 22aa69a556558e4a9dfc63c17030777383d8d3c48dcdfad655fa98e839d666ed
+  LYCHEE_VERSION: 0.24.2
+  LYCHEE_SHA256: 1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a
+
+jobs:
+  markdownlint:
+    name: markdownlint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx --yes markdownlint-cli2@0.24.0 # globs and rules: .markdownlint-cli2.jsonc
+
+  vale:
+    name: vale
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Vale
+        run: |
+          curl -sSfL -o "$RUNNER_TEMP/vale.tar.gz" \
+            "https://github.com/errata-ai/vale/releases/download/v${VALE_VERSION}/vale_${VALE_VERSION}_Linux_64-bit.tar.gz"
+          echo "${VALE_SHA256}  $RUNNER_TEMP/vale.tar.gz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/vale.tar.gz" -C "$RUNNER_TEMP" vale
+      - run: '"$RUNNER_TEMP/vale" tinyml/docs' # house style: .vale.ini
+
+  strict-build:
+    name: strict-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.14"
+      - run: uv sync --locked
+      - run: uv run mkdocs build --strict # the same build deploy.yml publishes
+        working-directory: tinyml
+
+  links:
+    name: links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.14"
+      - run: uv sync --locked
+      # Links are checked on the built site, so the notebook and the nav count.
+      - run: uv run mkdocs build
+        working-directory: tinyml
+      - name: Install lychee
+        run: |
+          curl -sSfL -o "$RUNNER_TEMP/lychee.tar.gz" \
+            "https://github.com/lycheeverse/lychee/releases/download/lychee-v${LYCHEE_VERSION}/lychee-x86_64-unknown-linux-gnu.tar.gz"
+          echo "${LYCHEE_SHA256}  $RUNNER_TEMP/lychee.tar.gz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/lychee.tar.gz" -C "$RUNNER_TEMP"
+          echo "LYCHEE=$RUNNER_TEMP/lychee-x86_64-unknown-linux-gnu/lychee" >> "$GITHUB_ENV"
+      - run: bash .github/scripts/check-links.sh tinyml/site # rules: lychee.toml
+        env:
+          GITHUB_TOKEN: ${{ github.token }} # avoids GitHub's rate limit for github.com links
+      # The link-checking rules themselves: same-site URLs and #headings are checked.
+      - run: uv run pytest tests/test_check_links.py
